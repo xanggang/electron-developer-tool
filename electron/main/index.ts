@@ -1,8 +1,11 @@
-import { app, BrowserWindow, shell, ipcMain } from 'electron'
+import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import os from 'node:os'
+
+import { registerAllIpcMethods } from '../decorator/ipc'
+import { installController } from '../controller'
 
 const require = createRequire(import.meta.url)
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -19,38 +22,23 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 //
 process.env.APP_ROOT = path.join(__dirname, '../..')
 
-console.log(process.env.APP_ROOT)
-
 export const MAIN_DIST = path.join(process.env.APP_ROOT, 'dist-electron')
 export const RENDERER_DIST = path.join(process.env.APP_ROOT, 'dist')
 export const VITE_DEV_SERVER_URL = process.env.VITE_DEV_SERVER_URL
-
-console.error(1)
-console.log({ RENDERER_DIST })
-console.log({ VITE_DEV_SERVER_URL })
-console.log({ MAIN_DIST })
-
-console.log('app.getPath(\'userData\'==========',app.getPath('userData'))
 
 process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL
   ? path.join(process.env.APP_ROOT, 'public')
   : RENDERER_DIST
 
-// Disable GPU Acceleration for Windows 7
-if (os.release().startsWith('6.1')) app.disableHardwareAcceleration()
 
-// Set application name for Windows 10+ notifications
-if (process.platform === 'win32') app.setAppUserModelId(app.getName())
-
-if (!app.requestSingleInstanceLock()) {
-  app.quit()
-  process.exit(0)
-}
 
 let win: BrowserWindow | null = null
 const preload = path.join(__dirname, '../preload/index.mjs')
 const indexHtml = path.join(RENDERER_DIST, 'index.html')
 
+/**
+ * 创建浏览器窗口
+ */
 async function createWindow() {
   win = new BrowserWindow({
     title: 'Main window',
@@ -87,43 +75,73 @@ async function createWindow() {
   // win.webContents.on('will-navigate', (event, url) => { }) #344
 }
 
-app.whenReady().then(createWindow)
 
-app.on('window-all-closed', () => {
-  win = null
-  if (process.platform !== 'darwin') app.quit()
-})
+/**
+ * 启动app
+ */
+function startApp() {
+  //关闭Windows 7的GPU加速
+  if (os.release().startsWith('6.1')) app.disableHardwareAcceleration()
 
-app.on('second-instance', () => {
-  if (win) {
-    // Focus on the main window if the user tried to open another
-    if (win.isMinimized()) win.restore()
-    win.focus()
+// 设置Windows 10+通知的应用程序名称
+  if (process.platform === 'win32') app.setAppUserModelId(app.getName())
+
+  if (!app.requestSingleInstanceLock()) {
+    app.quit()
+    process.exit(0)
   }
-})
 
-app.on('activate', () => {
-  const allWindows = BrowserWindow.getAllWindows()
-  if (allWindows.length) {
-    allWindows[0].focus()
-  } else {
-    createWindow()
-  }
-})
+  app.whenReady().then(createWindow)
 
-// New window example arg: new windows url
-ipcMain.handle('open-win', (_, arg) => {
-  const childWindow = new BrowserWindow({
-    webPreferences: {
-      preload,
-      nodeIntegration: true,
-      contextIsolation: false,
-    },
+  app.on('window-all-closed', () => {
+    win = null
+    if (process.platform !== 'darwin') app.quit()
   })
 
-  if (VITE_DEV_SERVER_URL) {
-    childWindow.loadURL(`${VITE_DEV_SERVER_URL}#${arg}`)
-  } else {
-    childWindow.loadFile(indexHtml, { hash: arg })
-  }
-})
+  app.on('second-instance', () => {
+    if (win) {
+      // 如果用户试图打开另一个窗口，则关注主窗口
+      if (win.isMinimized()) win.restore()
+      win.focus()
+    }
+  })
+
+  app.on('activate', () => {
+    const allWindows = BrowserWindow.getAllWindows()
+    if (allWindows.length) {
+      allWindows[0].focus()
+    } else {
+      createWindow()
+    }
+  })
+
+  // New window example arg: new windows url
+  ipcMain.handle('open-win', (_, arg) => {
+    const childWindow = new BrowserWindow({
+      webPreferences: {
+        preload,
+        nodeIntegration: true,
+        contextIsolation: false,
+      },
+    })
+
+    if (VITE_DEV_SERVER_URL) {
+      childWindow.loadURL(`${VITE_DEV_SERVER_URL}#${arg}`)
+    } else {
+      childWindow.loadFile(indexHtml, { hash: arg })
+    }
+  })
+
+}
+
+startApp()
+
+/**
+ * 注册ipc方法
+ */
+installController()
+registerAllIpcMethods()
+
+
+
+

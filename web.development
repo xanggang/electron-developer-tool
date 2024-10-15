@@ -1,0 +1,4 @@
+# 纯web启动项目
+
+# 启动方式
+VITE_START_TYPE = 'web'
