@@ -4,6 +4,7 @@ import fs from 'node:fs'
 import { writeFile } from 'node:fs/promises'
 import type { IpcMainInvokeEvent } from 'electron'
 import { WriteFileOptions } from 'fs'
+import { execCommand } from '../utils/cmd'
 
 // 文件系统相关
 export class FileController {
@@ -68,5 +69,13 @@ export class FileController {
   static async writeFileByPath(_event, filePath, fileContent, options?: WriteFileOptions) {
     return writeFile(filePath, fileContent, options)
       .then(res => ({ success: true }))
+  }
+
+  @ipc
+  static async openProject() {
+    let ideaPath = 'E:\\app\\WebStorm 2023.2.5\\bin\\webstorm64.exe';
+    let projectPath = 'E:\\www\\my\\guge';
+    const res = await execCommand(`"${ideaPath}" "${projectPath}"`)
+    // E:\app\WebStorm 2023.2.5\bin
   }
 }
