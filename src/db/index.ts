@@ -1,23 +1,13 @@
 // db.ts
 import Dexie, { type EntityTable } from 'dexie';
-
-interface Friend {
-  id: number;
-  name: string;
-  age: number;
-}
+import { type ISysConfig }  from './config'
 
 const db = new Dexie('FriendsDatabase') as Dexie & {
-  friends: EntityTable<
-    Friend,
-    'id' // primary key "id" (for the typings only)
-  >;
+  sysConfig: EntityTable<ISysConfig, 'id'> // primary key "id" (for the typings only)>;
 };
 
-// Schema declaration:
-db.version(1).stores({
-  friends: '++id, name, age' // primary key "id" (for the runtime!)
+db.version(2).stores({
+  sysConfig: '++id, sysConfigFilePath, userConfigFilePath, appRootPath'
 });
 
-export type { Friend };
-export { db };
+export default db

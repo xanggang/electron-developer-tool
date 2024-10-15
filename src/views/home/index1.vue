@@ -2,6 +2,7 @@
   <div>
     <a-button @click="go">go b</a-button>
     <a-button @click="go1">系统功能</a-button>
+    <a-button @click="go2">数据库操作</a-button>
   </div>
 </template>
 
@@ -16,6 +17,10 @@ function go() {
 }
 function go1() {
   push('/sys/f')
+}
+
+function go2() {
+  push('/sys/db')
 }
 
 // const a = new People()
