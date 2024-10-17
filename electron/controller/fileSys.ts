@@ -71,6 +71,9 @@ export class FileController {
       .then(res => ({ success: true }))
   }
 
+  /**
+   * 使用idea打开指定文件夹
+   */
   @ipc
   static async openProject() {
     let ideaPath = 'E:\\app\\WebStorm 2023.2.5\\bin\\webstorm64.exe';
