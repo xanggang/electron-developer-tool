@@ -51,6 +51,7 @@
     "pinia": "^2.2.4",
     "rimraf": "^6.0.1",
     "unocss": "^0.63.4",
+    "vite-plugin-svg-icons": "^2.0.1",
     "vue-router": "^4.4.5"
   }
 }

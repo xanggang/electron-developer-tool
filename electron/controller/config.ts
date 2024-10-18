@@ -1,21 +1,21 @@
-import { ipc } from '../decorator/ipc'
+import { handle } from '../decorator/ipc'
 import { IAppConfig } from '../conf/type'
 import { getAppConfig, setAppConfig, setAppConfigPath } from '../conf'
 
 export default class ConfigController {
 
-  @ipc
+  @handle
   static async getAppConfig(): Promise<IAppConfig> {
     return getAppConfig()
   }
 
-  @ipc
-  static async setAppConfig(_event, config: IAppConfig) {
-    return setAppConfig(config)
+  @handle
+  static async setAppConfig(onfig: IAppConfig) {
+    return setAppConfig(onfig)
   }
 
-  @ipc
-  static async setAppConfigPath(_event, config: IAppConfig) {
+  @handle
+  static async setAppConfigPath(config: IAppConfig) {
     return setAppConfigPath(config)
   }
 

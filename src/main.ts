@@ -5,6 +5,7 @@ import App from './App.vue'
 import An from 'ant-design-vue'
 import 'ant-design-vue/dist/reset.css';
 import { setupRouter  } from '@/router'
+import 'virtual:svg-icons-register'
 
 // import './style.css'
 

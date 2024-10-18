@@ -22,7 +22,8 @@ async function updateData() {
 }
 
 async function openFolder() {
-  window.ipcRenderer.invoke('openFolder', 'D:\\')
+  const res = await window.ipcRenderer.invoke('getFilePath', 'D:\\')
+  console.log(res)
 }
 
 async function writeFile() {

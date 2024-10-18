@@ -7,6 +7,7 @@ import pkg from './package.json'
 import path from 'path'
 import Unocss from 'unocss/vite';
 import AutoImport from 'unplugin-auto-import/vite';
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
@@ -19,6 +20,7 @@ export default defineConfig(({ command, mode }) => {
 
   if (!isAppStarted) {
     console.log('以web模式启动')
+    console.log(path.resolve(process.cwd(), 'src/assets/svg'))
   }
 
   return {
@@ -77,7 +79,13 @@ export default defineConfig(({ command, mode }) => {
           // See 👉 https://github.com/electron-vite/vite-plugin-electron-renderer
           renderer: {},
         })]
-        : [])
+        : []),
+      createSvgIconsPlugin({
+        // Specify the icon folder to be cached
+        iconDirs: [path.resolve(process.cwd(), 'src/assets/svg')],
+        // Specify symbolId format
+        symbolId: 'icon-[dir]-[name]',
+      }),
     ],
     resolve: {
       alias: [

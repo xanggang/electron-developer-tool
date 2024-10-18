@@ -2,6 +2,7 @@ import path from 'node:path'
 import { app, BrowserWindow, shell } from 'electron'
 import { PRELOAD_URL, INDEX_HTML, VITE_DEV_SERVER_URL, VITE_PUBLIC } from './appConfig'
 import os from 'node:os'
+import logger from '../common/logger'
 
 let win: BrowserWindow | null = null
 /**
@@ -9,8 +10,9 @@ let win: BrowserWindow | null = null
  */
 export function createWindow() {
   const win = new BrowserWindow({
-    // frame: false,
-    // transparent: true,
+    height: 700,
+    width: 1050,
+    frame: false,
     title: 'Main window',
 
     icon: path.join(VITE_PUBLIC, 'favicon.ico'),
@@ -88,4 +90,18 @@ export function startApp() {
       win = createWindow()
     }
   })
+}
+
+
+export function showWindow() {
+  if (!win) {
+    logger.error('window: 快捷键唤起窗口时， win不存在')
+  }
+  if (!win.isFocused()) {
+    win.show()
+  }
+}
+
+export function getMainWindow() {
+  return win
 }
