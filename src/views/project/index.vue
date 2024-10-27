@@ -1,10 +1,15 @@
 <template>
-  <router-view></router-view>
+  <div class="card">
+    aaa
+  </div>
 </template>
 
+
 <script setup lang="ts">
+
 </script>
 
-<style lang="less">
+
+<style scoped lang="less">
 
 </style>

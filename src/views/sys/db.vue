@@ -4,6 +4,7 @@
     <a-button @click="handleGet">读取一条数据</a-button>
     <a-button @click="handleGetConfig">获取配置文件</a-button>
     <a-button @click="handleUpdateConfig">更新配置文件</a-button>
+    <a-button @click="createFileSys">创建项目文件系统</a-button>
   </div>
 </template>
 
@@ -31,6 +32,11 @@ async function handleGetConfig() {
 async function handleUpdateConfig() {
   const res = await window.ipcRenderer.invoke('setAppConfig', { a: 1 })
   console.log(res)
+}
+
+async function createFileSys() {
+  const res = await window.ipcRenderer.invoke('createFileSys', 'testa')
+  console.log(res);
 }
 </script>
 

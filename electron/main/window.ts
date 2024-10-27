@@ -105,3 +105,10 @@ export function showWindow() {
 export function getMainWindow() {
   return win
 }
+
+export function sendWebContentsSend() {
+  const browserWindow = getMainWindow()
+  if (!browserWindow) {
+    throw new Error('sendWebContentsSend错误， 主窗口不存在')
+  }
+}

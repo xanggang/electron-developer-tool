@@ -1,7 +1,8 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import type { App } from 'vue'
+import {createRouter, createWebHistory} from 'vue-router'
+import type {App} from 'vue'
 import sysSetting from './sysSetting'
 import sys from './sys'
+import project from './project'
 
 // 404 on a page
 // const PAGE_NOT_FOUND_ROUTE =    {
@@ -23,13 +24,14 @@ export const router = createRouter({
   routes: [
     ...sysSetting,
     ...sys,
+    ...project,
     {
       path: '/',
-      redirect: '/a',
+      redirect: '/sys/db',
     }
   ],
   strict: true,
-  scrollBehavior: () => ({ left: 0, top: 0 })
+  scrollBehavior: () => ({left: 0, top: 0})
 })
 
 
