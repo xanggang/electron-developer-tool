@@ -14,34 +14,36 @@
 </template>
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import type { MenuProps, ItemType } from 'ant-design-vue'
+import type { MenuProps } from 'ant-design-vue'
+
+const { push } = useRouter()
 
 const selectedKeys = ref<string[]>(['1'])
 const openKeys = ref<string[]>(['sub1'])
 
-const items: ItemType[] = reactive([
+const items  = reactive([
   {
-    key: '1',
+    key: '/project/index',
     icon: '',
     label: '项目管理',
     type: '',
   },
-  {
-    key: '2',
-    icon: '',
-    label: '自启动',
-    type: '',
-  },
-  {
-    key: '3',
-    icon: '',
-    label: '开发工具箱',
-    type: '',
-  }
+  // {
+  //   key: '2',
+  //   icon: '',
+  //   label: '自启动',
+  //   type: '',
+  // },
+  // {
+  //   key: '3',
+  //   icon: '',
+  //   label: '开发工具箱',
+  //   type: '',
+  // }
 ])
 
 const handleClick: MenuProps['onClick'] = e => {
-  console.log('click', e)
+  push(e.key)
 }
 </script>
 

@@ -112,3 +112,7 @@ export function sendWebContentsSend() {
     throw new Error('sendWebContentsSend错误， 主窗口不存在')
   }
 }
+
+export function openDevTools() {
+  win.webContents.openDevTools()
+}
