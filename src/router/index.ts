@@ -25,7 +25,7 @@ export const router = createRouter({
     ...sys,
     {
       path: '/',
-      redirect: '/a',
+      redirect: '/sys/a',
     }
   ],
   strict: true,
