@@ -10,9 +10,9 @@ let win: BrowserWindow | null = null
  */
 export function createWindow() {
   const win = new BrowserWindow({
-    height: 700,
-    width: 1050,
-    frame: false,
+    height: 900,
+    width: 1700,
+    // frame: false,
     title: 'Main window',
 
     icon: path.join(VITE_PUBLIC, 'favicon.ico'),
@@ -53,7 +53,7 @@ export function createWindow() {
 /**
  * 启动app
  */
-export function startApp() {
+export async function startApp() {
   //关闭Windows 7的GPU加速
   if (os.release().startsWith('6.1')) app.disableHardwareAcceleration()
 
@@ -65,9 +65,9 @@ export function startApp() {
     process.exit(0)
   }
 
-  app.whenReady().then(() => {
-    win = createWindow()
-  })
+  await app.whenReady()
+
+  win = createWindow()
 
   app.on('window-all-closed', () => {
     win = null

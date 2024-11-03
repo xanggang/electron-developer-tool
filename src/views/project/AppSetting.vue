@@ -2,46 +2,146 @@
   <a-modal
       width="700px"
       v-model:visible="visible"
-      title="系统应用管理"
+      ok-text="确认"
+      cancel-text="取消"
       @ok="handleOk">
-    <div class="flex justify-start items-center flex-wrap  gap-[10px] mt-20 ">
-      <div class="card border p-6 border-rd-4 flex-center cursor-pointer relative"
-           v-for="i in 10"
-      >
-        <div class="delete-wrap">
-          <delete-outlined class="delete-item"/>
-        </div>
-        <img class="w-60 h-60" src="@/assets/vite.svg" alt="">
-      </div>
 
-      <div
-          @click="selectAppPath"
-          class="border p-6 w-72 h-72 border-rd-4 flex-center cursor-pointer text-30 text-gray-4">
-        <plus-circle-outlined />
+    <template #title>
+      <span>系统应用管理</span>
+      <a-button type="primary" class="ml-30" @click="childrenVisible = true">添加</a-button>
+    </template>
+
+    <a-table :dataSource="dataSource" :columns="columns" :pagination="false">
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.dataIndex === 'icon'">
+          <img :src="record.icon" class="w100 h100" alt="">
+        </template>
+        <template v-if="column.dataIndex === 'action'">
+          <a-button danger type="link" @click="handleDelete(record)">删除</a-button>
+        </template>
+      </template>
+    </a-table>
+
+
+    <a-modal
+        width="700px"
+        v-model:visible="childrenVisible"
+        ok-text="确认"
+        cancel-text="取消"
+        :cancelButtonProps="{show: false}"
+        title="添加app"
+        @ok="handleAddExe">
+      <div class="flex justify-start items-center">
+        <div class="text-gray-7 shrink-0 w-130">选择app启动地址</div>
+        <a-input disabled class="ml-20" v-model:value="formState.exePath">
+          <template #addonAfter>
+            <FolderOutlined @click="handleSelectExe"/>
+          </template>
+        </a-input>
       </div>
-    </div>
+      <div class="flex justify-start items-center mt-30">
+        <div class="text-gray-7 shrink-0 w-130">选择app图标</div>
+        <a-input disabled class="ml-20" v-model:value="formState.iconPath">
+          <template #addonAfter>
+            <FolderOutlined @click="handleSelectIcon" v-if="!formState.iconPath"/>
+            <img :src="formState.iconPath"
+                 v-if="formState.iconPath"
+                 @click="handleSelectIcon"
+                 style="width: 10px;height: 10px;">
+          </template>
+        </a-input>
+
+
+        <!--        <getLocalImage></getLocalImage>-->
+      </div>
+    </a-modal>
 
   </a-modal>
 </template>
 
 <script lang="ts" setup>
-import { PlusCircleFilled } from '@ant-design/icons-vue'
-import { PlusCircleOutlined } from '@ant-design/icons-vue'
-import { DeleteOutlined } from '@ant-design/icons-vue'
-import StarterDb from '@/db/starter'
-import { getFilePath } from '@/ipc/project'
+// import {PlusCircleFilled} from '@ant-design/icons-vue'
+import {FolderOutlined} from '@ant-design/icons-vue'
+// import {DeleteOutlined} from '@ant-design/icons-vue'
+// import StarterDb from '@/db/starter'
+import {getFilePath} from '@/ipc/project'
+import {message} from "ant-design-vue";
+import StarterDb from "@/db/starter";
 
-const visible = defineModel('visible', { type: Boolean })
+const visible = defineModel('visible', {type: Boolean})
+const childrenVisible = defineModel('childrenVisible', {type: Boolean})
 
-const appList = ref([])
+const dataSource = ref()
+
+const columns = [
+  {title: 'app', dataIndex: 'path'},
+  {title: '图标', dataIndex: 'icon'},
+  {title: '操作', dataIndex: 'action'},
+]
 
 function handleOk() {
   visible.value = false
 }
 
-async function selectAppPath() {
+const formState = reactive({
+  exePath: '',
+  iconPath: ''
+})
+
+async function getAppList() {
+  const res = await StarterDb.getAll()
+  console.log(res);
+  dataSource.value = res
+}
+
+watchEffect(() => {
+  if (visible.value) {
+    getAppList()
+  }
+})
+
+// 添加新的app
+async function handleSelectExe() {
   const res = await getFilePath()
-  console.log(res)
+  formState.exePath = res
+}
+
+async function handleSelectIcon() {
+  const res = await getFilePath()
+  console.log(res);
+  formState.iconPath = 'app://' + res
+}
+
+async function handleAddExe() {
+  console.log(formState);
+  if (!formState.exePath) {
+    message.error('请选择exe文件')
+    return
+  }
+
+  if (!formState.iconPath) {
+    message.error('请选择icon文件')
+    return
+  }
+
+
+  await StarterDb.baseSet({
+    path: formState.exePath,
+    icon: formState.iconPath
+  })
+  childrenVisible.value = false
+  await getAppList()
+  message.success('添加成功')
+}
+
+async function handleDelete(reco: Recordable) {
+  try {
+    await StarterDb.delete(reco.id)
+    message.success('删除成功')
+    await getAppList()
+  } catch (e) {
+    message.error('删除失败')
+  }
 }
 
 </script>

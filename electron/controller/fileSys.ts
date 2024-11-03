@@ -120,4 +120,18 @@ export class FileController {
       throw new Error(e)
     }
   }
+
+  /**
+   * 读取本地文件返回给前端展示
+   */
+  @handle
+  static async getLocalImage(imagePath: string) {
+    try {
+      const imageBuffer = await fs.promises.readFile(imagePath);
+      return imageBuffer;
+    } catch (error) {
+      console.error('Error reading image file:', error);
+      throw error;
+    }
+  }
 }

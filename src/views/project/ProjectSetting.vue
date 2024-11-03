@@ -19,13 +19,13 @@
       <a-form-item label="项目目录" name="folderPath">
         <a-input disabled v-model:value="formState.folderPath" placeholder="请选择项目地址">
           <template #addonAfter>
-            <FolderOpenOutlined class="cursor-pointer"></FolderOpenOutlined>
+            <FolderOpenOutlined class="cursor-pointer" @click="handleSelectFolderPath"></FolderOpenOutlined>
           </template>
         </a-input>
       </a-form-item>
 
       <a-form-item label="启动工具" name="folderPath1">
-
+        <AppCardSelect v-model:active="formState.exeId"></AppCardSelect>
       </a-form-item>
       <a-form-item label="仓库地址" name="gitUrl">
         <a-input v-model:value="formState.gitUrl" ></a-input>
@@ -50,30 +50,48 @@
 </template>
 
 <script lang="ts" setup>
-import { UnwrapRef } from 'vue/dist/vue'
+import { UnwrapRef } from 'vue'
 import { FolderOpenOutlined } from '@ant-design/icons-vue'
+import {getFilePath} from "@/ipc/project";
+import StarterDb, {IStarter} from "@/db/starter";
+import AppCardSelect from '@/components/AppCardSelect.vue'
 
 const visible = defineModel('visible', { type: Boolean })
 
 interface FormState {
+  projectName: string
   adcd: string;
-  projectName: string;
+  folderPath: string;
+  remark: string;
+  exeId: string;
+  taskId: string;
+  gitUrl: string;
+  state: string;
+  projectDevUrl: string;
+  projectProdUrl: string;
   language: string;
-  state: string
 }
 
-const formItemLayout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 14 },
-};
-
 const formState: UnwrapRef<FormState> = reactive({
-  adcd: '33',
-  projectName:'',
+  projectName: '',
+  adcd: '',
+  folderPath: '',
+  remark: '',
+  exeId: '',
+  taskId: '',
+  gitUrl: '',
+  state: '',
+  projectDevUrl: '',
+  projectProdUrl: '',
   language: '',
-  state: ''
 })
 
+
+
+async function handleSelectFolderPath() {
+  const res = await getFilePath()
+  formState.folderPath = res
+}
 
 function handleFinish() {
 

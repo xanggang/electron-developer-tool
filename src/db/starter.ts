@@ -9,11 +9,15 @@ export interface IStarter {
 
 export default class StarterDb {
   // 保存一个启动器地址
-  static baseSet(data: IStarter) {
+  static async baseSet(data: IStarter) {
     db.starter.add(data)
   }
 
   static async getAll() {
     return db.starter.toArray()
+  }
+
+  static async delete(id: number) {
+    return db.starter.delete(id)
   }
 }
