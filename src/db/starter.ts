@@ -20,4 +20,8 @@ export default class StarterDb {
   static async delete(id: number) {
     return db.starter.delete(id)
   }
+
+  static async getStarterById(id: number) {
+    return db.starter.get(id)
+  }
 }

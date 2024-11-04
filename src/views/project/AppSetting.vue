@@ -8,7 +8,7 @@
 
     <template #title>
       <span>系统应用管理</span>
-      <a-button type="primary" class="ml-30" @click="childrenVisible = true">添加</a-button>
+      <a-button type="primary" class="ml-30" @click="handleOpenAddModal">添加</a-button>
     </template>
 
     <a-table :dataSource="dataSource" :columns="columns" :pagination="false">
@@ -83,14 +83,10 @@ function handleOk() {
   visible.value = false
 }
 
-const formState = reactive({
-  exePath: '',
-  iconPath: ''
-})
+
 
 async function getAppList() {
   const res = await StarterDb.getAll()
-  console.log(res);
   dataSource.value = res
 }
 
@@ -100,6 +96,17 @@ watchEffect(() => {
   }
 })
 
+const formState = reactive({
+  exePath: '',
+  iconPath: ''
+})
+
+// 打开弹窗
+function handleOpenAddModal() {
+  formState.exePath = ''
+  formState.iconPath = ''
+  childrenVisible.value = true
+}
 // 添加新的app
 async function handleSelectExe() {
   const res = await getFilePath()

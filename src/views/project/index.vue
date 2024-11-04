@@ -45,7 +45,7 @@
 
 
     <AppSetting v-model:visible="visibleAppSetting"></AppSetting>
-    <ProjectSetting v-model:visible="visibleProjectSetting"></ProjectSetting>
+    <ProjectSetting v-if="visibleProjectSetting" v-model:visible="visibleProjectSetting"></ProjectSetting>
   </div>
 </template>
 <script lang="ts" setup>

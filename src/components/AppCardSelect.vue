@@ -15,20 +15,18 @@
 import StarterDb, {IStarter} from "@/db/starter";
 
 const appList = ref<IStarter[]>([])
+const active = defineModel('active',{ type: Number })
 
 async function getAppList() {
   const res = await StarterDb.getAll()
-  console.log(res);
   appList.value = res
 }
 
 onMounted(getAppList)
 
-const active = defineModel({ type: Number })
-
 
 function handleSelect(item: IStarter) {
-  console.log(item);
+  console.log(item.id)
   active.value = item.id
 }
 
@@ -50,7 +48,7 @@ function handleSelect(item: IStarter) {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    padding: 3px;
+    padding: 5px;
     border: 1px solid #ececec;
 
 
