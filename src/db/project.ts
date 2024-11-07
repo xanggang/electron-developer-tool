@@ -1,4 +1,6 @@
 import db from './index'
+import omit from 'lodash-es/omit'
+import Dexie from 'dexie'
 
 enum ProjectState {
   '未初始化' = 0,
@@ -27,7 +29,32 @@ export default class ProjectDb {
     await db.project.add(data)
   }
 
-  static getList() {
+  static getAllList() {
     return db.project.toArray()
+  }
+
+  static async getPageList(searchData: any) {
+    const where = omit(searchData, ['pageNo', 'pageSize'])
+    const { pageNo, pageSize} = searchData
+    console.log(where);
+
+    const api = db
+      .project
+      .where('projectName')
+      .startsWithIgnoreCase(where.projectName)
+      // .and(item => item.adcd ? item.adcd === where.adcd : true)
+
+    const total = await api.count();
+
+    const list = await api
+      // .equalsIgnoreCase(where.projectName)
+      .offset(pageNo * pageSize)
+      .limit(pageSize)
+      .toArray();
+
+    return {
+      total,
+      list
+    }
   }
 }
