@@ -40,7 +40,12 @@
     </a-form>
 
     <div class="card-wrap">
-      <ProjectCard v-for="i in 30" class="w-280! "></ProjectCard>
+      <ProjectCard
+          v-for="project in dataList"
+          class="w-280!"
+          :key="project.id"
+          :project="project"
+      ></ProjectCard>
     </div>
 
 
@@ -54,79 +59,68 @@ import type { FormProps } from 'ant-design-vue'
 import ProjectCard from './ProjectCard.vue'
 import AppSetting from './AppSetting.vue'
 import ProjectSetting from './ProjectSetting.vue'
+import ProjectDb, { type IProject } from '@/db/project'
 
-const adcdOptions = [
-  {
-    label: '湖北省',
-    value: '33'
+function useSearch() {
+  const adcdOptions = [
+    {
+      label: '湖北省',
+      value: '33'
+    }
+  ]
+  const languageOptions = [
+    {
+      label: 'javascript',
+      value: 'javascript'
+    },
+    {
+      label: 'java',
+      value: 'java'
+    },
+  ]
+
+  interface FormState {
+    adcd: string;
+    projectName: string;
+    language: string;
+    state: string
   }
-]
-const languageOptions = [
-  {
-    label: 'javascript',
-    value: 'javascript'
-  },
-  {
-    label: 'java',
-    value: 'java'
-  },
-]
 
-interface FormState {
-  adcd: string;
-  projectName: string;
-  language: string;
-  state: string
+  const formState: UnwrapRef<FormState> = reactive({
+    adcd: '33',
+    projectName:'',
+    language: '',
+    state: ''
+  })
+
+  const handleFinish: FormProps['onFinish'] = values => {
+    console.log(values, formState)
+  }
+
+  return {
+    adcdOptions,
+    languageOptions,
+    formState,
+    handleFinish,
+  }
 }
 
-const formState: UnwrapRef<FormState> = reactive({
-  adcd: '33',
-  projectName:'',
-  language: '',
-  state: ''
-})
+const {
+  adcdOptions,
+  languageOptions,
+  formState,
+  handleFinish,
+} = useSearch()
 
-const handleFinish: FormProps['onFinish'] = values => {
-  console.log(values, formState)
+const dataList = ref<IProject[]>([])
+
+async function getPageData() {
+  const res = await ProjectDb.getList()
+  console.log(res)
+  dataList.value = res
 }
 
-const dataSource = ref([
-  {
-    key: '1',
-    projectName: '胡彦斌',
-    age: 32,
-    address: '西湖区湖底公园1号',
-  },
-  {
-    key: '2',
-    projectName: 'projectName',
-    age: 42,
-    address: '西湖区湖底公园1号',
-  },
-])
-
-const columns = [
-  {
-    title: '項目名称',
-    dataIndex: 'projectName',
-    key: 'projectName',
-  },
-  {
-    title: '项目状态',
-    dataIndex: 'state',
-    key: 'state',
-  },
-  {
-    title: '测试环境地址',
-    dataIndex: 'projectDevUrl',
-    key: 'projectDevUrl',
-  },
-  {
-    title: '测试环境地址',
-    dataIndex: 'projectProdUrl',
-    key: 'projectDevUrl',
-  },
-]
+onMounted(getPageData)
 
 
 const visibleAppSetting = defineModel('visibleAppSetting')
@@ -135,7 +129,7 @@ function openAppSetting() {
   visibleAppSetting.value = true
 }
 
-const visibleProjectSetting= defineModel('visibleProjectSetting', { default: true})
+const visibleProjectSetting= defineModel('visibleProjectSetting', { default: false })
 
 function openProjectSetting() {
   visibleProjectSetting.value = true

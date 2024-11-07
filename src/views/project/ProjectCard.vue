@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="font-bold text-gray-7 text-18 mt-20">
-      浙水节约
+      {{ project.projectName }}
     </div>
     <div class="mt-12 flex justify-between items-center">
       <span class="text-gray-5">项目类型</span>
@@ -31,7 +31,7 @@
     </div>
     <div class="mt-12 flex justify-between items-center">
       <span class="text-gray-5">行政区划</span>
-      <span class="text-gray-7 ml-20">省级</span>
+      <span class="text-gray-7 ml-20"> {{ project.adName }}</span>
     </div>
     <a-button block class="mt-20">启动项目</a-button>
   </div>
@@ -39,6 +39,11 @@
 
 <script lang="ts" setup>
 import { FolderOpenOutlined }  from '@ant-design/icons-vue'
+import type { IProject } from '@/db/project'
+
+const props = defineProps<{
+  project: IProject
+}>()
 </script>
 
 <style scoped lang="less">

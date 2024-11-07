@@ -15,7 +15,7 @@
 import StarterDb, {IStarter} from "@/db/starter";
 
 const appList = ref<IStarter[]>([])
-const active = defineModel('active',{ type: Number })
+const active = defineModel('active',{ type: [Number, String] })
 
 async function getAppList() {
   const res = await StarterDb.getAll()

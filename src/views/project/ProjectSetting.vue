@@ -57,25 +57,12 @@
 
 <script lang="ts" setup>
 import { UnwrapRef } from 'vue'
-import { FolderOpenOutlined } from '@ant-design/icons-vue'
-import {getFilePath} from "@/ipc/project";
-import StarterDb, {IStarter} from "@/db/starter";
 import AppCardSelect from '@/components/AppCardSelect.vue'
 import Adcd from '@/components/Adcd/index.vue'
+import ProjectDb,  { type IProject } from '@/db/project'
 
 const visible = defineModel('visible', { type: Boolean })
 
-interface FormState {
-  projectName: string
-  adcd: string;
-  adName: string;
-  folderPath: string;
-  remark: string;
-  exeId: string;
-  gitUrl: string;
-  projectDevUrl: string;
-  projectProdUrl: string;
-}
 
 const formRef = ref()
 const rules = {
@@ -85,7 +72,8 @@ const rules = {
   exeId: [{ required: true, message: '请选择项目启动方式' }],
   gitUrl: [{ required: true, message: '请填写项目git地址' }],
 }
-const formState: UnwrapRef<FormState> = reactive({
+
+const formState: UnwrapRef<IProject> = reactive({
   projectName: '',
   adcd: '',
   adName: '',
@@ -116,12 +104,10 @@ function handleChangeAdcd(_adcd: string, adcdItem: any) {
   formState.adName = adcdItem.name
 }
 
-function handleOk() {
-  formRef.value.validate()
-      .then(res => {
-        console.log(res)
-      })
-  console.log(formState)
+async function handleOk() {
+  await formRef.value.validate()
+  await ProjectDb.baseSet(toRaw(formState))
+  visible.value = false
 }
 </script>
 

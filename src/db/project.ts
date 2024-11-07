@@ -18,12 +18,16 @@ export interface IProject {
   remark: string // 备注
   adName: string // 备注
   adcd: string // 行政区划分类
-  state: ProjectState
+  state?: ProjectState
 }
 
 export default class ProjectDb {
   // 保存项目
   static async baseSet(data: IProject) {
-    db.project.add(data)
+    await db.project.add(data)
+  }
+
+  static getList() {
+    return db.project.toArray()
   }
 }
