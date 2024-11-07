@@ -32,7 +32,7 @@
             placeholder="项目状态"></a-input>
       </a-form-item>
       <a-form-item>
-        <a-button type="primary">搜索</a-button>
+        <a-button type="primary" @click="getPageData">搜索</a-button>
         <a-button type="primary" class="ml-20" @click="openProjectSetting">添加项目</a-button>
         <a-button type="primary" class="ml-20">分类管理</a-button>
         <a-button type="primary" class="ml-20" @click="openAppSetting">应用管理</a-button>
@@ -47,10 +47,21 @@
           :project="project"
       ></ProjectCard>
     </div>
+    <a-pagination
+        v-model:current="pagination.current"
+        :total="pagination.total"
+        show-less-items
+        @change="handleChangePagination"
+    />
+
 
 
     <AppSetting v-model:visible="visibleAppSetting"></AppSetting>
-    <ProjectSetting v-if="visibleProjectSetting" v-model:visible="visibleProjectSetting"></ProjectSetting>
+    <ProjectSetting
+        v-if="visibleProjectSetting"
+        v-model:visible="visibleProjectSetting"
+        @refresh="getPageData"
+    ></ProjectSetting>
   </div>
 </template>
 <script lang="ts" setup>
@@ -93,6 +104,7 @@ function useSearch() {
     state: ''
   })
 
+
   const handleFinish: FormProps['onFinish'] = values => {
     console.log(values, formState)
   }
@@ -114,10 +126,27 @@ const {
 
 const dataList = ref<IProject[]>([])
 
+const pagination = reactive({
+  current: 0,
+  total: 20,
+})
+
+function handleChangePagination(e) {
+  getPageData()
+}
+
+
 async function getPageData() {
-  const res = await ProjectDb.getList()
-  console.log(res)
-  dataList.value = res
+  const res = await ProjectDb.getPageList({
+    pageNo: pagination.current,
+    pageSize: 1,
+    projectName: '11',
+    adcd: '3301'
+  })
+  console.log(res);
+  // pagination.total = res.total
+  // console.log(res)
+  // dataList.value = res
 }
 
 onMounted(getPageData)

@@ -61,6 +61,7 @@ import AppCardSelect from '@/components/AppCardSelect.vue'
 import Adcd from '@/components/Adcd/index.vue'
 import ProjectDb,  { type IProject } from '@/db/project'
 
+const emit = defineEmits(['refresh'])
 const visible = defineModel('visible', { type: Boolean })
 
 
@@ -94,7 +95,8 @@ function handleChangeGitUrl(event: any) {
   }
   const name = pathname.split('/').at(-1)
   if (!name) {
-    throw new Error('git仓库地址错误')
+    console.log('git仓库地址错误');
+    return
   }
   formState.folderPath = name
 }
@@ -108,6 +110,7 @@ async function handleOk() {
   await formRef.value.validate()
   await ProjectDb.baseSet(toRaw(formState))
   visible.value = false
+  emit('refresh')
 }
 </script>
 
