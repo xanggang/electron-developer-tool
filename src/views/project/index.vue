@@ -104,7 +104,6 @@ function useSearch() {
     state: ''
   })
 
-
   const handleFinish: FormProps['onFinish'] = values => {
     console.log(values, formState)
   }
@@ -140,13 +139,13 @@ async function getPageData() {
   const res = await ProjectDb.getPageList({
     pageNo: pagination.current,
     pageSize: 1,
-    projectName: '1',
+    projectName: '11',
     adcd: '3301'
   })
   console.log(res);
-  pagination.total = res.total
+  // pagination.total = res.total
   // console.log(res)
-  dataList.value = res.list
+  // dataList.value = res
 }
 
 onMounted(getPageData)

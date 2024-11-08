@@ -42,7 +42,7 @@ export default class ProjectDb {
       .project
       .where('projectName')
       .startsWithIgnoreCase(where.projectName)
-      // .and(item => item.adcd ? item.adcd === where.adcd : true)
+    // .and(item => item.adcd ? item.adcd === where.adcd : true)
 
     const total = await api.count();
 
