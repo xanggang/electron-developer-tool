@@ -1,6 +1,5 @@
 import db from './index'
 import omit from 'lodash-es/omit'
-import Dexie from 'dexie'
 
 enum ProjectState {
   '未初始化' = 0,
@@ -21,6 +20,8 @@ export interface IProject {
   adName: string // 备注
   adcd: string // 行政区划分类
   state?: ProjectState
+  language?: string,
+  type?: string,
 }
 
 export default class ProjectDb {
@@ -40,9 +41,26 @@ export default class ProjectDb {
 
     const api = db
       .project
-      .where('projectName')
-      .startsWithIgnoreCase(where.projectName)
-    // .and(item => item.adcd ? item.adcd === where.adcd : true)
+      .where('projectName').startsWithIgnoreCase(where.projectName)
+      .and(peoject => {
+        let isOk = true
+        if (where.adcd) {
+          isOk =  isOk && peoject.adcd === where.adcd
+        }
+        if (where.type) {
+          isOk = isOk && peoject.type === where.type
+        }
+        if (where.language) {
+          isOk = isOk && peoject.language === where.language
+        }
+
+        return isOk
+      })
+
+
+    if (where.adcd) {
+      api.and(item => item.adcd === where.adcd)
+    }
 
     const total = await api.count();
 
@@ -56,5 +74,9 @@ export default class ProjectDb {
       total,
       list
     }
+  }
+
+  static async getProject(id: number) {
+    return db.project.get(id)
   }
 }

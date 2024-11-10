@@ -15,7 +15,7 @@ db.version(2)
   .stores({
     sysConfig: '++id, sysConfigFilePath, userConfigFilePath, appRootPath',
     starter: '++id, path, iconPath',
-    project: '++id, projectName, folderPath, exeId, gitUrl, projectDevUrl, projectProdUrl, remark, adName, adcd, state',
+    project: '++id, projectName, folderPath, exeId, gitUrl, projectDevUrl, projectProdUrl, remark, adName, adcd, state, type, language',
 })
 
 export default db

@@ -1,8 +1,8 @@
 <template>
   <a-modal
       width="700px"
-      v-model:visible="visible"
-      title="系统应用管理"
+      v-model:open="visible"
+      title="系统应用管理1"
       cancel-text="取消"
       ok-text="确认"
       @ok="handleOk">
@@ -20,7 +20,7 @@
       </a-form-item>
 
       <a-form-item label="仓库地址" name="gitUrl">
-        <a-input @input="handleChangeGitUrl" v-model:value="formState.gitUrl" ></a-input>
+        <a-input @input="handleChangeGitUrl" v-model:value="formState.gitUrl"></a-input>
       </a-form-item>
 
       <a-form-item label="项目目录" name="folderPath">
@@ -37,17 +37,34 @@
       </a-form-item>
 
 
+      <a-form-item label="语言" name="language">
+        <a-select
+            v-model:value="formState.language"
+            :options="LanguageOptions"
+            class="w-2xl!"
+            placeholder="语言"></a-select>
+      </a-form-item>
+
+
+      <a-form-item label="类型" name="type">
+        <a-select
+            v-model:value="formState.type"
+            :options="TypeOptions"
+            class="w-2xl!"
+            placeholder="类型"></a-select>
+      </a-form-item>
+
 
       <a-form-item label="测试环境地址" name="projectDevUrl">
-        <a-input v-model:value="formState.projectDevUrl" ></a-input>
+        <a-input v-model:value="formState.projectDevUrl"></a-input>
       </a-form-item>
 
       <a-form-item label="生产环境地址" name="projectProdUrl">
-        <a-input v-model:value="formState.projectProdUrl" ></a-input>
+        <a-input v-model:value="formState.projectProdUrl"></a-input>
       </a-form-item>
 
       <a-form-item label="备注信息" name="remark">
-        <a-textarea v-model:value="formState.remark" ></a-textarea>
+        <a-textarea v-model:value="formState.remark"></a-textarea>
       </a-form-item>
 
 
@@ -55,26 +72,35 @@
   </a-modal>
 </template>
 
-<script lang="ts" setup>
-import { UnwrapRef } from 'vue'
+<script setup>
 import AppCardSelect from '@/components/AppCardSelect.vue'
 import Adcd from '@/components/Adcd/index.vue'
-import ProjectDb,  { type IProject } from '@/db/project'
+import ProjectDb from '@/db/project'
+import {LanguageOptions, TypeOptions} from './project'
 
+const props = defineProps({
+  editProject: {
+    type: Object,
+    default: () => ({})
+  }
+})
 const emit = defineEmits(['refresh'])
-const visible = defineModel('visible', { type: Boolean })
+const visible = defineModel('visible', {type: Boolean})
 
+watchEffect(() => {
+  console.log(visible.value);
+})
 
 const formRef = ref()
 const rules = {
-  projectName: [{ required: true, message: '请填写项目名称' }],
-  adcd: [{ required: true, message: '请选择项目所在区域' }],
-  folderPath: [{ required: true, message: '请填写项目目录，' }],
-  exeId: [{ required: true, message: '请选择项目启动方式' }],
-  gitUrl: [{ required: true, message: '请填写项目git地址' }],
+  projectName: [{required: true, message: '请填写项目名称'}],
+  adcd: [{required: true, message: '请选择项目所在区域'}],
+  folderPath: [{required: true, message: '请填写项目目录，'}],
+  exeId: [{required: true, message: '请选择项目启动方式'}],
+  gitUrl: [{required: true, message: '请填写项目git地址'}],
 }
 
-const formState: UnwrapRef<IProject> = reactive({
+const formState = reactive({
   projectName: '',
   adcd: '',
   adName: '',
@@ -85,11 +111,22 @@ const formState: UnwrapRef<IProject> = reactive({
   projectDevUrl: '',
   projectProdUrl: '',
   language: '',
+  type: '',
 })
 
-function handleChangeGitUrl(event: any) {
+watch(() => props.editProject, (editProject) => {
+  if (editProject) {
+    Object
+        .keys(toRaw(formState))
+        .forEach(key => {
+          formState[key] = editProject?.[key] ?? ''
+        })
+  }
+}, {deep: true, immediate: true})
+
+function handleChangeGitUrl(event) {
   const url = event?.target?.value
-  let { pathname } = new URL(url)
+  let {pathname} = new URL(url)
   if (pathname.endsWith('/')) {
     pathname = pathname.slice(0, -1)
   }
@@ -102,7 +139,7 @@ function handleChangeGitUrl(event: any) {
 }
 
 // 修改行政区划
-function handleChangeAdcd(_adcd: string, adcdItem: any) {
+function handleChangeAdcd(_adcd, adcdItem) {
   formState.adName = adcdItem.name
 }
 

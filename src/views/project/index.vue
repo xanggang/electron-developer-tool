@@ -3,19 +3,27 @@
     <a-form
         layout="inline"
         :model="formState"
-        @finish="handleFinish"
     >
       <a-form-item>
-        <a-select
+        <Adcd
             v-model:value="formState.adcd"
-            :options="adcdOptions"
             class="w-2xl!"
-            placeholder="行政区划"></a-select>
+            :allowClear="true"
+            placeholder="行政区划"></Adcd>
       </a-form-item>
       <a-form-item>
         <a-select
             v-model:value="formState.language"
-            :options="languageOptions"
+            :options="LanguageOptions"
+            class="w-2xl!"
+            :allowClear="true"
+            placeholder="语言"></a-select>
+      </a-form-item>
+      <a-form-item>
+        <a-select
+            v-model:value="formState.type"
+            :options="TypeOptions"
+            :allowClear="true"
             class="w-2xl!"
             placeholder="语言"></a-select>
       </a-form-item>
@@ -23,17 +31,12 @@
         <a-input
             class="w-2xl!"
             v-model:value="formState.projectName"
+            :allowClear="true"
             placeholder="项目名称"></a-input>
       </a-form-item>
       <a-form-item>
-        <a-input
-            class="w-2xl!"
-            v-model:value="formState.state"
-            placeholder="项目状态"></a-input>
-      </a-form-item>
-      <a-form-item>
-        <a-button type="primary" @click="getPageData">搜索</a-button>
-        <a-button type="primary" class="ml-20" @click="openProjectSetting">添加项目</a-button>
+        <a-button type="primary" @click="handleSearch">搜索</a-button>
+        <a-button type="primary" class="ml-20" @click="openProjectSetting(false)">添加项目</a-button>
         <a-button type="primary" class="ml-20">分类管理</a-button>
         <a-button type="primary" class="ml-20" @click="openAppSetting">应用管理</a-button>
       </a-form-item>
@@ -45,107 +48,72 @@
           class="w-280!"
           :key="project.id"
           :project="project"
+          @openDetail="openProjectSetting(project)"
       ></ProjectCard>
     </div>
+
     <a-pagination
         v-model:current="pagination.current"
         :total="pagination.total"
+        :page-size="pagination.pageSize"
         show-less-items
         @change="handleChangePagination"
+        class="mt-10"
     />
 
-
-
-    <AppSetting v-model:visible="visibleAppSetting"></AppSetting>
+    <AppSetting v-model:visible="visibleAppSetting"/>
     <ProjectSetting
         v-if="visibleProjectSetting"
+        :editProject="editProject"
         v-model:visible="visibleProjectSetting"
         @refresh="getPageData"
-    ></ProjectSetting>
+    />
   </div>
 </template>
 <script lang="ts" setup>
-import type { UnwrapRef } from 'vue'
-import type { FormProps } from 'ant-design-vue'
 import ProjectCard from './ProjectCard.vue'
 import AppSetting from './AppSetting.vue'
 import ProjectSetting from './ProjectSetting.vue'
-import ProjectDb, { type IProject } from '@/db/project'
+import Adcd from '@/components/Adcd/index.vue'
+import ProjectDb, {type IProject} from '@/db/project'
+import {LanguageOptions, TypeOptions} from './project'
 
-function useSearch() {
-  const adcdOptions = [
-    {
-      label: '湖北省',
-      value: '33'
-    }
-  ]
-  const languageOptions = [
-    {
-      label: 'javascript',
-      value: 'javascript'
-    },
-    {
-      label: 'java',
-      value: 'java'
-    },
-  ]
-
-  interface FormState {
-    adcd: string;
-    projectName: string;
-    language: string;
-    state: string
-  }
-
-  const formState: UnwrapRef<FormState> = reactive({
-    adcd: '33',
-    projectName:'',
-    language: '',
-    state: ''
-  })
-
-  const handleFinish: FormProps['onFinish'] = values => {
-    console.log(values, formState)
-  }
-
-  return {
-    adcdOptions,
-    languageOptions,
-    formState,
-    handleFinish,
-  }
-}
-
-const {
-  adcdOptions,
-  languageOptions,
-  formState,
-  handleFinish,
-} = useSearch()
+const formState = reactive({
+  adcd: '33',
+  projectName: '',
+  language: '',
+  type: ''
+})
 
 const dataList = ref<IProject[]>([])
 
 const pagination = reactive({
-  current: 0,
+  current: 1,
   total: 20,
+  pageSize: 10,
 })
 
-function handleChangePagination(e) {
+function handleSearch() {
+  pagination.current = 1
   getPageData()
 }
 
+function handleChangePagination() {
+  getPageData()
+}
 
 async function getPageData() {
   const res = await ProjectDb.getPageList({
-    pageNo: pagination.current,
-    pageSize: 1,
-    projectName: '11',
-    adcd: '3301'
+    pageNo: pagination.current - 1,
+    pageSize: pagination.pageSize,
+    projectName: formState.projectName,
+    adcd: formState.adcd,
+    type: formState.type,
+    language: formState.language
   })
   console.log(res);
-  // pagination.total = res.total
-  // console.log(res)
-  // dataList.value = res
+  dataList.value = res.list
+  pagination.total = res.total
 }
 
 onMounted(getPageData)
@@ -157,17 +125,17 @@ function openAppSetting() {
   visibleAppSetting.value = true
 }
 
-const visibleProjectSetting= defineModel('visibleProjectSetting', { default: false })
+const editProject = ref<any>({})
+const visibleProjectSetting = defineModel('visibleProjectSetting', {default: false})
 
-function openProjectSetting() {
+function openProjectSetting(project: any) {
+  console.log(project);
+  editProject.value = project || {}
   visibleProjectSetting.value = true
 }
 </script>
 
 <style lang="less" scoped>
-.app-page-content {
-
-}
 
 .card-wrap {
   display: flex;

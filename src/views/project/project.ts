@@ -8,24 +8,23 @@
  */
 
 
-interface Project {
-  id: number // 主箭
-  projectName: string // 項目名称，
-  folderPath: string // 项目所在文件夹路径， git的最后一段
-  exeId: string // 启动项目的工具 id 另一张表
-  gitUrl: string // 仓库地址
-  projectDevUrl: string // 访问地址dev
-  projectProdUrl: string // 访问地址prod
-  remark: string // 备注
-  adName: string // 备注
-  adcd: string // 行政区划分类
+// 按照语言分类
+export const LanguageOptions = [
+  { label: '前端', value: 'javaScript' },
+  { label: 'java', value: 'java' },
+  { label: 'electron', value: 'electron' },
+]
 
-  // taskId: string // 项目任务清单
-  // state: string // 项目状态 完结、开发中、归档
+// 按照类型分
+export const TypeOptions = [
+  { label: '项目', value: 'project' },
+  { label: '工具', value: 'lib' },
+  { label: '个人', value: 'self' },
+]
+
+export function getLanguageName(value?: string) {
+  return LanguageOptions.find(item =>item.value === value)?.label
 }
-
-interface ProjectDetail {
-  id: number
-  remark: string // 备注
+export function getTypeName(value?: string) {
+  return TypeOptions.find(item =>item.value === value)?.label
 }
-
