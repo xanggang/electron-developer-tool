@@ -29,7 +29,7 @@
     "@unocss/preset-rem-to-px": "^0.63.4",
     "@vitejs/plugin-vue": "^5.0.4",
     "@vitejs/plugin-vue-jsx": "^4.0.1",
-    "electron": "^29.1.1",
+    "electron": "^33.2.1",
     "electron-builder": "^24.13.3",
     "typescript": "^5.4.2",
     "unplugin-auto-import": "^0.18.3",
