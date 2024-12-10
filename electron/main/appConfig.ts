@@ -16,12 +16,6 @@ export const MAIN_DIST = path.join(APP_ROOT, 'dist-electron')
 // html入口文件
 export const INDEX_HTML = path.join(RENDERER_DIST, 'index.html')
 
-// export const VITE_DEV_SERVER_URL = process.env.VITE_DEV_SERVER_URL
-//
-// process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL
-//   ? path.join(process.env.APP_ROOT, 'public')
-//   : RENDERER_DIST
-
 // 开发环境注入的值， 启动的地址
 export const VITE_DEV_SERVER_URL = process.env.VITE_DEV_SERVER_URL
 

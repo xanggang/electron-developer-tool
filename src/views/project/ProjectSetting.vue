@@ -32,9 +32,9 @@
         <Adcd @change="handleChangeAdcd" v-model:value="formState.adcd"></Adcd>
       </a-form-item>
 
-      <a-form-item label="启动工具" name="exeId">
-        <AppCardSelect v-model:active="formState.exeId"></AppCardSelect>
-      </a-form-item>
+<!--      <a-form-item label="启动工具" name="exeId">-->
+<!--        <AppCardSelect v-model:active="formState.exeId"></AppCardSelect>-->
+<!--      </a-form-item>-->
 
 
 
@@ -59,7 +59,8 @@
 import { UnwrapRef } from 'vue'
 import AppCardSelect from '@/components/AppCardSelect.vue'
 import Adcd from '@/components/Adcd/index.vue'
-import ProjectDb,  { type IProject } from '@/db/project'
+import { createProject } from '@/ipc/project'
+import { ICreateProjectVo } from '#vo/ProjectVo'
 
 const emit = defineEmits(['refresh'])
 const visible = defineModel('visible', { type: Boolean })
@@ -70,11 +71,11 @@ const rules = {
   projectName: [{ required: true, message: '请填写项目名称' }],
   adcd: [{ required: true, message: '请选择项目所在区域' }],
   folderPath: [{ required: true, message: '请填写项目目录，' }],
-  exeId: [{ required: true, message: '请选择项目启动方式' }],
+  // exeId: [{ required: true, message: '请选择项目启动方式' }],
   gitUrl: [{ required: true, message: '请填写项目git地址' }],
 }
 
-const formState: UnwrapRef<IProject> = reactive({
+const formState: UnwrapRef<ICreateProjectVo> = reactive({
   projectName: '',
   adcd: '',
   adName: '',
@@ -84,7 +85,7 @@ const formState: UnwrapRef<IProject> = reactive({
   gitUrl: '',
   projectDevUrl: '',
   projectProdUrl: '',
-  language: '',
+  // language: '',
 })
 
 function handleChangeGitUrl(event: any) {
@@ -108,7 +109,7 @@ function handleChangeAdcd(_adcd: string, adcdItem: any) {
 
 async function handleOk() {
   await formRef.value.validate()
-  await ProjectDb.baseSet(toRaw(formState))
+  await createProject(toRaw(formState))
   visible.value = false
   emit('refresh')
 }

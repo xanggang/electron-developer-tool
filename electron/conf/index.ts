@@ -9,6 +9,10 @@ import { defaultConfig } from './default'
 // 存放配置文件的地址
 let _configPath: string
 
+export function getSysConfigPath() {
+  return app.getPath('userData')
+}
+
 // 获取配置文件地址
 export function getConfigPath() {
   if (!_configPath) {
@@ -16,6 +20,12 @@ export function getConfigPath() {
   }
   return _configPath
 }
+
+// 数据库所在文件夹
+export function getDbPath() {
+  return path.resolve(app.getPath('userData'), 'data.db')
+}
+
 
 let cacheConfig: IAppConfig = null
 

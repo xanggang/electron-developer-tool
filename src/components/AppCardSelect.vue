@@ -12,14 +12,18 @@
 </template>
 
 <script setup lang="ts">
-import StarterDb, {IStarter} from "@/db/starter";
+// import StarterDb, {IStarter} from "@/db/starter";
 
-const appList = ref<IStarter[]>([])
-const active = defineModel('active',{ type: [Number, String] })
+interface IStarter {
+  id: number
+}
+
+const appList = ref<any[]>([])
+const active = defineModel('active',{ type: Number })
 
 async function getAppList() {
-  const res = await StarterDb.getAll()
-  appList.value = res
+  // const res = await StarterDb.getAll()
+  // appList.value = res
 }
 
 onMounted(getAppList)

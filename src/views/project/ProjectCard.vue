@@ -39,10 +39,10 @@
 
 <script lang="ts" setup>
 import { FolderOpenOutlined }  from '@ant-design/icons-vue'
-import type { IProject } from '@/db/project'
+// import type { IProject } from '@/db/project'
 
 const props = defineProps<{
-  project: IProject
+  project: object
 }>()
 </script>
 

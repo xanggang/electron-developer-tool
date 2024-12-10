@@ -13,12 +13,12 @@ const sysSetting = [
         meta: { title: '后台管理' },
         children: []
       },
-      {
-        path: '/sys/db',
-        component: () => import('@/views/sys/db.vue'),
-        meta: { title: '后台管理' },
-        children: []
-      },
+      // {
+      //   path: '/sys/db',
+      //   component: () => import('@/views/sys/db.vue'),
+      //   meta: { title: '后台管理' },
+      //   children: []
+      // },
     ]
   },
 

@@ -4,10 +4,12 @@ import { startApp } from './window'
 import { setUpMenu, setUpShortcutKey } from './menu'
 import { setupMainAppConfig } from '../conf'
 import log, { initLogger } from '../common/logger'
-import {registerFileProtocol, setupFileProtocol} from "../utils/registerFileProtocol";
+import { registerFileProtocol, setupFileProtocol } from '../utils/registerFileProtocol'
+import migrate from '../database/Migrate'
+import { initDb } from '../database/DBConnect'
 
 
-async function start () {
+async function start() {
 
   await initLogger()
   log.info('app启动')
@@ -33,6 +35,11 @@ async function start () {
   // 需要再app.whenReady()之后
   setupFileProtocol()
 
+  // 初始化db
+  await initDb()
+
+  // 创建表
+  await migrate.migrateRun()
 }
 
 start()

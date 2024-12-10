@@ -1,11 +1,11 @@
-import { handle } from '../decorator/ipc'
+import { handle, on } from '../decorator/ipc'
 import { dialog, shell } from 'electron'
 import fs from 'node:fs'
 import path from 'node:path'
 import { writeFile } from 'node:fs/promises'
 import { WriteFileOptions } from 'fs'
 import { execCommand } from '../utils/cmd'
-import { getAppConfig } from '../conf'
+import { getAppConfig, getDbPath, getSysConfigPath } from '../conf'
 import { mkdirp } from 'mkdirp'
 import logger from '../common/logger'
 
@@ -132,6 +132,22 @@ export class FileController {
     } catch (error) {
       console.error('Error reading image file:', error);
       throw error;
+    }
+  }
+
+  /**
+   * 打开数据库所在文件夹
+   */
+  @on
+  static async openDbFile() {
+    const path = getSysConfigPath()
+    console.log('folderPath', path)
+    // 检查路径是否存在
+    if (fs.existsSync(path)) {
+      // 使用 shell 模块打开文件夹
+      shell.openPath(path)
+    } else {
+      console.log('指定的文件夹不存在:', path)
     }
   }
 }

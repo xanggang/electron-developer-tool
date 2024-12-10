@@ -90,6 +90,7 @@ export default defineConfig(({ command, mode }) => {
     resolve: {
       alias: [
         { find: '@', replacement: path.resolve(__dirname, './src') },
+        { find: '#vo', replacement: path.resolve(__dirname, './Vo') },
       ],
     },
     server: process.env.VSCODE_DEBUG && (() => {

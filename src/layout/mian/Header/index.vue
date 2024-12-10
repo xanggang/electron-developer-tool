@@ -21,7 +21,7 @@
 
       <div class="header-divider"></div>
 
-      <div class="header-button">
+      <div class="header-button" @click="handleOpenDb">
         <SvgIcon name="picture-in-picture-line"></SvgIcon>
       </div>
 
@@ -38,9 +38,15 @@
 
 <script lang="ts" setup>
 import SvgIcon from '@/components/SvgIcon.vue'
+import { ipcMinWindow, ipcOpenDbFile } from '@/ipc/sys'
 
 function handMinWindow() {
-  window.ipcRenderer.send('handMinWindow', { skipTaskBar: false })
+  ipcMinWindow()
+}
+
+function handleOpenDb() {
+  console.log('ipcOpenDbFile')
+  ipcOpenDbFile()
 }
 </script>
 

@@ -70,7 +70,9 @@ import type { FormProps } from 'ant-design-vue'
 import ProjectCard from './ProjectCard.vue'
 import AppSetting from './AppSetting.vue'
 import ProjectSetting from './ProjectSetting.vue'
-import ProjectDb, { type IProject } from '@/db/project'
+import { getProjectList } from '@/ipc/project'
+import { IProject } from '#vo/ProjectVo'
+
 
 function useSearch() {
   const adcdOptions = [
@@ -116,6 +118,8 @@ function useSearch() {
   }
 }
 
+getProjectList()
+
 const {
   adcdOptions,
   languageOptions,
@@ -136,13 +140,13 @@ function handleChangePagination(e) {
 
 
 async function getPageData() {
-  const res = await ProjectDb.getPageList({
-    pageNo: pagination.current,
-    pageSize: 1,
-    projectName: '11',
-    adcd: '3301'
-  })
-  console.log(res);
+  // const res = await ProjectDb.getPageList({
+  //   pageNo: pagination.current,
+  //   pageSize: 1,
+  //   projectName: '11',
+  //   adcd: '3301'
+  // })
+  // console.log(res);
   // pagination.total = res.total
   // console.log(res)
   // dataList.value = res

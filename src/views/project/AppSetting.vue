@@ -60,13 +60,9 @@
 </template>
 
 <script lang="ts" setup>
-// import {PlusCircleFilled} from '@ant-design/icons-vue'
 import {FolderOutlined} from '@ant-design/icons-vue'
-// import {DeleteOutlined} from '@ant-design/icons-vue'
-// import StarterDb from '@/db/starter'
 import {getFilePath} from '@/ipc/project'
 import {message} from "ant-design-vue";
-import StarterDb from "@/db/starter";
 
 const visible = defineModel('visible', {type: Boolean})
 const childrenVisible = defineModel('childrenVisible', {type: Boolean})
@@ -86,8 +82,7 @@ function handleOk() {
 
 
 async function getAppList() {
-  const res = await StarterDb.getAll()
-  dataSource.value = res
+  // dataSource.value = res
 }
 
 watchEffect(() => {
@@ -132,10 +127,6 @@ async function handleAddExe() {
   }
 
 
-  await StarterDb.baseSet({
-    path: formState.exePath,
-    icon: formState.iconPath
-  })
   childrenVisible.value = false
   await getAppList()
   message.success('添加成功')
@@ -143,7 +134,6 @@ async function handleAddExe() {
 
 async function handleDelete(reco: Recordable) {
   try {
-    await StarterDb.delete(reco.id)
     message.success('删除成功')
     await getAppList()
   } catch (e) {

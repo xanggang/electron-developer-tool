@@ -20,7 +20,8 @@
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "#vo/*": ["Vo/*"]
     }
   },
   "include": [
@@ -30,7 +31,7 @@
     "src/**/*.vue",
     "types/**/*.d.ts",
     "build/**/*.ts",
-    "auto-imports.d.ts"
+    "auto-imports.d.ts",
   ],
   "exclude": ["dist", "node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
