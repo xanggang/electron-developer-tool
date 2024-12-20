@@ -1,7 +1,8 @@
-import './fileSys.ts'
-import './config.ts'
-import './window.ts'
-import './project.ts'
+import './fileSys'
+import './config'
+import './window'
+import './project'
+import './starter'
 
 // 只要在上面import就可以了
 export function installController() {

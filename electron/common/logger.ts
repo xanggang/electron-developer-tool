@@ -5,7 +5,6 @@ import { app } from 'electron'
 import fs from 'fs/promises'
 import { rimraf } from 'rimraf'
 
-
 export async function initLogger() {
   logger.transports.file.level = 'debug'
   logger.transports.file.maxSize = 30 * 1024 * 1024 // 最大不超过10M
@@ -13,7 +12,7 @@ export async function initLogger() {
 
   const date = dayjs().format('YYYY-MM-DD') // 格式化日期为 yyyy-mm-dd
 
-  logger.transports.file.fileName = date + '.log' // 创建文件名格式为 '时间.log' (2023-02-01.log)
+  logger.transports.file.fileName = `${date}.log` // 创建文件名格式为 '时间.log' (2023-02-01.log)
 
   const logsPath = path.resolve(app.getPath('userData'), 'log')
 
@@ -29,12 +28,9 @@ export async function initLogger() {
     })
   }
 
-  console.error(3)
+  const resolvePathFn = path.resolve(logsPath, `${date}.log`)
 
-
-
-  const resolvePathFn = path.resolve(logsPath, date + '.log')
-
+  // eslint-disable-next-line no-console
   console.log('logsPath-------------****-----------', resolvePathFn) // 获取到安装目录的文件夹名称
 
   // 指定日志文件夹位置
@@ -60,5 +56,5 @@ export default {
   },
   silly(param) {
     logger.silly(param)
-  }
+  },
 }

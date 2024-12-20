@@ -27,7 +27,6 @@ declare type EmitType = (event: any, ...args: any[]) => void
 
 declare type ElRef<T extends HTMLElement = HTMLDivElement> = Nullable<T>
 
-declare type ComponentRef<T extends HTMLElement = HTMLDivElement> = ComponentElRef<T> | null;
 
 declare type TimeoutHandle = ReturnType<typeof setTimeout>
 
@@ -43,25 +42,22 @@ declare interface ChangeEvent extends Event {
   target: HTMLInputElement;
 }
 
-declare interface PageDataWrap<T> {
-  rows: T[]
-  total: number
-}
 
-declare interface IFileItem {
-  fileCode: string
-  fileName: string
-  tableName: string
-  objectId: string
-  fileFormat: string
-  fileType: string
-  fileUrl: string
-  fileTime: string
-  userCode: string
-}
 
 declare type TypeLabelValueOptions<T> = {
   label: string;
   value: T | any;
   [key: string]: string | number | boolean;
 }[];
+
+// 分页查询接口返回容器
+declare interface PageDataWrap<T> {
+  rows: T[]
+  total: number
+}
+
+// 分页接口入参容器
+declare interface IPageSearchPar {
+  pageSize: number
+  pageNo: number
+}

@@ -1,30 +1,33 @@
 <template>
   <a-modal
-      width="700px"
-      v-model:visible="visible"
-      title="系统应用管理"
-      cancel-text="取消"
-      ok-text="确认"
-      @ok="handleOk">
-
+    width="700px"
+    v-model:visible="visible"
+    title="系统应用管理"
+    cancel-text="取消"
+    ok-text="确认"
+    @ok="handleOk"
+  >
     <a-form
-        layout="horizontal"
-        :model="formState"
-        :rules="rules"
-        :labelCol="{ span: 4 }"
-        :wrapperCol="{ span: 18 }"
-        ref="formRef"
+      layout="horizontal"
+      :model="formState"
+      :rules="rules"
+      :label-col="{ span: 4 }"
+      :wrapper-col="{ span: 18 }"
+      ref="formRef"
     >
       <a-form-item label="项目中文名称" name="projectName">
         <a-input v-model:value="formState.projectName" placeholder="项目名称"></a-input>
       </a-form-item>
 
       <a-form-item label="仓库地址" name="gitUrl">
-        <a-input @input="handleChangeGitUrl" v-model:value="formState.gitUrl" ></a-input>
+        <a-input  v-model:value="formState.gitUrl"></a-input>
       </a-form-item>
 
       <a-form-item label="项目目录" name="folderPath">
-        <a-input v-model:value="formState.folderPath" placeholder="请选择项目地址">
+        <a-input v-model:value="formState.folderPath" disabled placeholder="请选择项目地址">
+          <template #addonAfter>
+            <FolderOutlined @click="handleSelectFolderPath"></FolderOutlined>
+          </template>
         </a-input>
       </a-form-item>
 
@@ -32,25 +35,21 @@
         <Adcd @change="handleChangeAdcd" v-model:value="formState.adcd"></Adcd>
       </a-form-item>
 
-<!--      <a-form-item label="启动工具" name="exeId">-->
-<!--        <AppCardSelect v-model:active="formState.exeId"></AppCardSelect>-->
-<!--      </a-form-item>-->
-
-
+      <a-form-item label="启动工具" name="exeId">
+        <AppCardSelect v-model:active="formState.exeId"></AppCardSelect>
+      </a-form-item>
 
       <a-form-item label="测试环境地址" name="projectDevUrl">
-        <a-input v-model:value="formState.projectDevUrl" ></a-input>
+        <a-input v-model:value="formState.projectDevUrl"></a-input>
       </a-form-item>
 
       <a-form-item label="生产环境地址" name="projectProdUrl">
-        <a-input v-model:value="formState.projectProdUrl" ></a-input>
+        <a-input v-model:value="formState.projectProdUrl"></a-input>
       </a-form-item>
 
       <a-form-item label="备注信息" name="remark">
-        <a-textarea v-model:value="formState.remark" ></a-textarea>
+        <a-textarea v-model:value="formState.remark"></a-textarea>
       </a-form-item>
-
-
     </a-form>
   </a-modal>
 </template>
@@ -59,19 +58,19 @@
 import { UnwrapRef } from 'vue'
 import AppCardSelect from '@/components/AppCardSelect.vue'
 import Adcd from '@/components/Adcd/index.vue'
-import { createProject } from '@/ipc/project'
+import { createProject, getFolderPath } from '@/ipc/project'
 import { ICreateProjectVo } from '#vo/ProjectVo'
+import { FolderOutlined } from '@ant-design/icons-vue'
 
 const emit = defineEmits(['refresh'])
 const visible = defineModel('visible', { type: Boolean })
-
 
 const formRef = ref()
 const rules = {
   projectName: [{ required: true, message: '请填写项目名称' }],
   adcd: [{ required: true, message: '请选择项目所在区域' }],
   folderPath: [{ required: true, message: '请填写项目目录，' }],
-  // exeId: [{ required: true, message: '请选择项目启动方式' }],
+  exeId: [{ required: true, message: '请选择项目启动方式' }],
   gitUrl: [{ required: true, message: '请填写项目git地址' }],
 }
 
@@ -81,30 +80,34 @@ const formState: UnwrapRef<ICreateProjectVo> = reactive({
   adName: '',
   folderPath: '',
   remark: '',
-  exeId: '',
+  exeId: undefined,
   gitUrl: '',
   projectDevUrl: '',
   projectProdUrl: '',
   // language: '',
 })
 
-function handleChangeGitUrl(event: any) {
-  const url = event?.target?.value
-  let { pathname } = new URL(url)
-  if (pathname.endsWith('/')) {
-    pathname = pathname.slice(0, -1)
-  }
-  const name = pathname.split('/').at(-1)
-  if (!name) {
-    console.log('git仓库地址错误');
-    return
-  }
-  formState.folderPath = name
-}
+// function handleChangeGitUrl(event: any) {
+//   const url = event?.target?.value
+//   let { pathname } = new URL(url)
+//   if (pathname.endsWith('/')) {
+//     pathname = pathname.slice(0, -1)
+//   }
+//   const name = pathname.split('/').at(-1)
+//   if (!name) {
+//     return
+//   }
+//   formState.folderPath = name
+// }
 
 // 修改行政区划
 function handleChangeAdcd(_adcd: string, adcdItem: any) {
   formState.adName = adcdItem.name
+}
+
+async function handleSelectFolderPath() {
+  const res = await getFolderPath()
+  formState.folderPath = res
 }
 
 async function handleOk() {

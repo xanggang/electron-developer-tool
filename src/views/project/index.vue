@@ -1,35 +1,38 @@
 <template>
   <div class="app-page-content">
     <a-form
-        layout="inline"
-        :model="formState"
-        @finish="handleFinish"
+      layout="inline"
+      :model="formState"
     >
       <a-form-item>
         <a-select
-            v-model:value="formState.adcd"
-            :options="adcdOptions"
-            class="w-2xl!"
-            placeholder="行政区划"></a-select>
+          v-model:value="formState.adcd"
+          :options="adcdOptions"
+          class="w-2xl!"
+          placeholder="行政区划"
+        ></a-select>
       </a-form-item>
       <a-form-item>
         <a-select
-            v-model:value="formState.language"
-            :options="languageOptions"
-            class="w-2xl!"
-            placeholder="语言"></a-select>
+          v-model:value="formState.language"
+          :options="languageOptions"
+          class="w-2xl!"
+          placeholder="语言"
+        ></a-select>
       </a-form-item>
       <a-form-item>
         <a-input
-            class="w-2xl!"
-            v-model:value="formState.projectName"
-            placeholder="项目名称"></a-input>
+          class="w-2xl!"
+          v-model:value="formState.projectName"
+          placeholder="项目名称"
+        ></a-input>
       </a-form-item>
       <a-form-item>
         <a-input
-            class="w-2xl!"
-            v-model:value="formState.state"
-            placeholder="项目状态"></a-input>
+          class="w-2xl!"
+          v-model:value="formState.state"
+          placeholder="项目状态"
+        ></a-input>
       </a-form-item>
       <a-form-item>
         <a-button type="primary" @click="getPageData">搜索</a-button>
@@ -41,54 +44,50 @@
 
     <div class="card-wrap">
       <ProjectCard
-          v-for="project in dataList"
-          class="w-280!"
-          :key="project.id"
-          :project="project"
+        v-for="project in dataList"
+        class="w-280!"
+        :key="project.id"
+        :project="project"
       ></ProjectCard>
     </div>
     <a-pagination
-        v-model:current="pagination.current"
-        :total="pagination.total"
-        show-less-items
-        @change="handleChangePagination"
-    />
-
-
+      v-model:current="pagination.current"
+      :total="pagination.total"
+      show-less-items
+      @change="handleChangePagination"
+    ></a-pagination>
 
     <AppSetting v-model:visible="visibleAppSetting"></AppSetting>
     <ProjectSetting
-        v-if="visibleProjectSetting"
-        v-model:visible="visibleProjectSetting"
-        @refresh="getPageData"
+      v-if="visibleProjectSetting"
+      v-model:visible="visibleProjectSetting"
+      @refresh="getPageData"
     ></ProjectSetting>
   </div>
 </template>
 <script lang="ts" setup>
 import type { UnwrapRef } from 'vue'
-import type { FormProps } from 'ant-design-vue'
+import { getProjectPageList } from '@/ipc/project'
+import { IProject } from '#vo/ProjectVo'
 import ProjectCard from './ProjectCard.vue'
 import AppSetting from './AppSetting.vue'
 import ProjectSetting from './ProjectSetting.vue'
-import { getProjectList } from '@/ipc/project'
-import { IProject } from '#vo/ProjectVo'
-
 
 function useSearch() {
   const adcdOptions = [
     {
       label: '湖北省',
-      value: '33'
-    }
+      value: '33',
+    },
   ]
   const languageOptions = [
     {
       label: 'javascript',
-      value: 'javascript'
+      value: 'javascript',
     },
     {
       label: 'java',
-      value: 'java'
+      value: 'java',
     },
   ]
 
@@ -101,30 +100,22 @@ function useSearch() {
 
   const formState: UnwrapRef<FormState> = reactive({
     adcd: '33',
-    projectName:'',
+    projectName: '',
     language: '',
-    state: ''
+    state: '',
   })
-
-  const handleFinish: FormProps['onFinish'] = values => {
-    console.log(values, formState)
-  }
 
   return {
     adcdOptions,
     languageOptions,
     formState,
-    handleFinish,
   }
 }
-
-getProjectList()
 
 const {
   adcdOptions,
   languageOptions,
   formState,
-  handleFinish,
 } = useSearch()
 
 const dataList = ref<IProject[]>([])
@@ -138,22 +129,18 @@ function handleChangePagination(e) {
   getPageData()
 }
 
-
 async function getPageData() {
-  // const res = await ProjectDb.getPageList({
-  //   pageNo: pagination.current,
-  //   pageSize: 1,
-  //   projectName: '11',
-  //   adcd: '3301'
-  // })
-  // console.log(res);
-  // pagination.total = res.total
-  // console.log(res)
-  // dataList.value = res
+  const res = await getProjectPageList({
+    pageNo: pagination.current,
+    pageSize: 1,
+    ...formState,
+  })
+  console.warn('rows', res.rows)
+  pagination.total = res.total
+  dataList.value = res.rows
 }
 
 onMounted(getPageData)
-
 
 const visibleAppSetting = defineModel('visibleAppSetting')
 
@@ -161,7 +148,7 @@ function openAppSetting() {
   visibleAppSetting.value = true
 }
 
-const visibleProjectSetting= defineModel('visibleProjectSetting', { default: false })
+const visibleProjectSetting = defineModel('visibleProjectSetting', { default: false })
 
 function openProjectSetting() {
   visibleProjectSetting.value = true

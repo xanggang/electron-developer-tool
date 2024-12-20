@@ -7,7 +7,7 @@ import logger from '../common/logger'
  */
 export function setUpMenu() {
   const menu = new Menu()
-  console.log('setUpMenu')
+  logger.debug('setUpMenu')
   menu.append(new MenuItem({
     label: 'Electron',
     submenu: [{

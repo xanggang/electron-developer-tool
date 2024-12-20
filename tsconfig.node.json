@@ -4,10 +4,10 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "#vo/*": ["Vo/*"]
+    }
   },
-  "paths": {
-    "#vo/*": ["Vo/*"]
-  },
-  "include": ["vite.config.ts", "package.json", "electron", "Vo"]
+  "include": ["vite.config.ts", "package.json", "electron", "Vo", "types/**/*.d.ts"]
 }

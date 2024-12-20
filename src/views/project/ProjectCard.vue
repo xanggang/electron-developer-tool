@@ -2,23 +2,28 @@
   <div class="project-card w-full border">
     <div class="flex justify-between items-center">
       <div class="border p-6 border-rd-[50%] flex-center">
-        <img class="w-40 h-40" src="@/assets/vite.svg" alt="">
+        <img class="w-40 h-40" src="@/assets/vite.svg" alt="" />
       </div>
 
       <div class="flex justify-end items-end">
         <div class=" flex-center text-white bg-gray border-rd-[50%] font-size-15 w-30 h-30 cursor-pointer">
-          <folder-open-outlined />
-<!--          打开项目-->
+          <a-tooltip>
+            <template #title>打开项目地址</template>
+            <folder-open-outlined @click="handleOpenFolder"></folder-open-outlined>
+          </a-tooltip>
+
+          <!--          打开项目-->
         </div>
 
         <div class="ml-12  flex-center text-white bg-gray border-rd-[50%] font-size-15 w-30 h-30">
-          <folder-open-outlined />
-<!--          打开文件夹-->
+<!--          <img :src="" alt="">-->
+          <folder-open-outlined @click="handleOpenProjectByStarter"></folder-open-outlined>
+          <!--          打开文件夹-->
         </div>
 
         <div class="ml-12 flex-center text-white bg-gray border-rd-[50%] font-size-15 w-30 h-30">
-          <folder-open-outlined />
-<!--          访问地址-->
+          <folder-open-outlined></folder-open-outlined>
+          <!--          访问地址-->
         </div>
       </div>
     </div>
@@ -38,12 +43,23 @@
 </template>
 
 <script lang="ts" setup>
-import { FolderOpenOutlined }  from '@ant-design/icons-vue'
-// import type { IProject } from '@/db/project'
+import { FolderOpenOutlined } from '@ant-design/icons-vue'
+import { openFolder } from '@/ipc/fileSys'
+import type { IProject } from '#vo/ProjectVo'
+import { openProjectByStarter } from '@/ipc/project'
 
 const props = defineProps<{
-  project: object
+  project: IProject
 }>()
+
+function handleOpenFolder() {
+  openFolder(props.project.folderPath)
+}
+
+async function handleOpenProjectByStarter() {
+  const res = await openProjectByStarter(props.project.id!)
+  console.log(res)
+}
 </script>
 
 <style scoped lang="less">

@@ -1,5 +1,7 @@
-import projectDb from './modal/Project'
+import ProjectDb from './modal/Project'
+import StarterDb from './modal/Starter'
 
 export {
-  projectDb
+  ProjectDb,
+  StarterDb,
 }

@@ -1,7 +1,9 @@
 import path from 'node:path'
 import { app, BrowserWindow, shell } from 'electron'
-import { PRELOAD_URL, INDEX_HTML, VITE_DEV_SERVER_URL, VITE_PUBLIC } from './appConfig'
 import os from 'node:os'
+import {
+  PRELOAD_URL, INDEX_HTML, VITE_DEV_SERVER_URL, VITE_PUBLIC,
+} from './appConfig'
 import logger from '../common/logger'
 
 let win: BrowserWindow | null = null
@@ -54,10 +56,10 @@ export function createWindow() {
  * 启动app
  */
 export async function startApp() {
-  //关闭Windows 7的GPU加速
+  // 关闭Windows 7的GPU加速
   if (os.release().startsWith('6.1')) app.disableHardwareAcceleration()
 
-// 设置Windows 10+通知的应用程序名称
+  // 设置Windows 10+通知的应用程序名称
   if (process.platform === 'win32') app.setAppUserModelId(app.getName())
 
   if (!app.requestSingleInstanceLock()) {
@@ -91,7 +93,6 @@ export async function startApp() {
     }
   })
 }
-
 
 export function showWindow() {
   if (!win) {

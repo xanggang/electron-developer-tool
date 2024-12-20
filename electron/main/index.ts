@@ -5,9 +5,8 @@ import { setUpMenu, setUpShortcutKey } from './menu'
 import { setupMainAppConfig } from '../conf'
 import log, { initLogger } from '../common/logger'
 import { registerFileProtocol, setupFileProtocol } from '../utils/registerFileProtocol'
-import migrate from '../database/Migrate'
+import Migrate from '../database/Migrate'
 import { initDb } from '../database/DBConnect'
-
 
 async function start() {
 
@@ -39,7 +38,7 @@ async function start() {
   await initDb()
 
   // 创建表
-  await migrate.migrateRun()
+  await Migrate.migrateRun()
 }
 
 start()

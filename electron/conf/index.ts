@@ -2,11 +2,12 @@ import path from 'path'
 import { app } from 'electron'
 import fs from 'fs/promises'
 import { rimraf } from 'rimraf'
-import { IAppConfig } from './type'
+import type { IAppConfig } from './type'
 import { defaultConfig } from './default'
-
+import logger from '../common/logger'
 
 // 存放配置文件的地址
+// eslint-disable-next-line no-underscore-dangle
 let _configPath: string
 
 export function getSysConfigPath() {
@@ -25,7 +26,6 @@ export function getConfigPath() {
 export function getDbPath() {
   return path.resolve(app.getPath('userData'), 'data.db')
 }
-
 
 let cacheConfig: IAppConfig = null
 
@@ -62,11 +62,10 @@ export async function getAppConfig(): Promise<IAppConfig> {
   try {
     if (cacheConfig) {
       return cacheConfig
-    } else {
-      const rawConfig = await fs.readFile(getConfigPath(), 'utf8')
-      const rawJson = JSON.parse(rawConfig)
-      cacheConfig = rawJson
     }
+    const rawConfig = await fs.readFile(getConfigPath(), 'utf8')
+    const rawJson = JSON.parse(rawConfig)
+    cacheConfig = rawJson
   } catch (e) {
     if (e.message === 'Unexpected end of JSON input' || e.code === 'EISDIR') {
       // JSON 解析异常 / 非文件
@@ -84,9 +83,8 @@ export async function getAppConfig(): Promise<IAppConfig> {
 // 设置系统配置
 export async function setAppConfig(
   appConfig: IAppConfig,
-  retryTime = 1
+  retryTime = 1,
 ): Promise<boolean> {
-
   try {
     const rawConfig = JSON.stringify(appConfig, undefined, 4)
     await fs.writeFile(getConfigPath(), rawConfig, 'utf8')
@@ -94,7 +92,7 @@ export async function setAppConfig(
 
     return true
   } catch (e) {
-    console.log('SET CONFIG FAIL', e)
+    logger.debug('SET CONFIG FAIL')
     if (retryTime > 0) {
       if (e.code === 'EISDIR') {
         // 非文件
@@ -118,6 +116,6 @@ export async function setupMainAppConfig() {
 
 // 修改部分配置
 export async function setAppConfigPath(config: IAppConfig): Promise<boolean> {
-  const newConfig = Object.assign({}, config)
+  const newConfig = { ...config }
   return setAppConfig(newConfig)
 }

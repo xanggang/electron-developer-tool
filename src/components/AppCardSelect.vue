@@ -1,36 +1,34 @@
 <template>
   <div class="app-setting-card">
-    <div class="icon-wrap"
-         :class="{active: active === item.id}"
-         @click="handleSelect(item)"
-         v-for="(item, index) in appList"
-         :key="index">
-      <img :src="item.icon" alt="">
+    <div
+      class="icon-wrap"
+      :class="{active: active === item.id}"
+      @click="handleSelect(item)"
+      v-for="(item, index) in appList"
+      :key="index"
+    >
+      <img :src="item.icon" alt="" />
     </div>
   </div>
-
 </template>
 
 <script setup lang="ts">
-// import StarterDb, {IStarter} from "@/db/starter";
+import { getAllStarter } from '@/ipc/starter'
 
 interface IStarter {
   id: number
 }
 
 const appList = ref<any[]>([])
-const active = defineModel('active',{ type: Number })
+const active = defineModel('active', { type: Number })
 
 async function getAppList() {
-  // const res = await StarterDb.getAll()
-  // appList.value = res
+  appList.value = await getAllStarter()
 }
 
 onMounted(getAppList)
 
-
 function handleSelect(item: IStarter) {
-  console.log(item.id)
   active.value = item.id
 }
 
@@ -54,7 +52,6 @@ function handleSelect(item: IStarter) {
     cursor: pointer;
     padding: 5px;
     border: 1px solid #ececec;
-
 
     &.active {
       border-color: #ebedf1;
