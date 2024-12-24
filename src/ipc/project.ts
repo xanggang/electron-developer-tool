@@ -50,3 +50,19 @@ export function openProjectByStarter(id: number) {
   // const res = await window.ipcRenderer.invoke('openProjectByStarter', id)
   // return res
 }
+
+// 读取项目下的md文件
+export function getLocalFile(data: {
+  folderPath: string
+  fileName: string
+}) {
+  return request('getLocalFile', data)
+  // const res = await window.ipcRenderer.invoke('openProjectByStarter', id)
+  // return res
+}
+
+export function writeFileByPath(filePath: string[], fileContent: string) {
+  return request('writeFileByPath', filePath, fileContent)
+  // const res = await window.ipcRenderer.invoke('openProjectByStarter', id)
+  // return res
+}

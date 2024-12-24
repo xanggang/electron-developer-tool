@@ -22,7 +22,7 @@
         <SvgIcon
           class="cursor-pointer w-30 h-30"
           name="nootbook"
-          @click="handleOpenFolder"
+          @click="handleShowMd"
         ></SvgIcon>
         <!--            <folder-open-outlined @click="handleOpenFolder"></folder-open-outlined>-->
       </a-tooltip>
@@ -71,7 +71,7 @@ const props = defineProps<{
   project: IProjectVo
 }>()
 
-const emits = defineEmits(['edit'])
+const emits = defineEmits(['edit', 'showMd', 'refresh'])
 
 function handleOpenFolder() {
   openFolder(props.project.folderPath)
@@ -88,6 +88,7 @@ async function handleSelectMenu(e: any) {
       content: h('div', { style: 'color:red;' }, '删除后不可恢复，请确认'),
       async onOk() {
         await deleteProject(props.project.id!)
+        emits('refresh')
       },
       class: 'test',
     })
@@ -100,6 +101,14 @@ async function handleSelectMenu(e: any) {
 
 function getLanguageName(e: LANGUAGE_ENUMS) {
   return LANGUAGE_ENUMS[e] || '-'
+}
+
+async function handleShowMd() {
+  emits('showMd')
+  // const res = await getLocalFile({
+  //   folderPath: props.project.folderPath,
+  //   fileName: 'README.md',
+  // })
 }
 </script>
 

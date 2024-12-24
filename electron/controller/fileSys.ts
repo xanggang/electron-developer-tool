@@ -4,7 +4,6 @@ import path from 'node:path'
 import { writeFile } from 'node:fs/promises'
 import { WriteFileOptions } from 'fs'
 import { mkdirp } from 'mkdirp'
-import { execCommand } from '../utils/cmd'
 import { getAppConfig, getSysConfigPath } from '../conf'
 import { handle, on } from '../decorator/ipc'
 import logger from '../common/logger'
@@ -67,7 +66,7 @@ export class FileController {
    * flush <boolean> 如果所有数据都成功写入文件，并且 flush 是 true，则使用 fs.fsyncSync() 来刷新数据。
    */
   @handle
-  static writeFileAsync(filePath, fileContent, options?: WriteFileOptions) {
+  static writeFileAsync(filePath: string, fileContent:any, options?: WriteFileOptions) {
     fs.writeFileSync(filePath, fileContent, options)
     return Payload.success(true)
   }
@@ -79,19 +78,11 @@ export class FileController {
    * @param options
    */
   @handle
-  static async writeFileByPath(filePath, fileContent, options?: WriteFileOptions) {
-    await writeFile(filePath, fileContent, options)
-    return Payload.success(true)
-  }
-
-  /**
-   * 使用idea打开指定文件夹
-   */
-  @handle
-  static async openProject() {
-    const ideaPath = 'E:\\app\\WebStorm 2023.2.5\\bin\\webstorm64.exe'
-    const projectPath = 'E:\\www\\my\\guge'
-    await execCommand(`"${ideaPath}" "${projectPath}"`)
+  static async writeFileByPath(filePath: string | string[], fileContent:any, options?: WriteFileOptions) {
+    const pathString = Array.isArray(filePath)
+      ? path.join(...filePath)
+      : filePath
+    await writeFile(pathString, fileContent, options)
     return Payload.success(true)
   }
 
@@ -103,7 +94,7 @@ export class FileController {
   static async createFileSys(projectName: string) {
     const config = await getAppConfig()
     const { projectRoot } = config
-    const projectPath = path.join(projectRoot, projectName)
+    const projectPath = path.join(projectRoot!, projectName)
     if (fs.existsSync(projectPath)) {
       dialog.showMessageBoxSync({
         message: `${projectName}该项目已存在， 不可创建`,
@@ -126,7 +117,7 @@ export class FileController {
       return Payload.success(true)
     } catch (e) {
       logger.error(e)
-      throw new Error(e)
+      throw new Error(e as string)
     }
   }
 
@@ -137,6 +128,27 @@ export class FileController {
   static async getLocalImage(imagePath: string) {
     try {
       const imageBuffer = await fs.promises.readFile(imagePath)
+      return Payload.success(imageBuffer)
+    } catch (error) {
+      console.error('Error reading image file:', error)
+      throw error
+    }
+  }
+
+  /**
+   * 读取目录下的某个文件
+   */
+  @handle
+  static async getLocalFile({ fileName, folderPath }: {
+    folderPath: string
+    fileName: string
+  }) {
+    const filePath = path.join(folderPath, fileName)
+    if (!fs.existsSync(filePath)) {
+      return Payload.error('文件不存在')
+    }
+    try {
+      const imageBuffer = await fs.promises.readFile(filePath, 'utf8')
       return Payload.success(imageBuffer)
     } catch (error) {
       console.error('Error reading image file:', error)

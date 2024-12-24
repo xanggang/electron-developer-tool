@@ -12,6 +12,12 @@ const project = [
         meta: { title: '后台管理' },
         children: [],
       },
+      {
+        path: '/project/test',
+        component: () => import('@/views/sys/index.vue'),
+        meta: { title: '后台管理' },
+        children: [],
+      },
     ],
   },
 ]

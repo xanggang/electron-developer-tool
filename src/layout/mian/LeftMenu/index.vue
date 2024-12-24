@@ -27,6 +27,12 @@ const items = reactive([
     label: '项目管理',
     type: '',
   },
+  {
+    key: '/project/test',
+    icon: '',
+    label: '测试',
+    type: '',
+  },
   // {
   //   key: '2',
   //   icon: '',

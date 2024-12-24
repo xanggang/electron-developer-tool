@@ -42,11 +42,12 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^7.0.1",
+    "@vavt/v3-extension": "^2.1.0",
     "@vue/eslint-config-typescript": "^11.0.2",
+    "add": "^2.0.6",
     "ant-design-vue": "4.x",
     "axios": "^1.7.7",
     "cross-env": "^7.0.3",
-    "editor.md": "^1.5.0",
     "electron-log": "^5.2.0",
     "eslint": "^7.32.0 || ^8.2.0",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -63,6 +64,7 @@
     "sqlite3": "^5.1.7",
     "unocss": "^0.63.4",
     "vite-plugin-svg-icons": "^2.0.1",
-    "vue-router": "^4.4.5"
+    "vue-router": "^4.4.5",
+    "yarn": "^1.22.22"
   }
 }

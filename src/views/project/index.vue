@@ -51,6 +51,8 @@
         class="w-280!"
         :key="project.id"
         :project="project"
+        @refresh="handelSearch"
+        @show-md="handleShowMd(project)"
         @edit="handleEdit(project)"
       ></Card>
     </div>
@@ -71,6 +73,8 @@
       @refresh="handelSearch"
       :project="editProject"
     ></ProjectSetting>
+
+    <MdView v-if="visibleMd" v-model:visible="visibleMd" :project="editProject"></MdView>
   </div>
 </template>
 <script lang="ts" setup>
@@ -80,6 +84,7 @@ import { IProjectVo } from '#vo/ProjectVo'
 import Adcd from '@/components/Adcd/index.vue'
 import AppSetting from './AppSetting.vue'
 import ProjectSetting from './ProjectSetting.vue'
+import MdView from './MdView.vue'
 import Card from './Card.vue'
 import { LANGUAGE_ENUMS, LANGUAGE_OPTIONS } from '../../../enums/language'
 
@@ -136,6 +141,12 @@ function openProjectSetting() {
 function handleEdit(project: IProjectVo) {
   editProject.value = project
   visibleProjectSetting.value = true
+}
+
+const visibleMd = ref(false)
+async function handleShowMd(project: IProjectVo) {
+  editProject.value = project
+  visibleMd.value = true
 }
 </script>
 

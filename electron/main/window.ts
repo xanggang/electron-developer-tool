@@ -44,10 +44,16 @@ export function createWindow() {
 
   // Make all links open with the browser, not with the application
   win.webContents.setWindowOpenHandler(({ url }) => {
-    if (url.startsWith('https:')) shell.openExternal(url)
+    if (url.startsWith('http')) shell.openExternal(url)
     return { action: 'deny' }
   })
-  // win.webContents.on('will-navigate', (event, url) => { }) #344
+  win.webContents.on('will-navigate', (event, url) => {
+    if (url.startsWith('http')) {
+      logger.info(`跳转到外部地址${url}`)
+      event.preventDefault()
+      shell.openExternal(url)
+    }
+  })
 
   return win
 }
@@ -97,6 +103,7 @@ export async function startApp() {
 export function showWindow() {
   if (!win) {
     logger.error('window: 快捷键唤起窗口时， win不存在')
+    return
   }
   if (!win.isFocused()) {
     win.show()
@@ -115,5 +122,6 @@ export function sendWebContentsSend() {
 }
 
 export function openDevTools() {
+  if (!win) return
   win.webContents.openDevTools()
 }
