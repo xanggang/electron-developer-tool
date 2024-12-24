@@ -1,7 +1,7 @@
 <template>
   <a-modal
     width="700px"
-    v-model:visible="visible"
+    v-model:open="visible"
     title="系统应用管理"
     cancel-text="取消"
     ok-text="确认"
@@ -20,7 +20,7 @@
       </a-form-item>
 
       <a-form-item label="仓库地址" name="gitUrl">
-        <a-input  v-model:value="formState.gitUrl"></a-input>
+        <a-input v-model:value="formState.gitUrl"></a-input>
       </a-form-item>
 
       <a-form-item label="项目目录" name="folderPath">
@@ -33,6 +33,14 @@
 
       <a-form-item label="项目所属区域" name="adcd">
         <Adcd @change="handleChangeAdcd" v-model:value="formState.adcd"></Adcd>
+      </a-form-item>
+
+      <a-form-item label="语言" name="language">
+        <a-select
+          v-model:value="formState.language"
+          :options="LANGUAGE_OPTIONS"
+          placeholder="语言"
+        ></a-select>
       </a-form-item>
 
       <a-form-item label="启动工具" name="exeId">
@@ -58,10 +66,14 @@
 import { UnwrapRef } from 'vue'
 import AppCardSelect from '@/components/AppCardSelect.vue'
 import Adcd from '@/components/Adcd/index.vue'
-import { createProject, getFolderPath } from '@/ipc/project'
-import { ICreateProjectVo } from '#vo/ProjectVo'
+import { createProject, editProject, getFolderPath } from '@/ipc/project'
+import { ICreateProjectVo, IProjectVo } from '#vo/ProjectVo'
 import { FolderOutlined } from '@ant-design/icons-vue'
+import { LANGUAGE_OPTIONS } from '../../../enums/language'
 
+const props = defineProps<{
+  project: IProjectVo | null
+}>()
 const emit = defineEmits(['refresh'])
 const visible = defineModel('visible', { type: Boolean })
 
@@ -74,7 +86,7 @@ const rules = {
   gitUrl: [{ required: true, message: '请填写项目git地址' }],
 }
 
-const formState: UnwrapRef<ICreateProjectVo> = reactive({
+const formState: UnwrapRef<Partial<ICreateProjectVo>> = reactive({
   projectName: '',
   adcd: '',
   adName: '',
@@ -84,8 +96,24 @@ const formState: UnwrapRef<ICreateProjectVo> = reactive({
   gitUrl: '',
   projectDevUrl: '',
   projectProdUrl: '',
-  // language: '',
+  state: 0,
+  language: undefined,
 })
+
+watch(() => visible.value, (isOpen) => {
+  if (!isOpen) return
+  if (props.project?.id) {
+    formState.projectName = props.project.projectName
+    formState.adcd = props.project.adcd
+    formState.folderPath = props.project.folderPath
+    formState.remark = props.project.remark
+    formState.exeId = props.project.exeId
+    formState.gitUrl = props.project.gitUrl
+    formState.projectDevUrl = props.project.projectDevUrl
+    formState.projectProdUrl = props.project.projectProdUrl
+    formState.language = props.project.language
+  }
+}, { deep: true, immediate: true })
 
 // function handleChangeGitUrl(event: any) {
 //   const url = event?.target?.value
@@ -112,7 +140,14 @@ async function handleSelectFolderPath() {
 
 async function handleOk() {
   await formRef.value.validate()
-  await createProject(toRaw(formState))
+  if (props.project?.id) {
+    await editProject({
+      ...toRaw(formState),
+      id: props.project.id,
+    })
+  } else {
+    await createProject(toRaw(formState))
+  }
   visible.value = false
   emit('refresh')
 }

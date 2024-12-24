@@ -1,7 +1,6 @@
 import { IStarter } from '#vo/Starter'
 import DB from '../DBConnect'
 import logger from '../../common/logger'
-import { IProject } from '../../../Vo/ProjectVo'
 
 // 启动器
 class StarterDb {

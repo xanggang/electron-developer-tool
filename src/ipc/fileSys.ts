@@ -1,5 +1,5 @@
+import request from '@/utils/IPCUtil'
+
 export async function openFolder(path: string) {
-  console.log(1)
-  const res = await window.ipcRenderer.invoke('openFolder', path)
-  return res
+  return request('openFolder', path)
 }

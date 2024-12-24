@@ -1,8 +1,8 @@
 import { handle, on } from '../decorator/ipc'
 import { getMainWindow } from '../main/window'
+import Payload from '../common/payload'
 
 export default class ConfigController {
-
   /**
    * 顶部操作-最小化窗口
    * @param event
@@ -10,15 +10,15 @@ export default class ConfigController {
    */
   @on
   static async handMinWindow({ skipTaskBar }:any) {
-    const mainWindow = getMainWindow();
-    console.log(skipTaskBar)
+    const mainWindow = getMainWindow()
     if (mainWindow) {
       if (skipTaskBar) {
-        mainWindow.hide();
-        mainWindow.setSkipTaskbar(true);
+        mainWindow.hide()
+        mainWindow.setSkipTaskbar(true)
       } else {
-        mainWindow.minimize();
+        mainWindow.minimize()
       }
+      return Payload.success(true)
     }
   }
 }

@@ -1,3 +1,6 @@
+import { IStarter } from './Starter'
+import { LANGUAGE_ENUMS } from '../enums/language'
+
 export interface IProject {
   id?: number
   projectName: string // 項目名称，
@@ -10,11 +13,17 @@ export interface IProject {
   adName: string // 备注
   adcd: string // 行政区划分类
   state?: number
+  language?: LANGUAGE_ENUMS
 }
 
-export type ICreateProjectVo = Omit<IProject, 'id'>
+export type ICreateProjectVo = IProject
 
 export interface IProjectSearchVo extends IPageSearchPar{
-  projectName: string
-  adcd:string
+  projectName?: string
+  adcd?: string
+  language?: LANGUAGE_ENUMS
+}
+
+export interface IProjectVo extends IProject {
+  starter?: IStarter
 }

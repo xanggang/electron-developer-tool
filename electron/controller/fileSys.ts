@@ -8,6 +8,7 @@ import { execCommand } from '../utils/cmd'
 import { getAppConfig, getSysConfigPath } from '../conf'
 import { handle, on } from '../decorator/ipc'
 import logger from '../common/logger'
+import Payload from '../common/payload'
 
 // 文件系统相关
 export class FileController {
@@ -24,6 +25,7 @@ export class FileController {
     } else {
       logger.warn(`指定的文件夹不存在:${folderPath}`)
     }
+    return Payload.success(true)
   }
 
   /**
@@ -33,9 +35,9 @@ export class FileController {
   static async getFilePath() {
     const { canceled, filePaths } = await dialog.showOpenDialog({})
     if (!canceled) {
-      return filePaths[0]
+      return Payload.success(filePaths[0])
     }
-    return ''
+    return Payload.success('')
   }
 
   /**
@@ -47,9 +49,9 @@ export class FileController {
       properties: ['openDirectory'],
     })
     if (!canceled) {
-      return filePaths[0]
+      return Payload.success(filePaths[0])
     }
-    return ''
+    return Payload.success('')
   }
 
   /**
@@ -67,6 +69,7 @@ export class FileController {
   @handle
   static writeFileAsync(filePath, fileContent, options?: WriteFileOptions) {
     fs.writeFileSync(filePath, fileContent, options)
+    return Payload.success(true)
   }
 
   /**
@@ -77,8 +80,8 @@ export class FileController {
    */
   @handle
   static async writeFileByPath(filePath, fileContent, options?: WriteFileOptions) {
-    return writeFile(filePath, fileContent, options)
-      .then((res) => ({ success: true }))
+    await writeFile(filePath, fileContent, options)
+    return Payload.success(true)
   }
 
   /**
@@ -89,7 +92,7 @@ export class FileController {
     const ideaPath = 'E:\\app\\WebStorm 2023.2.5\\bin\\webstorm64.exe'
     const projectPath = 'E:\\www\\my\\guge'
     const res = await execCommand(`"${ideaPath}" "${projectPath}"`)
-    // E:\app\WebStorm 2023.2.5\bin
+    return Payload.success(true)
   }
 
   /**
@@ -98,10 +101,8 @@ export class FileController {
    */
   @handle
   static async createFileSys(projectName: string) {
-    console.log(projectName)
     const config = await getAppConfig()
     const { projectRoot } = config
-    console.log(projectRoot)
     const projectPath = path.join(projectRoot, projectName)
     if (fs.existsSync(projectPath)) {
       dialog.showMessageBoxSync({
@@ -122,6 +123,7 @@ export class FileController {
       mkdirp(homePath)
       mkdirp(designPath)
       mkdirp(taskPath)
+      return Payload.success(true)
     } catch (e) {
       logger.error(e)
       throw new Error(e)
@@ -135,7 +137,7 @@ export class FileController {
   static async getLocalImage(imagePath: string) {
     try {
       const imageBuffer = await fs.promises.readFile(imagePath)
-      return imageBuffer
+      return Payload.success(imageBuffer)
     } catch (error) {
       console.error('Error reading image file:', error)
       throw error
@@ -147,14 +149,13 @@ export class FileController {
    */
   @on
   static async openDbFile() {
-    const path = getSysConfigPath()
-    console.log('folderPath', path)
+    const filePath = getSysConfigPath()
     // 检查路径是否存在
-    if (fs.existsSync(path)) {
+    if (fs.existsSync(filePath)) {
       // 使用 shell 模块打开文件夹
-      shell.openPath(path)
-    } else {
-      console.log('指定的文件夹不存在:', path)
+      shell.openPath(filePath)
+      return Payload.success(true)
     }
+    console.warn('指定的文件夹不存在:', path)
   }
 }

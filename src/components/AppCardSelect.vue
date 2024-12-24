@@ -20,7 +20,7 @@ interface IStarter {
 }
 
 const appList = ref<any[]>([])
-const active = defineModel('active', { type: Number })
+const active = defineModel('active', { type: [Number, String] })
 
 async function getAppList() {
   appList.value = await getAllStarter()

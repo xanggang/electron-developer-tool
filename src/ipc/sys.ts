@@ -1,4 +1,3 @@
-
 // 最小化
 export function ipcMinWindow() {
   window.ipcRenderer.send('handMinWindow', { skipTaskBar: false })

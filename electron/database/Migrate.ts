@@ -6,7 +6,7 @@ class Migrate {
   // 表列表
   static tableList: any[] = [
     Project,
-    Starter,
+    Starter
   ]
 
   // 迁移表

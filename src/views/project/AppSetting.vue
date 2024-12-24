@@ -1,7 +1,7 @@
 <template>
   <a-modal
     width="700px"
-    v-model:visible="visible"
+    v-model:open="visible"
     ok-text="确认"
     cancel-text="取消"
     @ok="handleOk"
@@ -14,7 +14,7 @@
     <a-table :data-source="dataSource" :columns="columns" :pagination="false">
       <template #bodyCell="{ column, record }">
         <template v-if="column.dataIndex === 'icon'">
-          <img :src="record.icon" class="w100 h100" alt="" />
+          <img :src="record.icon" class="w50 h50" alt="" />
         </template>
         <template v-if="column.dataIndex === 'action'">
           <a-button danger type="link" @click="handleDelete(record)">删除</a-button>

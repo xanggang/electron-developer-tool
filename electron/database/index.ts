@@ -3,5 +3,5 @@ import StarterDb from './modal/Starter'
 
 export {
   ProjectDb,
-  StarterDb,
+  StarterDb
 }

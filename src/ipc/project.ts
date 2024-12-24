@@ -1,33 +1,52 @@
-import { IProject, ICreateProjectVo, IProjectSearchVo } from '#vo/ProjectVo'
+import { ICreateProjectVo, IProjectSearchVo, IProjectVo } from '#vo/ProjectVo'
+import request from '@/utils/IPCUtil'
 
 // 打开弹窗， 获取一个文件的位置
-export async function getFilePath() {
-  const res = await window.ipcRenderer.invoke('getFilePath')
-  return res
+export function getFilePath() {
+  return request('getFilePath')
+  // const res = await window.ipcRenderer.invoke('getFilePath')
+  // return res
 }
 
 // 打开弹窗， 获取一个文件的位置
-export async function getFolderPath() {
-  const res = await window.ipcRenderer.invoke('getFolderPath')
-  return res
+export function getFolderPath() {
+  return request<string>('getFolderPath')
+  // const res = await window.ipcRenderer.invoke('getFolderPath')
+  // return res
 }
 
-export async function getProjectList(data: IProjectSearchVo) {
-  const res = await window.ipcRenderer.invoke('getAllProjectList', data)
-  return res
+export function getProjectList(data: IProjectSearchVo) {
+  return request('getAllProjectList', data)
+  // const res = await window.ipcRenderer.invoke('getAllProjectList', data)
+  // return res
 }
 
-export async function getProjectPageList(data: IProjectSearchVo): Promise<PageDataWrap<IProject>> {
-  const res = await window.ipcRenderer.invoke('getProjectPageList', data)
-  return res
+export function getProjectPageList(data: IProjectSearchVo) {
+  return request<PageDataWrap<IProjectVo>>('getProjectPageList', data)
+  // const res = await window.ipcRenderer.invoke('getProjectPageList', data)
+  // return res
 }
 
-export async function createProject(project: ICreateProjectVo) {
-  const res = await window.ipcRenderer.invoke('createProject', project)
-  return res
+export function createProject(project: Partial<ICreateProjectVo>) {
+  return request('createProject', project)
+  // const res = await window.ipcRenderer.invoke('createProject', project)
+  // return res
 }
 
-export async function openProjectByStarter(id: number) {
-  const res = await window.ipcRenderer.invoke('openProjectByStarter', id)
-  return res
+export function editProject(project: Partial<ICreateProjectVo>) {
+  return request('editProject', project)
+  // const res = await window.ipcRenderer.invoke('createProject', project)
+  // return res
+}
+
+export function deleteProject(id: number) {
+  return request('deleteProject', id)
+  // const res = await window.ipcRenderer.invoke('createProject', project)
+  // return res
+}
+
+export function openProjectByStarter(id: number) {
+  return request('openProjectByStarter', id)
+  // const res = await window.ipcRenderer.invoke('openProjectByStarter', id)
+  // return res
 }

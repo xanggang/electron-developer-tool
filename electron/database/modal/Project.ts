@@ -1,7 +1,10 @@
 import omit from 'lodash-es/omit'
-import { IProject, ICreateProjectVo, IProjectSearchVo } from '#vo/ProjectVo'
+import {
+  IProject, ICreateProjectVo, IProjectSearchVo, IProjectVo,
+} from '#vo/ProjectVo'
 import DB from '../DBConnect'
 import logger from '../../common/logger'
+import StarterDb from './Starter'
 
 class Project {
   // 创建表
@@ -11,15 +14,17 @@ class Project {
       logger.info('创建project表')
       DB.schema.createTable('project', (table: any) => {
         table.increments('id').primary()
+        table.integer('exeId').unsigned()
+        table.foreign('exeId').references('starter.id')
         table.string('projectName', 255)
         table.string('folderPath', 255)
-        table.integer('exeId')
         table.string('gitUrl', 255)
         table.string('projectDevUrl', 255)
         table.string('projectProdUrl', 255)
         table.string('remark', 255)
         table.string('adName', 255)
         table.string('adcd', 255)
+        table.string('language', 255)
         table.integer('state')
         table.timestamps(true, true) // 创建自动更新的created_at和updated_at字段
       })
@@ -46,9 +51,15 @@ class Project {
   }
 
   // 分页查询
-  static async getProjectPageList(par: IProjectSearchVo): Promise<PageDataWrap<IProject>> {
-    const rows = await DB('project')
-      .select()
+  static async getProjectPageList(par: IProjectSearchVo): Promise<PageDataWrap<IProjectVo>> {
+    const query = DB('project')
+      .leftJoin('starter as s', 'project.exeId', 's.id')
+      .select(
+        'project.*',
+        's.icon',
+        's.exePath',
+        's.id as exe_id',
+      )
       .andWhere((builder) => {
         if (par.adcd) {
           builder.where('adcd', '=', par.adcd)
@@ -56,34 +67,39 @@ class Project {
         if (par.projectName) {
           builder.where('projectName', 'like', `%${par.projectName}%`)
         }
-      })
-      .orderBy('id', 'desc') as IProject[]
-    const total = await DB('project')
-      .select()
-      .andWhere((builder) => {
-        if (par.adcd) {
-          builder.where('adcd', '=', par.adcd)
-        }
-        if (par.projectName) {
-          builder.where('projectName', 'like', `%${par.projectName}%`)
+        if (par.language) {
+          builder.where('language', '=', par.language)
         }
       })
-      .count('* as total')
+
+    const total = await query.clone().clearSelect().count('* as total')
+    const rows = await query
+      .offset((par.pageNo - 1) * par.pageSize)
+      .limit(par.pageSize)
+      .then((items: IProjectVo[]) => {
+        return items.map((item: any) => {
+          return {
+            ...item,
+            starter: item.exeId
+              ? { exePath: item.exePath, icon: item.icon }
+              : null,
+          }
+        })
+      }) as IProjectVo[]
+
     return {
       rows,
-      total: total[0].total as number,
+      total: total[0]?.total as number,
     }
   }
 
   // 查询单个
-  static async find(id: number): Promise<IProject | null> {
+  static async find(id: number): Promise<IProjectVo | null> {
     const row = await DB('project').select().where({ id })
     if (!row.length) return null
-    const project = row[0] as IProject
-    // const exeItem = await DB('project')project.exeId
-    // if (row.length) {
-    //   return row[0]
-    // }
+    const project = row[0] as IProjectVo
+    const exeItem = await StarterDb.find(project.exeId)
+    project.starter = exeItem
     return project
   }
 
@@ -100,6 +116,13 @@ class Project {
   static async delete(id: number) {
     const info = await DB('project').delete().where({ id })
     return true
+  }
+
+  // 在删除starter的时候需要判断关联
+  static async getListByStartId(exeId: number) {
+    const list = await DB('project')
+      .where('exeId', '=', exeId)
+    return list as IProject[]
   }
 }
 

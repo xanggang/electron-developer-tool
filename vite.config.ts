@@ -1,13 +1,14 @@
+/* eslint-disable no-console */
 import fs from 'node:fs'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import vueJsx from '@vitejs/plugin-vue-jsx';
+import vueJsx from '@vitejs/plugin-vue-jsx'
 import electron from 'vite-plugin-electron/simple'
-import pkg from './package.json'
 import path from 'path'
-import Unocss from 'unocss/vite';
-import AutoImport from 'unplugin-auto-import/vite';
+import Unocss from 'unocss/vite'
+import AutoImport from 'unplugin-auto-import/vite'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import pkg from './package.json'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
@@ -101,7 +102,7 @@ export default defineConfig(({ command, mode }) => {
       }
     })(),
     esbuild: {
-      target: "es2022"
+      target: 'es2022',
     },
     clearScreen: false,
   }

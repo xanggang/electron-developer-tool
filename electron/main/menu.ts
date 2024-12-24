@@ -1,4 +1,4 @@
-import { Menu, globalShortcut, MenuItem   } from 'electron'
+import { Menu, globalShortcut, MenuItem } from 'electron'
 import { openDevTools, showWindow } from './window'
 import logger from '../common/logger'
 
@@ -15,8 +15,8 @@ export function setUpMenu() {
       accelerator: process.platform === 'darwin' ? 'Alt+Cmd+I' : 'Alt+Shift+I',
       click: () => {
         openDevTools()
-      }
-    }]
+      },
+    }],
   }))
 
   Menu.setApplicationMenu(menu)
@@ -27,12 +27,10 @@ export function setUpMenu() {
  */
 export function setUpShortcutKey() {
   globalShortcut.register('Alt+M', () => {
-    console.log('唤起窗口')
     showWindow()
   })
 
   globalShortcut.register('F12', () => {
-    console.log('打开开发工具')
     openDevTools()
   })
 }

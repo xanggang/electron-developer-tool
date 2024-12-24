@@ -18,7 +18,8 @@ import project from './project'
 
 // app router
 export const router = createRouter({
-  end: undefined, sensitive: undefined,
+  end: undefined,
+  sensitive: undefined,
   history: createWebHistory(import.meta.env.VITE_BASE_PATH),
   // history: createWebHashHistory(),
   routes: [
@@ -27,13 +28,12 @@ export const router = createRouter({
     ...project,
     {
       path: '/',
-      redirect: '/sys/a',
-    }
+      redirect: '/project/index',
+    },
   ],
   strict: true,
-  scrollBehavior: () => ({ left: 0, top: 0 })
+  scrollBehavior: () => ({ left: 0, top: 0 }),
 })
-
 
 // config router
 export function setupRouter(app: App<Element>) {

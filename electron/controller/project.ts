@@ -1,26 +1,44 @@
-import { ICreateProjectVo, IProject, IProjectSearchVo } from '#vo/ProjectVo'
+import {
+  ICreateProjectVo, IProjectSearchVo,
+} from '#vo/ProjectVo'
 import { handle } from '../decorator/ipc'
 import { ProjectDb, StarterDb } from '../database'
 import { execCommand } from '../utils/cmd'
+import Payload from '../common/payload'
 
 export class ProjectController {
   // 查询全部
   @handle
-  static async getAllProjectList(): Promise<IProject[]> {
+  static async getAllProjectList() {
     const res = await ProjectDb.getProjectAllList()
-    return res
+    return Payload.success(res)
   }
 
   @handle
-  static async getProjectPageList(data: IProjectSearchVo): Promise<PageDataWrap<IProject>> {
-    return ProjectDb.getProjectPageList(data)
+  static async getProjectPageList(data: IProjectSearchVo) {
+    const res = await ProjectDb.getProjectPageList(data)
+    return Payload.success(res)
   }
 
   // 插入数据
   @handle
   static async createProject(project: ICreateProjectVo) {
     const res = await ProjectDb.crate(project)
-    return res
+    return Payload.success(res)
+  }
+  
+  // 插入数据
+  @handle
+  static async editProject(project: ICreateProjectVo) {
+    const res = await ProjectDb.edit(project)
+    return Payload.success(res)
+  }
+  
+  // 插入数据
+  @handle
+  static async deleteProject(id: number) {
+    const res = await ProjectDb.delete(id)
+    return Payload.success(res)
   }
 
   // 用项目配置的启动器打开项目
@@ -35,6 +53,6 @@ export class ProjectController {
     const { exePath } = starter
     const { folderPath } = project
     const res = await execCommand(`"${exePath}" "${folderPath}"`)
-    return res
+    return Payload.success(res)
   }
 }

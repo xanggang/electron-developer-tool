@@ -11,10 +11,10 @@ let win: BrowserWindow | null = null
  * 创建浏览器窗口
  */
 export function createWindow() {
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     height: 900,
     width: 1700,
-    // frame: false,
+    frame: false,
     title: 'Main window',
 
     icon: path.join(VITE_PUBLIC, 'favicon.ico'),

@@ -32,7 +32,12 @@
     "types/**/*.d.ts",
     "build/**/*.ts",
     "auto-imports.d.ts",
+    "vite.config.ts",
+    "package.json",
+    "electron",
+    "Vo",
+    "enums",
+    "types/**/*.d.ts"
   ],
   "exclude": ["dist", "node_modules"],
-  "references": [{ "path": "./tsconfig.node.json" }]
 }

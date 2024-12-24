@@ -1,0 +1,108 @@
+<template>
+  <a-card hoverable style="width: 300px" :title="project.projectName">
+    <template #actions>
+      <a-tooltip>
+        <template #title>打开项目地址</template>
+        <SvgIcon name="open-folder" @click="handleOpenFolder" class="w-30 h-30"></SvgIcon>
+        <!--            <folder-open-outlined @click="handleOpenFolder"></folder-open-outlined>-->
+      </a-tooltip>
+
+      <a-tooltip>
+        <template #title>打开项目</template>
+        <img
+          class="cursor-pointer w-30 h-30"
+          :src="project.starter?.icon"
+          @click="handleOpenProjectByStarter"
+        />
+        <!--            <folder-open-outlined @click="handleOpenFolder"></folder-open-outlined>-->
+      </a-tooltip>
+
+      <a-tooltip>
+        <template #title>打开项目文档</template>
+        <SvgIcon
+          class="cursor-pointer w-30 h-30"
+          name="nootbook"
+          @click="handleOpenFolder"
+        ></SvgIcon>
+        <!--            <folder-open-outlined @click="handleOpenFolder"></folder-open-outlined>-->
+      </a-tooltip>
+    </template>
+    <a-card-meta>
+    </a-card-meta>
+
+    <template #extra>
+      <a-dropdown>
+        <a class="ant-dropdown-link">
+          操作
+        </a>
+        <template #overlay>
+          <a-menu @click="handleSelectMenu">
+            <a-menu-item key="delete">
+              <span class="text-red-5">删除项目</span>
+            </a-menu-item>
+            <a-menu-item key="edit">
+              编辑
+            </a-menu-item>
+          </a-menu>
+        </template>
+      </a-dropdown>
+    </template>
+
+    <div class="mt-12 flex justify-between items-center">
+      <span class="text-gray-5 font-bold">项目类型</span>
+      <span class="text-gray-7 ml-20">{{ getLanguageName(project.language) }}</span>
+    </div>
+    <div class="mt-12 flex justify-between items-center">
+      <span class="text-gray-5 font-bold">行政区划</span>
+      <span class="text-gray-7 ml-20"> {{ project.adName }}</span>
+    </div>
+  </a-card>
+</template>
+
+<script lang="ts" setup>
+import { openFolder } from '@/ipc/fileSys'
+import type { IProjectVo } from '#vo/ProjectVo'
+import { deleteProject, openProjectByStarter } from '@/ipc/project'
+import SvgIcon from '@/components/SvgIcon.vue'
+import { Modal } from 'ant-design-vue'
+import { LANGUAGE_ENUMS } from '../../../enums/language'
+
+const props = defineProps<{
+  project: IProjectVo
+}>()
+
+const emits = defineEmits(['edit'])
+
+function handleOpenFolder() {
+  openFolder(props.project.folderPath)
+}
+
+async function handleOpenProjectByStarter() {
+  await openProjectByStarter(props.project.id!)
+}
+
+async function handleSelectMenu(e: any) {
+  if (e.key === 'delete') {
+    Modal.confirm({
+      title: '确认要删除该项目吗',
+      content: h('div', { style: 'color:red;' }, '删除后不可恢复，请确认'),
+      async onOk() {
+        await deleteProject(props.project.id!)
+      },
+      class: 'test',
+    })
+  }
+
+  if (e.key === 'edit') {
+    emits('edit')
+  }
+}
+
+function getLanguageName(e: LANGUAGE_ENUMS) {
+  return LANGUAGE_ENUMS[e] || '-'
+}
+</script>
+
+<style scoped lang="less">
+
+</style>
