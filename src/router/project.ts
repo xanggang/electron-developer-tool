@@ -10,10 +10,10 @@ const project = [
         path: '/project/index',
         component: () => import('@/views/project/index.vue'),
         meta: { title: '后台管理' },
-        children: []
-      }
-    ]
-  }
+        children: [],
+      },
+    ],
+  },
 ]
 
 export default project

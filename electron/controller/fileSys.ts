@@ -91,7 +91,7 @@ export class FileController {
   static async openProject() {
     const ideaPath = 'E:\\app\\WebStorm 2023.2.5\\bin\\webstorm64.exe'
     const projectPath = 'E:\\www\\my\\guge'
-    const res = await execCommand(`"${ideaPath}" "${projectPath}"`)
+    await execCommand(`"${ideaPath}" "${projectPath}"`)
     return Payload.success(true)
   }
 

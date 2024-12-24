@@ -26,14 +26,14 @@ export class ProjectController {
     const res = await ProjectDb.crate(project)
     return Payload.success(res)
   }
-  
+
   // 插入数据
   @handle
   static async editProject(project: ICreateProjectVo) {
     const res = await ProjectDb.edit(project)
     return Payload.success(res)
   }
-  
+
   // 插入数据
   @handle
   static async deleteProject(id: number) {
@@ -50,9 +50,15 @@ export class ProjectController {
     if (!exeId) throw new Error(`启动器${exeId}不存在`)
     const starter = await StarterDb.find(exeId)
 
-    const { exePath } = starter
+    const { exePath } = starter || {}
     const { folderPath } = project
     const res = await execCommand(`"${exePath}" "${folderPath}"`)
     return Payload.success(res)
+  }
+
+  // 以文本格式读取md文件
+  @handle
+  static async renderProjectReadme() {
+
   }
 }

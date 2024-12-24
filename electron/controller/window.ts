@@ -1,4 +1,4 @@
-import { handle, on } from '../decorator/ipc'
+import { on } from '../decorator/ipc'
 import { getMainWindow } from '../main/window'
 import Payload from '../common/payload'
 

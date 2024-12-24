@@ -12,8 +12,7 @@ const DEFAULT_CONFIG: TreeHelperConfig = {
 }
 
 // 获取配置。  Object.assign 从一个或多个源对象复制到目标对象
-const getConfig = (config: Partial<TreeHelperConfig>) =>
-  Object.assign({}, DEFAULT_CONFIG, config)
+const getConfig = (config: Partial<TreeHelperConfig>) => ({ ...DEFAULT_CONFIG, ...config })
 
 // tree from list
 // 列表中的树
@@ -28,15 +27,15 @@ export function listToTree<T = any>(list: any[], config: Partial<TreeHelperConfi
     nodeMap.set(node[id], node)
   }
   for (const node of list) {
-    const parent = nodeMap.get(node[pid])
-    ;(parent ? parent[children] : result).push(node)
+    const parent = nodeMap.get(node[pid]);
+    (parent ? parent[children] : result).push(node)
   }
   return result
 }
 
 export function treeToList<T = any>(
   tree: any,
-  config: Partial<TreeHelperConfig> = {}
+  config: Partial<TreeHelperConfig> = {},
 ): T {
   config = getConfig(config)
   const { children } = config
@@ -51,7 +50,7 @@ export function treeToList<T = any>(
 export function findNode<T = any>(
   tree: any,
   func: Fn,
-  config: Partial<TreeHelperConfig> = {}
+  config: Partial<TreeHelperConfig> = {},
 ): T | null {
   config = getConfig(config)
   const { children } = config
@@ -66,7 +65,7 @@ export function findNode<T = any>(
 export function findNodeAll<T = any>(
   tree: any,
   func: Fn,
-  config: Partial<TreeHelperConfig> = {}
+  config: Partial<TreeHelperConfig> = {},
 ): T[] {
   config = getConfig(config)
   const { children } = config
@@ -82,7 +81,7 @@ export function findNodeAll<T = any>(
 export function findPath<T = any>(
   tree: any,
   func: Fn,
-  config: Partial<TreeHelperConfig> = {}
+  config: Partial<TreeHelperConfig> = {},
 ): T | T[] | null {
   config = getConfig(config)
   const path: T[] = []
@@ -109,14 +108,14 @@ export function findPath<T = any>(
 export function findPathAll(
   tree: any,
   func: Fn,
-  config: Partial<TreeHelperConfig> = {}
+  config: Partial<TreeHelperConfig> = {},
 ) {
   config = getConfig(config)
   const path: any[] = []
   const list = [...tree]
   const result: any[] = []
-  const visitedSet = new Set(),
-    { children } = config
+  const visitedSet = new Set()
+  const { children } = config
   while (list.length) {
     const node = list[0]
     if (visitedSet.has(node)) {
@@ -136,7 +135,7 @@ export function filter<T = any>(
   tree: T[],
   func: (n: T) => boolean,
   // Partial 将 T 中的所有属性设为可选
-  config: Partial<TreeHelperConfig> = {}
+  config: Partial<TreeHelperConfig> = {},
 ): T[] {
   // 获取配置
   config = getConfig(config)
@@ -147,8 +146,7 @@ export function filter<T = any>(
       .map((node: any) => ({ ...node }))
       .filter((node) => {
         // 递归调用 对含有children项  进行再次调用自身函数 listFilter
-        node[children] =
-          node[children] && listFilter(node[children])
+        node[children] = node[children] && listFilter(node[children])
         // 执行传入的回调 func 进行过滤
         return (
           func(node)
@@ -163,19 +161,19 @@ export function filter<T = any>(
 export function forEach<T = any>(
   tree: T[],
   func: (n: T) => any,
-  config: Partial<TreeHelperConfig> = {}
+  config: Partial<TreeHelperConfig> = {},
 ): void {
   config = getConfig(config)
   const list: any[] = [...tree]
   const { children } = config
   for (let i = 0; i < list.length; i++) {
-    //func 返回true就终止遍历，避免大量节点场景下无意义循环，引起浏览器卡顿
+    // func 返回true就终止遍历，避免大量节点场景下无意义循环，引起浏览器卡顿
     if (func(list[i])) {
       return
     }
-    children &&
-      list[i][children] &&
-      list.splice(i + 1, 0, ...list[i][children])
+    children
+      && list[i][children]
+      && list.splice(i + 1, 0, ...list[i][children])
   }
 }
 
@@ -185,7 +183,7 @@ export function forEach<T = any>(
  */
 export function treeMap<T = any>(
   treeData: T[],
-  opt: { children?: string; conversion: Fn }
+  opt: { children?: string; conversion: Fn },
 ): T[] {
   return treeData.map((item) => treeMapEach(item, opt))
 }
@@ -199,26 +197,22 @@ export function treeMapEach(
   {
     children = 'children',
     conversion,
-  }: { children?: string; conversion: Fn }
+  }: { children?: string; conversion: Fn },
 ) {
-  const haveChildren =
-    Array.isArray(data[children]) &&
-    data[children].length > 0
+  const haveChildren = Array.isArray(data[children])
+    && data[children].length > 0
   const conversionData = conversion(data) || {}
   if (haveChildren) {
     return {
       ...conversionData,
-      [children]: data[children].map((i: number) =>
-        treeMapEach(i, {
-          children,
-          conversion,
-        })
-      ),
+      [children]: data[children].map((i: number) => treeMapEach(i, {
+        children,
+        conversion,
+      })),
     }
-  } else {
-    return {
-      ...conversionData,
-    }
+  }
+  return {
+    ...conversionData,
   }
 }
 
@@ -231,7 +225,7 @@ export function treeMapEach(
 export function eachTree(
   treeDatas: any[],
   callBack: Fn,
-  parentNode = {}
+  parentNode = {},
 ) {
   treeDatas.forEach((element) => {
     const newNode = callBack(element, parentNode) || element

@@ -40,7 +40,6 @@
 import SvgIcon from '@/components/SvgIcon.vue'
 
 function handMinWindow() {
-  console.log('handMinWindow')
   window.ipcRenderer.send('handMinWindow', { skipTaskBar: true })
 }
 </script>

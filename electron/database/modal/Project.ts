@@ -31,7 +31,7 @@ class Project {
         .then(() => {
           logger.info('创建project表成功')
         })
-        .catch((e) => {
+        .catch((e: Error) => {
           logger.info('创建project表失败')
           logger.error(e)
         })
@@ -60,7 +60,7 @@ class Project {
         's.exePath',
         's.id as exe_id',
       )
-      .andWhere((builder) => {
+      .andWhere((builder: any) => {
         if (par.adcd) {
           builder.where('adcd', '=', par.adcd)
         }
@@ -99,7 +99,7 @@ class Project {
     if (!row.length) return null
     const project = row[0] as IProjectVo
     const exeItem = await StarterDb.find(project.exeId)
-    project.starter = exeItem
+    project.starter = exeItem || undefined
     return project
   }
 
@@ -114,7 +114,7 @@ class Project {
 
   // 删除
   static async delete(id: number) {
-    const info = await DB('project').delete().where({ id })
+    await DB('project').delete().where({ id })
     return true
   }
 

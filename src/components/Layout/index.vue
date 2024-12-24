@@ -6,7 +6,6 @@
       <div class="app-center">
         <router-view></router-view>
       </div>
-
     </div>
   </div>
 </template>
@@ -15,8 +14,6 @@
 import Header from '../Header/index.vue'
 import Menu from '../Menu/index.vue'
 </script>
-
-
 
 <style scoped lang="less">
 .app-container  {
@@ -33,7 +30,6 @@ import Menu from '../Menu/index.vue'
     display: flex;
     justify-content: flex-start;
     align-items: center;
-
 
     .app-menu {
       flex-shrink: 1;

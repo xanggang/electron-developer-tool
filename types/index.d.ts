@@ -27,7 +27,6 @@ declare type EmitType = (event: any, ...args: any[]) => void
 
 declare type ElRef<T extends HTMLElement = HTMLDivElement> = Nullable<T>
 
-
 declare type TimeoutHandle = ReturnType<typeof setTimeout>
 
 declare type IntervalHandle = ReturnType<typeof setInterval>
@@ -41,8 +40,6 @@ declare type LabelValueOptions = {
 declare interface ChangeEvent extends Event {
   target: HTMLInputElement;
 }
-
-
 
 declare type TypeLabelValueOptions<T> = {
   label: string;

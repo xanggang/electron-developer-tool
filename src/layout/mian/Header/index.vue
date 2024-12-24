@@ -45,7 +45,6 @@ function handMinWindow() {
 }
 
 function handleOpenDb() {
-  console.log('ipcOpenDbFile')
   ipcOpenDbFile()
 }
 </script>

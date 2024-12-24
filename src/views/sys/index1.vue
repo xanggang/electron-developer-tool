@@ -10,8 +10,7 @@
 
 <script lang="ts" setup>
 async function sendMessage() {
-  const res = await window.ipcRenderer.invoke('dialog:openFile')
-  console.log(res)
+  await window.ipcRenderer.invoke('dialog:openFile')
 }
 
 async function updateData() {
@@ -22,18 +21,15 @@ async function updateData() {
 }
 
 async function openFolder() {
-  const res = await window.ipcRenderer.invoke('getFilePath', 'D:\\')
-  console.log(res)
+  await window.ipcRenderer.invoke('getFilePath', 'D:\\')
 }
 
 async function writeFile() {
-  const res = await window.ipcRenderer.invoke('writeFileByPath', 'E:\\down\\测试文件写入1.txt', '111')
-  console.log(res)
+  await window.ipcRenderer.invoke('writeFileByPath', 'E:\\down\\测试文件写入1.txt', '111')
 }
 
 async function openProject() {
-  const res = await window.ipcRenderer.invoke('openProject')
-  console.log(res)
+  await window.ipcRenderer.invoke('openProject')
 }
 </script>
 

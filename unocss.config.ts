@@ -6,8 +6,8 @@ import {
   presetUno,
   transformerDirectives,
   transformerVariantGroup,
-} from 'unocss';
-import presetRemToPx from '@unocss/preset-rem-to-px';
+} from 'unocss'
+import presetRemToPx from '@unocss/preset-rem-to-px'
 import type {} from '@unocss/core' // 修复pnpm下的类型错误
 
 export default defineConfig({
@@ -21,7 +21,7 @@ export default defineConfig({
       scale: 1.2,
       warn: true,
       extraProperties: {
-        'display': 'inline-block',
+        display: 'inline-block',
         'vertical-align': 'middle',
         // ...
       },
@@ -37,6 +37,6 @@ export default defineConfig({
 
   },
   rules: [
-    ['flex-center', { display: 'flex', 'justify-content': 'center', 'align-items': 'center'}],
+    ['flex-center', { display: 'flex', 'justify-content': 'center', 'align-items': 'center' }],
   ],
-});
+})

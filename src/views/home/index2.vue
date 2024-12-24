@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <a-button @click="go">go a</a-button>
   </div>
 </template>

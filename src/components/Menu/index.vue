@@ -1,28 +1,30 @@
 <template>
   <a-menu
-      id="dddddd"
-      v-model:openKeys="openKeys"
-      v-model:selectedKeys="selectedKeys"
-      style="width: 256px"
-      mode="inline"
-      :items="items"
-      @click="handleClick"
+    id="dddddd"
+    v-model:open-keys="openKeys"
+    v-model:selected-keys="selectedKeys"
+    style="width: 256px"
+    mode="inline"
+    :items="items"
+    @click="handleClick"
   ></a-menu>
 </template>
 <script lang="ts" setup>
-import { reactive, ref, watch, VueElement, h } from 'vue';
-import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons-vue';
-import type { MenuProps, ItemType } from 'ant-design-vue';
+import {
+  reactive, ref, watch, VueElement, h,
+} from 'vue'
+import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons-vue'
+import type { MenuProps, ItemType } from 'ant-design-vue'
 
-const selectedKeys = ref<string[]>(['1']);
-const openKeys = ref<string[]>(['sub1']);
+const selectedKeys = ref<string[]>(['1'])
+const openKeys = ref<string[]>(['sub1'])
 
 function getItem(
-    label: VueElement | string,
-    key: string,
-    icon?: any,
-    children?: ItemType[],
-    type?: 'group',
+  label: VueElement | string,
+  key: string,
+  icon?: any,
+  children?: ItemType[],
+  type?: 'group',
 ): ItemType {
   return {
     key,
@@ -30,7 +32,7 @@ function getItem(
     children,
     label,
     type,
-  } as ItemType;
+  } as ItemType
 }
 
 const items: ItemType[] = reactive([
@@ -55,14 +57,13 @@ const items: ItemType[] = reactive([
   ]),
 
   getItem('Group', 'grp', null, [getItem('Option 13', '13'), getItem('Option 14', '14')], 'group'),
-]);
+])
 
-const handleClick: MenuProps['onClick'] = e => {
-  console.log('click', e);
-};
+const handleClick: MenuProps['onClick'] = (e) => {
+  console.log('click', e)
+}
 
-watch(openKeys, val => {
-  console.log('openKeys', val);
-});
+watch(openKeys, (val) => {
+  console.log('openKeys', val)
+})
 </script>
-

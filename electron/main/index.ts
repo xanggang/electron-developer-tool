@@ -9,7 +9,6 @@ import Migrate from '../database/Migrate'
 import { initDb } from '../database/DBConnect'
 
 async function start() {
-
   await initLogger()
   log.info('app启动')
 

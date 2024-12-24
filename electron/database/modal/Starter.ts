@@ -18,7 +18,7 @@ class StarterDb {
         .then(() => {
           logger.info('创建starter表成功')
         })
-        .catch((e) => {
+        .catch((e: Error) => {
           logger.info('创建starter表失败')
           logger.error(e)
         })

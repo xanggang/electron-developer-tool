@@ -1,16 +1,15 @@
 <template>
   <div class="app-left-menu">
     <a-menu
-        class="menu"
-        v-model:openKeys="openKeys"
-        v-model:selectedKeys="selectedKeys"
-        style="width: 200px"
-        mode="inline"
-        :items="items"
-        @click="handleClick"
+      class="menu"
+      v-model:open-keys="openKeys"
+      v-model:selected-keys="selectedKeys"
+      style="width: 200px"
+      mode="inline"
+      :items="items"
+      @click="handleClick"
     ></a-menu>
   </div>
-
 </template>
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
@@ -21,7 +20,7 @@ const { push } = useRouter()
 const selectedKeys = ref<string[]>(['1'])
 const openKeys = ref<string[]>(['sub1'])
 
-const items  = reactive([
+const items = reactive([
   {
     key: '/project/index',
     icon: '',
@@ -42,7 +41,7 @@ const items  = reactive([
   // }
 ])
 
-const handleClick: MenuProps['onClick'] = e => {
+const handleClick: MenuProps['onClick'] = (e) => {
   push(e.key)
 }
 </script>
