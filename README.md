@@ -1,3 +1,7 @@
+
+sqlite3 构建失败 要改下下面这个
+> But I'm going to modify the ` node_ In modules/sqlite3/package. json ',' binary ': {' napi_versions': [3,6]} 'is' binary': {'napi_versions': [6]}', which can be processed
+
 # electron-vite-vue
 
 🥳 Really simple `Electron` + `Vue` + `Vite` boilerplate.

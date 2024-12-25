@@ -21,7 +21,6 @@ export default defineConfig(({ command, mode }) => {
 
   if (!isAppStarted) {
     console.log('以web模式启动')
-    console.log(path.resolve(process.cwd(), 'src/assets/svg'))
   }
 
   return {

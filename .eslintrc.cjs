@@ -2,9 +2,6 @@ module.exports = {
   env: {
     es2022: true,
   },
-  globals: {
-    Cesium: true, // 三维地图的全局变量
-  },
   extends: [
     // 基础规则
     'airbnb-base',

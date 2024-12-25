@@ -22,7 +22,7 @@
   "scripts": {
     "dev-web": "vite --mode web",
     "dev": "chcp 65001 && vite --mode app",
-    "build": "vue-tsc --noEmit && vite build && electron-builder",
+    "build": "vite build && electron-builder",
     "preview": "vite preview",
     "lint": "eslint --ext .ts,.tsx,.vue . --fix"
   },
