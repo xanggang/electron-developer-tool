@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import path from 'path'
 import { app } from 'electron'
 import fs from 'fs/promises'
-// import { rimraf } from 'rimraf'
+import { rimraf } from 'rimraf'
 
 export async function initLogger() {
   logger.transports.file.level = 'debug'
@@ -19,7 +19,7 @@ export async function initLogger() {
   try {
     const res = await fs.stat(logsPath)
     if (!res.isDirectory()) {
-      // await rimraf(logsPath)
+      await rimraf(logsPath)
       throw new Error()
     }
   } catch {
@@ -39,22 +39,22 @@ export async function initLogger() {
 
 // 有六个日志级别error, warn, info, verbose, debug, silly。默认是silly
 export default {
-  info(param) {
+  info(...param: any[]) {
     logger.info(param)
   },
-  warn(param) {
+  warn(...param: any[]) {
     logger.warn(param)
   },
-  error(param) {
+  error(...param: any[]) {
     logger.error(param)
   },
-  debug(param) {
+  debug(...param: any[]) {
     logger.debug(param)
   },
-  verbose(param) {
+  verbose(...param: any[]) {
     logger.verbose(param)
   },
-  silly(param) {
+  silly(...param: any[]) {
     logger.silly(param)
   },
 }

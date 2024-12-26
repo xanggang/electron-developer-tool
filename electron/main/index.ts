@@ -7,12 +7,15 @@ import log, { initLogger } from '../common/logger'
 import { registerFileProtocol, setupFileProtocol } from '../utils/registerFileProtocol'
 import Migrate from '../database/Migrate'
 import { initDb } from '../database/DBConnect'
+import initUpdater from './updater'
 
 async function start() {
   await initLogger()
   log.info('app启动')
 
   registerFileProtocol()
+  
+  initUpdater()
 
   /**
    * 注册ipc方法

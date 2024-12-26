@@ -27,12 +27,10 @@ export function on(icpMethod: Function, context: ClassMethodDecoratorContext) {
 
 export function registerAllIpcMethods() {
   handleMap.forEach((fun, name) => {
-    console.debug(`正在注册ipc:handle方法${name}`)
     ipcMain.handle(name, fun)
   })
 
   onMap.forEach((fun, name) => {
-    console.debug(`正在注册ipc:on方法${name}`)
     ipcMain.on(name, fun)
   })
 }

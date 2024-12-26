@@ -11,7 +11,6 @@ let win: BrowserWindow | null = null
  * 创建浏览器窗口
  */
 export function createWindow() {
-  console.log(path.join(VITE_PUBLIC, 'favicon.ico'))
   win = new BrowserWindow({
     height: 700,
     width: 1050,

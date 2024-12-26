@@ -3,7 +3,13 @@
   "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
   "appId": "aaa",
   "asar": true,
-  "productName": "项目管理工具",
+  "productName": "devutil",
+  "publish": [
+    {
+      "provider": "generic",
+      "url": "http://localhost:10086"
+    }
+  ],
   "directories": {
     "output": "release/${version}"
   },
