@@ -7,11 +7,7 @@ import 'ant-design-vue/dist/reset.css'
 import { setupRouter } from '@/router'
 import 'virtual:svg-icons-register'
 
-// import './style.css'
-
-// import './demos/ipc'
-// If you want use Node.js, the`nodeIntegration` needs to be enabled in the Main process.
-// import './demos/node'
+import './styles/index.less'
 
 const app = createApp(App)
 app.use(An)

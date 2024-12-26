@@ -44,7 +44,6 @@
     "@ant-design/icons-vue": "^7.0.1",
     "@vavt/v3-extension": "^2.1.0",
     "@vue/eslint-config-typescript": "^11.0.2",
-    "add": "^2.0.6",
     "ant-design-vue": "4.x",
     "axios": "^1.7.7",
     "cross-env": "^7.0.3",

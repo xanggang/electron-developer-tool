@@ -1,5 +1,8 @@
 <template>
-  <a-card hoverable style="width: 300px" :title="project.projectName">
+  <a-card
+    hoverable
+    :title="project.projectName"
+  >
     <template #actions>
       <a-tooltip>
         <template #title>打开项目地址</template>
@@ -48,7 +51,7 @@
       </a-dropdown>
     </template>
 
-    <div class="mt-12 flex justify-between items-center">
+    <div class="flex justify-between items-center">
       <span class="text-gray-5 font-bold">项目类型</span>
       <span class="text-gray-7 ml-20">{{ getLanguageName(project.language) }}</span>
     </div>
@@ -99,7 +102,7 @@ async function handleSelectMenu(e: any) {
   }
 }
 
-function getLanguageName(e: LANGUAGE_ENUMS) {
+function getLanguageName(e?: LANGUAGE_ENUMS) {
   return LANGUAGE_ENUMS[e] || '-'
 }
 

@@ -56,7 +56,7 @@ export function getLocalFile(data: {
   folderPath: string
   fileName: string
 }) {
-  return request('getLocalFile', data)
+  return request<string>('getLocalFile', data)
   // const res = await window.ipcRenderer.invoke('openProjectByStarter', id)
   // return res
 }

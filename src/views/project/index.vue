@@ -1,69 +1,87 @@
 <template>
   <div class="app-page-content">
-    <a-form
-      layout="inline"
-      :model="formState"
-    >
-      <a-form-item>
-        <Adcd
-          v-model:value="formState.adcd"
-          class="w-2xl!"
-          placeholder="行政区划"
-          allow-clear
-        ></Adcd>
-      </a-form-item>
-      <a-form-item>
-        <a-select
-          v-model:value="formState.language"
-          :options="LANGUAGE_OPTIONS"
-          allow-clear
-          class="w-2xl!"
-          placeholder="语言"
-        ></a-select>
-      </a-form-item>
-      <a-form-item>
-        <a-input
-          class="w-2xl!"
-          v-model:value="formState.projectName"
-          placeholder="项目名称"
-          allow-clear
-          @press-enter="getPageData"
-        ></a-input>
-      </a-form-item>
-      <!--      <a-form-item>-->
-      <!--        <a-input-->
-      <!--          class="w-2xl!"-->
-      <!--          v-model:value="formState.state"-->
-      <!--          placeholder="项目状态"-->
-      <!--        ></a-input>-->
-      <!--      </a-form-item>-->
-      <a-form-item>
-        <a-button type="primary" @click="handelSearch">搜索</a-button>
-        <a-button type="primary" class="ml-20" @click="openProjectSetting">添加项目</a-button>
-        <a-button type="primary" class="ml-20">分类管理</a-button>
-        <a-button type="primary" class="ml-20" @click="openAppSetting">应用管理</a-button>
-      </a-form-item>
-    </a-form>
-
-    <div class="card-wrap">
-      <Card
-        v-for="project in dataList"
-        class="w-280!"
-        :key="project.id"
-        :project="project"
-        @refresh="handelSearch"
-        @show-md="handleShowMd(project)"
-        @edit="handleEdit(project)"
-      ></Card>
+    <div class="search p-10">
+      <a-form
+        layout="inline"
+        :model="formState"
+      >
+        <a-row :gutter="[0, 10]">
+          <a-col :span="6">
+            <a-form-item>
+              <Adcd
+                v-model:value="formState.adcd"
+                class="w-full"
+                placeholder="行政区划"
+                allow-clear
+              ></Adcd>
+            </a-form-item>
+          </a-col>
+          <a-col :span="6">
+            <a-form-item>
+              <a-select
+                v-model:value="formState.language"
+                :options="LANGUAGE_OPTIONS"
+                allow-clear
+                class="w-full"
+                placeholder="语言"
+              ></a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :span="6">
+            <a-form-item>
+              <a-input
+                class="w-full"
+                v-model:value="formState.projectName"
+                placeholder="项目名称"
+                allow-clear
+                @press-enter="getPageData"
+              ></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :span="6">
+            <a-button type="primary" @click="handelSearch">搜索</a-button>
+          </a-col>
+          <a-col :span="24">
+            <a-button type="primary" @click="openProjectSetting">添加项目</a-button>
+            <a-button type="primary" class="ml-20">分类管理</a-button>
+            <a-button type="primary" class="ml-20" @click="openAppSetting">应用管理</a-button>
+          </a-col>
+        </a-row>
+      </a-form>
     </div>
-    <div class="w-full flex justify-end mt-10">
-      <a-pagination
-        v-model:current="pagination.current"
-        :total="pagination.total"
-        show-less-items
-        :page-size="pagination.pageSize"
-        @change="getPageData"
-      ></a-pagination>
+    <div class="main">
+      <div class="card-wrap">
+        <a-row :gutter="[10, 10]" class="w-full">
+          <a-col
+            v-for="project in dataList"
+            :key="project.id"
+            :xs="12"
+            :sm="12"
+            :md="8"
+            :lg="8"
+            :xl="6"
+          >
+            <Card
+              class="w-full"
+              :key="project.id"
+              :project="project"
+              @refresh="handelSearch"
+              @show-md="handleShowMd(project)"
+              @edit="handleEdit(project)"
+            ></Card>
+          </a-col>
+        </a-row>
+      </div>
+
+      <div class="w-full flex justify-end mt-10">
+        <a-pagination
+          v-model:current="pagination.current"
+          :total="pagination.total"
+          show-less-items
+          :page-size="pagination.pageSize"
+          @change="getPageData"
+        ></a-pagination>
+      </div>
     </div>
 
     <AppSetting v-model:visible="visibleAppSetting"></AppSetting>
@@ -152,7 +170,22 @@ async function handleShowMd(project: IProjectVo) {
 
 <style lang="less" scoped>
 .app-page-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 
+  .search {
+    flex-shrink: 1;
+  }
+
+  .main {
+    height: 100%;
+    overflow: auto;
+    margin-top: 5px;
+    padding-left: 10px;
+    //flex-shrink: 0;
+  }
 }
 
 .card-wrap {

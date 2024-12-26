@@ -4,7 +4,7 @@
       class="menu"
       v-model:open-keys="openKeys"
       v-model:selected-keys="selectedKeys"
-      style="width: 200px"
+      style="width: 120px"
       mode="inline"
       :items="items"
       @click="handleClick"
@@ -17,7 +17,7 @@ import type { MenuProps } from 'ant-design-vue'
 
 const { push } = useRouter()
 
-const selectedKeys = ref<string[]>(['1'])
+const selectedKeys = ref<string[]>(['/project/index'])
 const openKeys = ref<string[]>(['sub1'])
 
 const items = reactive([
@@ -48,16 +48,20 @@ const items = reactive([
 ])
 
 const handleClick: MenuProps['onClick'] = (e) => {
-  push(e.key)
+  push(e.key as string)
 }
 </script>
 
 <style lang="less" scoped>
 .app-left-menu {
-  width: 200px;
+  width: 120px;
   flex-shrink: 0;
   height: 100%;
   background: #fff;
+
+  :deep(.ant-menu) {
+    border: none;
+  }
 
   .menu {
     width: 100%;

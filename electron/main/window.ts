@@ -11,13 +11,14 @@ let win: BrowserWindow | null = null
  * 创建浏览器窗口
  */
 export function createWindow() {
+  console.log(path.join(VITE_PUBLIC, 'favicon.ico'))
   win = new BrowserWindow({
-    height: 900,
-    width: 1700,
+    height: 700,
+    width: 1050,
     frame: false,
     title: 'Main window',
 
-    icon: path.join(VITE_PUBLIC, 'favicon.ico'),
+    icon: path.join(VITE_PUBLIC, 'icon.png'),
     webPreferences: {
       preload: PRELOAD_URL,
       // Warning: Enable nodeIntegration and disable contextIsolation is not secure in production
@@ -98,6 +99,10 @@ export async function startApp() {
       win = createWindow()
     }
   })
+}
+
+export function closeApp() {
+  app.quit()
 }
 
 export function showWindow() {

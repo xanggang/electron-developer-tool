@@ -25,7 +25,8 @@ import LeftMenu from './LeftMenu/index.vue'
 
   .app-content {
     width: 100%;
-    height: 100%;
+    //height: 100%;
+    height: calc(100% - var(--appHeaderHeight, 54px));
     background: paleturquoise;
     display: flex;
     justify-content: flex-start;
@@ -35,7 +36,7 @@ import LeftMenu from './LeftMenu/index.vue'
       width: 100%;
       height: 100%;
       overflow: auto;
-      padding: 20px;
+      //padding: 20px;
       background: #f0f2f5;
     }
   }

@@ -7,13 +7,13 @@
     </div>
 
     <div class="right-part">
-      <div class="header-button sparkles-icon">
-        <SvgIcon name="sparkles"></SvgIcon>
-      </div>
+<!--      <div class="header-button sparkles-icon">-->
+<!--        <SvgIcon name="sparkles"></SvgIcon>-->
+<!--      </div>-->
 
-      <div class="header-button">
-        <SvgIcon name="t-shirt-line"></SvgIcon>
-      </div>
+<!--      <div class="header-button">-->
+<!--        <SvgIcon name="t-shirt-line"></SvgIcon>-->
+<!--      </div>-->
 
       <div class="header-button">
         <SvgIcon name="cog-8-tooth"></SvgIcon>
@@ -30,7 +30,7 @@
       </div>
 
       <div class="header-button">
-        <SvgIcon name="x-mark"></SvgIcon>
+        <SvgIcon name="x-mark" @click="handleCloseApp"></SvgIcon>
       </div>
     </div>
   </div>
@@ -38,7 +38,7 @@
 
 <script lang="ts" setup>
 import SvgIcon from '@/components/SvgIcon.vue'
-import { ipcMinWindow, ipcOpenDbFile } from '@/ipc/sys'
+import { ipcCloseApp, ipcMinWindow, ipcOpenDbFile } from '@/ipc/sys'
 
 function handMinWindow() {
   ipcMinWindow()
@@ -46,6 +46,10 @@ function handMinWindow() {
 
 function handleOpenDb() {
   ipcOpenDbFile()
+}
+
+function handleCloseApp() {
+  ipcCloseApp()
 }
 </script>
 
@@ -111,7 +115,7 @@ function handleOpenDb() {
       justify-content: center;
       width: 26px;
       height: 20px;
-      opacity: 0.6;
+      opacity: 0.8;
       cursor: pointer;
 
       &:hover {

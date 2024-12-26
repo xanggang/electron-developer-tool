@@ -17,21 +17,23 @@
         </span>
       </div>
     </template>
-    <MdPreview
-      v-if="!isEdit"
-      :show-code-row-number="false"
-      :no-mermaid="true"
-      :toolbars="[]"
-      v-model="showText"
-    ></MdPreview>
-    <MdEditor
-      v-if="isEdit"
-      :show-code-row-number="false"
-      :no-mermaid="true"
-      :toolbars="[]"
-      :footers="[]"
-      v-model="editText"
-    ></MdEditor>
+    <div class="model-content">
+      <MdPreview
+          v-if="!isEdit"
+          :show-code-row-number="false"
+          :no-mermaid="true"
+          :toolbars="[]"
+          v-model="showText"
+      ></MdPreview>
+      <MdEditor
+          v-if="isEdit"
+          :show-code-row-number="false"
+          :no-mermaid="true"
+          :toolbars="[]"
+          :footers="[]"
+          v-model="editText"
+      ></MdEditor>
+    </div>
   </a-modal>
 </template>
 
@@ -46,7 +48,7 @@ import 'md-editor-v3/lib/style.css'
 const visible = defineModel('visible', { type: Boolean })
 
 const props = defineProps<{
-  project: IProjectVo | null
+  project: IProjectVo
 }>()
 
 const isEdit = ref(false)
@@ -124,5 +126,10 @@ function handleCancel() {
     margin-left: -20px;
     margin-top: 20px;
   }
+}
+
+.model-content {
+  max-height: 70vh;
+  overflow-y: scroll;
 }
 </style>

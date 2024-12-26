@@ -1,7 +1,7 @@
 
 
 :root {
-  --primaryColor: #f17d34; // 主色调
+  --primaryColor: #0f50ab; // 主色调
   --backgroundColor: #fdfdfd; // 背景色
   --dividerColor: rgba(0, 0, 0, 0.1); // 分割线颜色
   --listEvenColor: rgba(0, 0, 0, 0.05); // 列表背景色（奇数条目）
@@ -27,4 +27,38 @@
 
   font-size: 13px;
   color: var(--textColor);
+}
+
+
+// 美化滚动条
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  width: 6px;
+  background: rgba(#101F1C, 0.1);
+  -webkit-border-radius: 2em;
+  -moz-border-radius: 2em;
+  border-radius: 2em;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(144,147,153,.5);
+  background-clip: padding-box;
+  min-height: 12px;
+  -webkit-border-radius: 2em;
+  -moz-border-radius: 2em;
+  border-radius: 2em;
+  transition: background-color .3s;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(144,147,153,.3);
+}
+
+.app-main-layout {
+
 }

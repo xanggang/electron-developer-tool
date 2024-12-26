@@ -1,5 +1,5 @@
 import { on } from '../decorator/ipc'
-import { getMainWindow } from '../main/window'
+import { closeApp, getMainWindow } from '../main/window'
 import Payload from '../common/payload'
 
 export default class ConfigController {
@@ -20,5 +20,10 @@ export default class ConfigController {
       }
       return Payload.success(true)
     }
+  }
+  
+  @on
+  static async closeApp() {
+    closeApp()
   }
 }

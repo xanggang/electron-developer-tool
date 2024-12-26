@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import path from 'path'
 import { app } from 'electron'
 import fs from 'fs/promises'
-import { rimraf } from 'rimraf'
+// import { rimraf } from 'rimraf'
 
 export async function initLogger() {
   logger.transports.file.level = 'debug'
@@ -19,7 +19,7 @@ export async function initLogger() {
   try {
     const res = await fs.stat(logsPath)
     if (!res.isDirectory()) {
-      await rimraf(logsPath)
+      // await rimraf(logsPath)
       throw new Error()
     }
   } catch {

@@ -7,3 +7,8 @@ export function ipcMinWindow() {
 export function ipcOpenDbFile() {
   window.ipcRenderer.send('openDbFile')
 }
+
+// 打开配置文件目录
+export function ipcCloseApp() {
+  window.ipcRenderer.send('closeApp')
+}
