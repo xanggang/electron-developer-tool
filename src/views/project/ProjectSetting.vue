@@ -79,8 +79,8 @@ import Adcd from '@/components/Adcd/index.vue'
 import { createProject, editProject, getFolderPath } from '@/ipc/project'
 import { ICreateProjectVo, IProjectVo } from '#vo/ProjectVo'
 import { FolderOutlined } from '@ant-design/icons-vue'
-import { LANGUAGE_OPTIONS } from '../../../enums/language'
-import { PROJECT_TYPE_OPTIONS } from '../../../enums/projectType'
+import { LANGUAGE_ENUMS, LANGUAGE_OPTIONS } from '../../../enums/language'
+import { PROJECT_TYPE_ENUMS, PROJECT_TYPE_OPTIONS } from '../../../enums/projectType'
 
 const props = defineProps<{
   project: IProjectVo | null
@@ -113,7 +113,19 @@ const formState: UnwrapRef<Partial<ICreateProjectVo>> = reactive({
 })
 
 watch(() => visible.value, (isOpen) => {
-  if (!isOpen) return
+  if (!isOpen) {
+    formState.projectName = ''
+    formState.adcd = ''
+    formState.folderPath = ''
+    formState.remark = ''
+    formState.exeId = undefined
+    formState.gitUrl = ''
+    formState.projectDevUrl = ''
+    formState.projectProdUrl = ''
+    formState.language = undefined
+    formState.type = undefined
+    return
+  }
   if (props.project?.id) {
     formState.projectName = props.project.projectName
     formState.adcd = props.project.adcd
@@ -125,6 +137,9 @@ watch(() => visible.value, (isOpen) => {
     formState.projectProdUrl = props.project.projectProdUrl
     formState.language = props.project.language
     formState.type = props.project.type
+  } else {
+    formState.language = LANGUAGE_ENUMS.javascript
+    formState.type = PROJECT_TYPE_ENUMS.公司业务
   }
 }, { deep: true, immediate: true })
 

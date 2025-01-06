@@ -70,7 +70,7 @@
             :sm="12"
             :md="8"
             :lg="8"
-            :xl="6"
+            :xl="4"
           >
             <Card
               class="w-full"
@@ -79,6 +79,7 @@
               @refresh="handelSearch"
               @show-md="handleShowMd(project)"
               @edit="handleEdit(project)"
+              @show="handleShowDetail(project)"
             ></Card>
           </a-col>
         </a-row>
@@ -103,7 +104,17 @@
       :project="editProject"
     ></ProjectSetting>
 
-    <MdView v-if="visibleMd" v-model:visible="visibleMd" :project="editProject"></MdView>
+    <MdView
+      v-if="visibleMd"
+      v-model:visible="visibleMd"
+      :project="editProject!"
+    ></MdView>
+
+    <ShowView
+      v-if="visibleMdShow"
+      v-model:visible="visibleMdShow"
+      :project="editProject!"
+    ></ShowView>
   </div>
 </template>
 <script lang="ts" setup>
@@ -114,6 +125,7 @@ import Adcd from '@/components/Adcd/index.vue'
 import AppSetting from './AppSetting.vue'
 import ProjectSetting from './ProjectSetting.vue'
 import MdView from './MdView.vue'
+import ShowView from './ShowView.vue'
 import Card from './Card.vue'
 import { LANGUAGE_ENUMS, LANGUAGE_OPTIONS } from '../../../enums/language'
 import { PROJECT_TYPE_ENUMS, PROJECT_TYPE_OPTIONS } from '../../../enums/projectType'
@@ -168,6 +180,7 @@ const editProject = ref<IProjectVo |null>(null)
 
 function openProjectSetting() {
   visibleProjectSetting.value = true
+  editProject.value = null
 }
 
 function handleEdit(project: IProjectVo) {
@@ -176,9 +189,16 @@ function handleEdit(project: IProjectVo) {
 }
 
 const visibleMd = ref(false)
-async function handleShowMd(project: IProjectVo) {
+function handleShowMd(project: IProjectVo) {
   editProject.value = project
   visibleMd.value = true
+}
+
+const visibleMdShow = ref(false)
+
+function handleShowDetail(project: IProjectVo) {
+  editProject.value = project
+  visibleMdShow.value = true
 }
 </script>
 

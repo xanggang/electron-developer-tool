@@ -3,12 +3,12 @@
     hoverable
     size="small"
     :title="project.projectName"
+    @click.stop="handleShowDetail"
   >
     <template #actions>
       <a-tooltip>
         <template #title>打开项目地址</template>
-        <SvgIcon name="open-folder" @click="handleOpenFolder" class="w-26 h-26"></SvgIcon>
-        <!--            <folder-open-outlined @click="handleOpenFolder"></folder-open-outlined>-->
+        <SvgIcon name="open-folder" @click.stop="handleOpenFolder" class="w-26 h-26"></SvgIcon>
       </a-tooltip>
 
       <a-tooltip>
@@ -16,9 +16,8 @@
         <img
           class="cursor-pointer w-22 h-22"
           :src="project.starter?.icon"
-          @click="handleOpenProjectByStarter"
+          @click.stop="handleOpenProjectByStarter"
         />
-        <!--            <folder-open-outlined @click="handleOpenFolder"></folder-open-outlined>-->
       </a-tooltip>
 
       <a-tooltip>
@@ -26,9 +25,8 @@
         <SvgIcon
           class="cursor-pointer w-26 h-26"
           name="nootbook"
-          @click="handleShowMd"
+          @click.stop="handleShowMd"
         ></SvgIcon>
-        <!--            <folder-open-outlined @click="handleOpenFolder"></folder-open-outlined>-->
       </a-tooltip>
     </template>
 
@@ -85,7 +83,7 @@ const props = defineProps<{
   project: IProjectVo
 }>()
 
-const emits = defineEmits(['edit', 'showMd', 'refresh'])
+const emits = defineEmits(['edit', 'showMd', 'refresh', 'show'])
 
 function handleOpenFolder() {
   openFolder(props.project.folderPath)
@@ -113,16 +111,15 @@ async function handleSelectMenu(e: any) {
   }
 }
 
-function getLanguageName(e?: LANGUAGE_ENUMS) {
+function getLanguageName(e: LANGUAGE_ENUMS) {
   return LANGUAGE_ENUMS[e] || '-'
 }
 
 async function handleShowMd() {
   emits('showMd')
-  // const res = await getLocalFile({
-  //   folderPath: props.project.folderPath,
-  //   fileName: 'README.md',
-  // })
+}
+async function handleShowDetail() {
+  emits('show')
 }
 </script>
 
