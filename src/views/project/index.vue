@@ -6,7 +6,7 @@
         :model="formState"
       >
         <a-row :gutter="[0, 10]">
-          <a-col :span="6">
+          <a-col :span="5">
             <a-form-item>
               <Adcd
                 v-model:value="formState.adcd"
@@ -16,7 +16,7 @@
               ></Adcd>
             </a-form-item>
           </a-col>
-          <a-col :span="6">
+          <a-col :span="5">
             <a-form-item>
               <a-select
                 v-model:value="formState.language"
@@ -27,7 +27,18 @@
               ></a-select>
             </a-form-item>
           </a-col>
-          <a-col :span="6">
+          <a-col :span="5">
+            <a-form-item>
+              <a-select
+                v-model:value="formState.type"
+                :options="PROJECT_TYPE_OPTIONS"
+                allow-clear
+                class="w-full"
+                placeholder="项目类型"
+              ></a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :span="5">
             <a-form-item>
               <a-input
                 class="w-full"
@@ -38,7 +49,7 @@
               ></a-input>
             </a-form-item>
           </a-col>
-          <a-col :span="6">
+          <a-col :span="4">
             <a-button type="primary" @click="handelSearch">搜索</a-button>
           </a-col>
           <a-col :span="24">
@@ -105,24 +116,27 @@ import ProjectSetting from './ProjectSetting.vue'
 import MdView from './MdView.vue'
 import Card from './Card.vue'
 import { LANGUAGE_ENUMS, LANGUAGE_OPTIONS } from '../../../enums/language'
+import { PROJECT_TYPE_ENUMS, PROJECT_TYPE_OPTIONS } from '../../../enums/projectType'
 
 interface FormState {
   adcd: string;
   projectName: string;
   language?: LANGUAGE_ENUMS;
+  type?: PROJECT_TYPE_ENUMS ;
 }
 
 const formState: UnwrapRef<FormState> = reactive({
   adcd: '',
   projectName: '',
   language: undefined,
+  type: undefined,
 })
 
 const dataList = ref<IProjectVo[]>([])
 
 const pagination = reactive({
   current: 1,
-  pageSize: 10,
+  pageSize: 20,
   total: 20,
 })
 

@@ -25,6 +25,7 @@ class Project {
         table.string('adName', 255)
         table.string('adcd', 255)
         table.string('language', 255)
+        table.string('type', 255)
         table.integer('state')
         table.timestamps(true, true) // 创建自动更新的created_at和updated_at字段
       })
@@ -69,6 +70,9 @@ class Project {
         }
         if (par.language) {
           builder.where('language', '=', par.language)
+        }
+        if (par.type) {
+          builder.where('type', '=', par.type)
         }
       })
 

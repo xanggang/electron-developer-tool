@@ -19,19 +19,19 @@
     </template>
     <div class="model-content">
       <MdPreview
-          v-if="!isEdit"
-          :show-code-row-number="false"
-          :no-mermaid="true"
-          :toolbars="[]"
-          v-model="showText"
+        v-if="!isEdit"
+        :show-code-row-number="false"
+        :no-mermaid="true"
+        :toolbars="[]"
+        v-model="showText"
       ></MdPreview>
       <MdEditor
-          v-if="isEdit"
-          :show-code-row-number="false"
-          :no-mermaid="true"
-          :toolbars="[]"
-          :footers="[]"
-          v-model="editText"
+        v-if="isEdit"
+        :show-code-row-number="false"
+        :no-mermaid="true"
+        :toolbars="[]"
+        :footers="[]"
+        v-model="editText"
       ></MdEditor>
     </div>
   </a-modal>

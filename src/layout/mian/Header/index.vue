@@ -2,18 +2,20 @@
   <div class="header-container">
     <div class="left-part">
       <div class="logo">
-        <SvgIcon name="logo"></SvgIcon>
+<!--        <img src="@/assets/icon.png" alt="" />-->
+        君子不器
+        <!--        <SvgIcon name="logo"></SvgIcon>-->
       </div>
     </div>
 
     <div class="right-part">
-<!--      <div class="header-button sparkles-icon">-->
-<!--        <SvgIcon name="sparkles"></SvgIcon>-->
-<!--      </div>-->
+      <!--      <div class="header-button sparkles-icon">-->
+      <!--        <SvgIcon name="sparkles"></SvgIcon>-->
+      <!--      </div>-->
 
-<!--      <div class="header-button">-->
-<!--        <SvgIcon name="t-shirt-line"></SvgIcon>-->
-<!--      </div>-->
+      <!--      <div class="header-button">-->
+      <!--        <SvgIcon name="t-shirt-line"></SvgIcon>-->
+      <!--      </div>-->
 
       <div class="header-button">
         <SvgIcon name="cog-8-tooth"></SvgIcon>
@@ -72,13 +74,24 @@ function handleCloseApp() {
   & .left-part {
     display: flex;
     align-items: center;
+    height: 100%;
 
     & .logo {
       width: 142px;
-      height: 1.2rem;
+      height: 75%;
+      //height: 1.2rem;
       color: var(--headerTextColor);
       display: flex;
       align-items: center;
+      font-size: 28px;
+      font-family: 庞门正道标题体;
+      line-height: 1;
+
+      img {
+        //width: 142px;
+        height: 100%;
+        margin-right: 10px;
+      }
 
       & svg {
         height: 1.1rem;

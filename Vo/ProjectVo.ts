@@ -1,5 +1,6 @@
 import { IStarter } from './Starter'
 import { LANGUAGE_ENUMS } from '../enums/language'
+import { PROJECT_TYPE_ENUMS } from '../enums/projectType'
 
 export interface IProject {
   id?: number
@@ -14,6 +15,7 @@ export interface IProject {
   adcd: string // 行政区划分类
   state?: number
   language?: LANGUAGE_ENUMS
+  type?: PROJECT_TYPE_ENUMS
 }
 
 export type ICreateProjectVo = IProject
@@ -22,6 +24,7 @@ export interface IProjectSearchVo extends IPageSearchPar{
   projectName?: string
   adcd?: string
   language?: LANGUAGE_ENUMS
+  type?: PROJECT_TYPE_ENUMS
 }
 
 export interface IProjectVo extends IProject {

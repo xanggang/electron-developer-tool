@@ -6,6 +6,7 @@
     cancel-text="取消"
     ok-text="确认"
     @ok="handleOk"
+    style="top: 10vh"
   >
     <a-form
       layout="horizontal"
@@ -14,6 +15,7 @@
       :label-col="{ span: 4 }"
       :wrapper-col="{ span: 18 }"
       ref="formRef"
+      class="model-content"
     >
       <a-form-item label="项目中文名称" name="projectName">
         <a-input v-model:value="formState.projectName" placeholder="项目名称"></a-input>
@@ -39,6 +41,14 @@
         <a-select
           v-model:value="formState.language"
           :options="LANGUAGE_OPTIONS"
+          placeholder="语言"
+        ></a-select>
+      </a-form-item>
+
+      <a-form-item label="项目类型" name="type">
+        <a-select
+          v-model:value="formState.type"
+          :options="PROJECT_TYPE_OPTIONS"
           placeholder="语言"
         ></a-select>
       </a-form-item>
@@ -70,6 +80,7 @@ import { createProject, editProject, getFolderPath } from '@/ipc/project'
 import { ICreateProjectVo, IProjectVo } from '#vo/ProjectVo'
 import { FolderOutlined } from '@ant-design/icons-vue'
 import { LANGUAGE_OPTIONS } from '../../../enums/language'
+import { PROJECT_TYPE_OPTIONS } from '../../../enums/projectType'
 
 const props = defineProps<{
   project: IProjectVo | null
@@ -98,6 +109,7 @@ const formState: UnwrapRef<Partial<ICreateProjectVo>> = reactive({
   projectProdUrl: '',
   state: 0,
   language: undefined,
+  type: undefined,
 })
 
 watch(() => visible.value, (isOpen) => {
@@ -112,6 +124,7 @@ watch(() => visible.value, (isOpen) => {
     formState.projectDevUrl = props.project.projectDevUrl
     formState.projectProdUrl = props.project.projectProdUrl
     formState.language = props.project.language
+    formState.type = props.project.type
   }
 }, { deep: true, immediate: true })
 
@@ -191,4 +204,10 @@ async function handleOk() {
     margin-top: 20px;
   }
 }
+
+.model-content {
+  max-height: 65vh;
+  overflow-y: scroll;
+}
+
 </style>
