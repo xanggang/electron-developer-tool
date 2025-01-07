@@ -27,6 +27,7 @@ class Project {
         table.string('language', 255)
         table.string('type', 255)
         table.integer('state')
+        table.integer('favorite')
         table.timestamps(true, true) // 创建自动更新的created_at和updated_at字段
       })
         .then(() => {
@@ -73,6 +74,9 @@ class Project {
         }
         if (par.type) {
           builder.where('type', '=', par.type)
+        }
+        if (par.favorite) {
+          builder.where('favorite', '=', par.favorite)
         }
       })
 
@@ -127,6 +131,17 @@ class Project {
     const list = await DB('project')
       .where('exeId', '=', exeId)
     return list as IProject[]
+  }
+
+  // 收藏项目
+  static async collectProject(id: number, favorite: number) {
+    if (!id) {
+      throw new Error('修改数据失败， project.id不能为空')
+    }
+    const info = await DB('project')
+      .update({ favorite })
+      .where({ id })
+    return info
   }
 }
 

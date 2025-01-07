@@ -14,6 +14,7 @@ export interface IProject {
   adName: string // 备注
   adcd: string // 行政区划分类
   state?: number
+  favorite?: number
   language?: LANGUAGE_ENUMS
   type?: PROJECT_TYPE_ENUMS
 }
@@ -25,8 +26,10 @@ export interface IProjectSearchVo extends IPageSearchPar{
   adcd?: string
   language?: LANGUAGE_ENUMS
   type?: PROJECT_TYPE_ENUMS
+  favorite?: number
 }
 
 export interface IProjectVo extends IProject {
   starter?: IStarter
+  id: number
 }

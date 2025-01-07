@@ -18,14 +18,14 @@
       <!--      </div>-->
 
       <div class="header-button">
-        <SvgIcon name="cog-8-tooth"></SvgIcon>
+        <SvgIcon name="cog-8-tooth" @click="handleOpenDb"></SvgIcon>
       </div>
 
       <div class="header-divider"></div>
 
-      <div class="header-button" @click="handleOpenDb">
-        <SvgIcon name="picture-in-picture-line"></SvgIcon>
-      </div>
+<!--      <div class="header-button" @click="handleOpenDb">-->
+<!--        <SvgIcon name="picture-in-picture-line"></SvgIcon>-->
+<!--      </div>-->
 
       <div class="header-button" @click="handMinWindow">
         <SvgIcon name="minus"></SvgIcon>

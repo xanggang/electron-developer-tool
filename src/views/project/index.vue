@@ -54,8 +54,8 @@
           </a-col>
           <a-col :span="24">
             <a-button type="primary" @click="openProjectSetting">添加项目</a-button>
-            <a-button type="primary" class="ml-20">分类管理</a-button>
             <a-button type="primary" class="ml-20" @click="openAppSetting">应用管理</a-button>
+            <a-button type="primary" class="ml-20" @click="handleShowFavorite">查看收藏</a-button>
           </a-col>
         </a-row>
       </a-form>
@@ -135,6 +135,7 @@ interface FormState {
   projectName: string;
   language?: LANGUAGE_ENUMS;
   type?: PROJECT_TYPE_ENUMS ;
+  favorite?: number
 }
 
 const formState: UnwrapRef<FormState> = reactive({
@@ -142,6 +143,7 @@ const formState: UnwrapRef<FormState> = reactive({
   projectName: '',
   language: undefined,
   type: undefined,
+  favorite: undefined,
 })
 
 const dataList = ref<IProjectVo[]>([])
@@ -153,6 +155,13 @@ const pagination = reactive({
 })
 
 function handelSearch() {
+  formState.favorite = undefined
+  getPageData()
+}
+
+// 查看全身收藏
+function handleShowFavorite() {
+  formState.favorite = 1
   pagination.current = 1
   getPageData()
 }

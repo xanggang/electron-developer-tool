@@ -2,7 +2,6 @@
   <a-card
     hoverable
     size="small"
-    :title="project.projectName"
     @click.stop="handleShowDetail"
   >
     <template #actions>
@@ -30,6 +29,16 @@
       </a-tooltip>
     </template>
 
+    <template #title>
+      {{ project.projectName }}
+      <StarFilled
+        @click.stop="handleStart"
+        v-if="project.favorite === 1"
+        class="ml-10"
+        :style="{color: project.favorite === 1 ? '#f50' : '#cccccc'}"
+      ></StarFilled>
+    </template>
+
     <template #extra>
       <a-dropdown>
         <a class="ant-dropdown-link">
@@ -42,6 +51,9 @@
             </a-menu-item>
             <a-menu-item key="edit">
               编辑
+            </a-menu-item>
+            <a-menu-item key="favorite">
+              收藏
             </a-menu-item>
           </a-menu>
         </template>
@@ -74,9 +86,10 @@
 <script lang="ts" setup>
 import { openFolder } from '@/ipc/fileSys'
 import type { IProjectVo } from '#vo/ProjectVo'
-import { deleteProject, openProjectByStarter } from '@/ipc/project'
+import { deleteProject, favoriteProject, openProjectByStarter } from '@/ipc/project'
 import SvgIcon from '@/components/SvgIcon.vue'
-import { Modal } from 'ant-design-vue'
+import { Modal, message } from 'ant-design-vue'
+import { StarFilled } from '@ant-design/icons-vue'
 import { LANGUAGE_ENUMS } from '../../../enums/language'
 
 const props = defineProps<{
@@ -109,6 +122,21 @@ async function handleSelectMenu(e: any) {
   if (e.key === 'edit') {
     emits('edit')
   }
+
+  if (e.key === 'favorite') {
+    handleStart()
+  }
+}
+
+async function handleStart() {
+  const favorite = props.project.favorite === 1 ? 0 : 1
+  await favoriteProject({
+    id: props.project.id,
+    favorite,
+  })
+  // eslint-disable-next-line vue/no-mutating-props
+  props.project.favorite = favorite
+  message.success(favorite === 1 ? '收藏成功' : '取消收藏成功')
 }
 
 function getLanguageName(e: LANGUAGE_ENUMS) {
@@ -121,6 +149,7 @@ async function handleShowMd() {
 async function handleShowDetail() {
   emits('show')
 }
+
 </script>
 
 <style scoped lang="less">

@@ -61,4 +61,11 @@ export class ProjectController {
   static async renderProjectReadme() {
 
   }
+
+  // 收藏或者取消收藏
+  @handle
+  static async favoriteProject(data: { id: number, favorite: number}) {
+    const res = await ProjectDb.collectProject(data.id, data.favorite)
+    return Payload.success(res)
+  }
 }
