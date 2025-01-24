@@ -1,7 +1,7 @@
-import { ipcRenderer, contextBridge } from 'electron'
+import { ipcRenderer, contextBridge } from "electron"
 
 // --------- Expose some API to the Renderer process ---------
-contextBridge.exposeInMainWorld('ipcRenderer', {
+contextBridge.exposeInMainWorld("ipcRenderer", {
   on(...args: Parameters<typeof ipcRenderer.on>) {
     const [channel, listener] = args
     return ipcRenderer.on(channel, (event, ...args) => listener(event, ...args))
@@ -24,12 +24,12 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
 })
 
 // --------- Preload scripts loading ---------
-function domReady(condition: DocumentReadyState[] = ['complete', 'interactive']) {
+function domReady(condition: DocumentReadyState[] = ["complete", "interactive"]) {
   return new Promise((resolve) => {
     if (condition.includes(document.readyState)) {
       resolve(true)
     } else {
-      document.addEventListener('readystatechange', () => {
+      document.addEventListener("readystatechange", () => {
         if (condition.includes(document.readyState)) {
           resolve(true)
         }
@@ -58,7 +58,7 @@ const safeDOM = {
  * https://matejkustec.github.io/SpinThatShit
  */
 function useLoading() {
-  const className = `loaders-css__square-spin`
+  const className = "loaders-css__square-spin"
   const styleContent = `
 @keyframes square-spin {
   25% { transform: perspective(100px) rotateX(180deg) rotateY(0); }
@@ -86,12 +86,12 @@ function useLoading() {
   z-index: 9;
 }
     `
-  const oStyle = document.createElement('style')
-  const oDiv = document.createElement('div')
+  const oStyle = document.createElement("style")
+  const oDiv = document.createElement("div")
 
-  oStyle.id = 'app-loading-style'
+  oStyle.id = "app-loading-style"
   oStyle.innerHTML = styleContent
-  oDiv.className = 'app-loading-wrap'
+  oDiv.className = "app-loading-wrap"
   oDiv.innerHTML = `<div class="${className}"><div></div></div>`
 
   return {
@@ -112,7 +112,7 @@ const { appendLoading, removeLoading } = useLoading()
 domReady().then(appendLoading)
 
 window.onmessage = (ev) => {
-  ev.data.payload === 'removeLoading' && removeLoading()
+  ev.data.payload === "removeLoading" && removeLoading()
 }
 
 setTimeout(removeLoading, 4999)
