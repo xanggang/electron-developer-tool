@@ -19,5 +19,5 @@
       "@renderer/*": ["src/renderer/*"],
     }
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "auto-imports.d.ts", "unocss.config.ts"]
 }

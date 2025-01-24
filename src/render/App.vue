@@ -1,21 +1,25 @@
 <script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue'
+import { Button } from 'ant-design-vue'
 </script>
 
 <template>
   <div>
-    <a href="https://www.electronjs.org/" target="_blank">
-      <img src="./assets/electron.svg" class="logo electron" alt="Electron logo" />
+    <a href="https://www.electronjs.org/" target="_blank" class="mt-10">
+      <img src="@/assets/electron.svg" class="logo electron" alt="Electron logo" />
     </a>
     <a href="https://vitejs.dev/" target="_blank">
-      <img src="./assets/vite.svg" class="logo" alt="Vite logo" />
+      <img src="@/assets/vite.svg" class="logo" alt="Vite logo" />
     </a>
     <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
+      <img src="@/assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
   </div>
   <HelloWorld msg="Electron + Vite + Vue" />
-  <div class="flex-center">
+  <a-button type="primary">111</a-button>
+  <Button type="primary">111</Button>
+  <div class="flex-center mt-10 text-red-50">
+
     Place static files into the <code>/public</code> folder
     <img style="width: 2.4em; margin-left: .4em;" src="/logo.svg" alt="Logo">
   </div>

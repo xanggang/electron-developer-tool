@@ -1,8 +1,13 @@
 import fs from 'node:fs'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import vueJsx from '@vitejs/plugin-vue-jsx'
+import Unocss from 'unocss/vite'
+import AutoImport from 'unplugin-auto-import/vite'
 import electron from 'vite-plugin-electron/simple'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import pkg from './package.json'
+import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
@@ -15,6 +20,12 @@ export default defineConfig(({ command }) => {
   return {
     plugins: [
       vue(),
+      vueJsx(),
+      Unocss({ /* options */ }),
+      AutoImport({
+        imports: ['vue', 'vue-router'],
+        dts: true, // or a custom path
+      }),
       electron({
         main: {
           // Shortcut of `build.lib.entry`
@@ -44,7 +55,7 @@ export default defineConfig(({ command }) => {
         preload: {
           // Shortcut of `build.rollupOptions.input`.
           // Preload scripts may contain Web assets, so use the `build.rollupOptions.input` instead `build.lib.entry`.
-          input: 'main/preload/index.ts',
+          input: 'src/preload/index.ts',
           vite: {
             build: {
               sourcemap: sourcemap ? 'inline' : undefined, // #332
@@ -61,7 +72,20 @@ export default defineConfig(({ command }) => {
         // See 👉 https://github.com/electron-vite/vite-plugin-electron-renderer
         renderer: {},
       }),
+      createSvgIconsPlugin({
+        // Specify the icon folder to be cached
+        iconDirs: [path.resolve(process.cwd(), 'src/assets/svg')],
+        // Specify symbolId format
+        symbolId: 'icon-[dir]-[name]',
+      }),
     ],
+    resolve: {
+      alias: [
+        { find: '@', replacement: path.resolve(__dirname, './src') },
+        { find: '@main/*', replacement: path.resolve(__dirname, './src') },
+        { find: '@renderer/*', replacement: path.resolve(__dirname, './renderer') },
+      ],
+    },
     server: process.env.VSCODE_DEBUG && (() => {
       const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL)
       return {
@@ -70,5 +94,13 @@ export default defineConfig(({ command }) => {
       }
     })(),
     clearScreen: false,
+    build: {
+      rollupOptions: {
+        input: './src/render/main.ts'
+      }
+    },
+    esbuild: {
+      target: 'es2022',
+    },
   }
 })
