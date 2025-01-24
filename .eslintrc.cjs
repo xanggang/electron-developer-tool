@@ -18,12 +18,12 @@ module.exports = {
     // node_modules\@vue\eslint-config-typescript\index.js
   },
   rules: {
-    'no-underscore-dangle': 'off'
+    'no-underscore-dangle': 'off',
     // // 'no-unused-vars': 'error',
     // // indent: ['error', 2],
     // 'arrow-body-style': 'off',
     // 'no-console': ['error', { allow: ['warn', 'error'] }],
-    // semi: ['error', 'never', { beforeStatementContinuationChars: 'always' }],
+    semi: ['error', 'never', { beforeStatementContinuationChars: 'always' }],
     // 'consistent-return': 'off',
     // // 换行符统一使用CRLF，防止在代码合并时，由于换行符不同而引起大范围的冲突
     // 'linebreak-style': ['error', 'windows'],
@@ -57,18 +57,23 @@ module.exports = {
     // 'vue/singleline-html-element-content-newline': 'off',
     //
     // // eslint-plugin-import
-    // 'import/extensions': ['error', 'ignorePackages', {
-    //   js: 'never',
-    //   mjs: 'never',
-    //   jsx: 'never',
-    //   // extends配置上新增的
-    //   ts: 'never',
-    //   tsx: 'never',
-    // }],
+    'import/extensions': ['error', 'ignorePackages', {
+      ts: 'never',
+    }],
     // // 作用于引入模块的那个文件。以下配置表示在任何目录下的vite.config.ts中可以引入列在package.json的devDependencies中的依赖
+    // eslint-disable-next-line max-len
     // // 'import/no-extraneous-dependencies': ['error', { devDependencies: ['**/*/vite.config.ts', '**/*/generateTheme.js'] }],
     // 'import/no-extraneous-dependencies': 'off',
     // 'import/prefer-default-export': 'off',
   },
-
-}
+  settings: {
+    alias: {
+      map: [
+        ['@', './src'],
+        ['@main/*', './src/main'],
+        ['@renderer/*', './src/renderer'],
+      ],
+      extensions: ['.ts', '.tsx', '.js', '.jsx', '.mjs', '.vue'],
+    },
+  }
+};

@@ -1,22 +1,24 @@
-import fs from 'node:fs'
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import vueJsx from '@vitejs/plugin-vue-jsx'
-import Unocss from 'unocss/vite'
-import AutoImport from 'unplugin-auto-import/vite'
-import electron from 'vite-plugin-electron/simple'
-import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
-import pkg from './package.json'
-import path from 'path'
+/* eslint-disable max-len */
+import fs from 'node:fs';
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import vueJsx from '@vitejs/plugin-vue-jsx';
+import Unocss from 'unocss/vite';
+import AutoImport from 'unplugin-auto-import/vite';
+import electron from 'vite-plugin-electron/simple';
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
+import path from 'path';
+import pkg from './package.json';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
-  fs.rmSync('dist-electron', { recursive: true, force: true })
+  fs.rmSync('dist-electron', { recursive: true, force: true });
 
-  const isServe = command === 'serve'
-  const isBuild = command === 'build'
-  const sourcemap = isServe || !!process.env.VSCODE_DEBUG
-
+  const isServe = command === 'serve';
+  const isBuild = command === 'build';
+  const sourcemap = isServe || !!process.env.VSCODE_DEBUG;
+  
+  
   return {
     plugins: [
       vue(),
@@ -32,9 +34,9 @@ export default defineConfig(({ command }) => {
           entry: 'src/main/index.ts',
           onstart({ startup }) {
             if (process.env.VSCODE_DEBUG) {
-              console.log(/* For `.vscode/.debug.script.mjs` */'[startup] Electron App')
+              console.log(/* For `.vscode/.debug.script.mjs` */'[startup] Electron App');
             } else {
-              startup()
+              startup();
             }
           },
           vite: {
@@ -82,25 +84,25 @@ export default defineConfig(({ command }) => {
     resolve: {
       alias: [
         { find: '@', replacement: path.resolve(__dirname, './src') },
-        { find: '@main/*', replacement: path.resolve(__dirname, './src') },
-        { find: '@renderer/*', replacement: path.resolve(__dirname, './renderer') },
+        { find: '@main', replacement: path.resolve(__dirname, './src/main') },
+        { find: '@renderer', replacement: path.resolve(__dirname, './src/renderer') },
       ],
     },
     server: process.env.VSCODE_DEBUG && (() => {
-      const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL)
+      const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL);
       return {
         host: url.hostname,
         port: +url.port,
-      }
+      };
     })(),
     clearScreen: false,
     build: {
       rollupOptions: {
-        input: './src/render/main.ts'
-      }
+        input: './src/render/main.ts',
+      },
     },
     esbuild: {
       target: 'es2022',
     },
-  }
-})
+  };
+});
