@@ -17,7 +17,7 @@
       "@/*": ["src/*"],
       "@main/*": ["src/main/*"],
       "@shared/*": ["src/shared/*"],
-      "@renderer/*": ["src/renderer/*"]
+      "@render/*": ["src/render/*"]
     }
   },
   "include": ["src/**/*", "auto-imports.d.ts", "unocss.config.ts"]

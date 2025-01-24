@@ -67,13 +67,20 @@ module.exports = {
     // 'import/prefer-default-export': 'off',
   },
   settings: {
-    alias: {
-      map: [
+    'import/resolver': {
+      alias: [
         ['@', './src'],
         ['@main/*', './src/main'],
-        ['@renderer/*', './src/renderer'],
+        ['@render/*', './src/render']
       ],
-      extensions: ['.ts', '.tsx', '.js', '.jsx', '.mjs', '.vue'],
     },
-  }
-};
+    // alias: {
+    //   map: [
+    //     ['@', './src'],
+    //     ['@main/*', './src/main'],
+    //     ['@render/*', './src/render'],
+    //   ],
+    //   extensions: ['.ts', '.tsx', '.js', '.jsx', '.mjs', '.vue'],
+    // },
+  },
+}

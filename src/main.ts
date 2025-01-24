@@ -1,3 +1,3 @@
-import { initWeb } from './render/main'
+import initWeb from './render/main'
 
 initWeb()

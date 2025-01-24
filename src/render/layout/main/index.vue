@@ -1,0 +1,68 @@
+<template>
+  <div class="main-layout">
+    <LeftMenu />
+    <div class="main-layout-content">
+      <MyHeader />
+      <Center />
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import MyHeader from './MyHeader.vue'
+import LeftMenu from './Left.vue'
+import Center from './Center.vue'
+
+</script>
+
+<style lang="less">
+
+.main-layout {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background: #f2f4fa;
+
+  .main-layout-content-menu {
+    width: 160px;
+    height: 60%;
+    background: #f8f9fd;
+    flex-shrink: 0;
+    margin-left: 20px;
+    border-radius: 20px;
+  }
+
+  .main-layout-content {
+    width: 100%;
+    height: 100%;
+    //background: #fff;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 20px;
+    pointer-events: none;
+
+    .main-layout-header {
+      width: 100%;
+      height: 56px;
+      flex-shrink: 1;
+      -webkit-app-region: drag; // 支持窗口拖动
+      //border-bottom: 1px solid #e3e7eb;
+    }
+
+    .main-layout-content-center {
+      width: calc(100% - 20px);
+      height: calc(100% - 20px);
+      margin-right: 20px;
+      margin-bottom: 20px;
+      border-radius: 20px;
+      background: #f9fafd;
+      overflow: auto;
+    }
+
+  }
+}
+</style>
