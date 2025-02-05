@@ -23,12 +23,12 @@ import Center from './Center.vue'
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  background: #ebf4fd;
+  background: var(--bg);
 
   .main-layout-content-menu {
     width: 136px;
     height: 100%;
-    background: #ebf4fd;
+    background: var(--bg);
     flex-shrink: 0;
     padding-top: 26px;
     border-top-right-radius: 20px;
@@ -38,7 +38,6 @@ import Center from './Center.vue'
   .main-layout-content {
     width: 100%;
     height: 100%;
-    //background: #fff;
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
@@ -59,7 +58,7 @@ import Center from './Center.vue'
       margin-right: 20px;
       margin-bottom: 20px;
       border-radius: 20px;
-      background: #fff;
+      background: var(--contentBgColor);
       padding: 20px;
       overflow-x: hidden;
       overflow-y: auto;

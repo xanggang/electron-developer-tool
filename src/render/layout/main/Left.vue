@@ -4,7 +4,10 @@
       Aibaba
     </div>
     <div class="menu-list-wrap">
-      <div class="active-bg" :style="bgStyle"/>
+      <div class="active-bg" :style="bgStyle">
+        <SvgIcon name="chamfer" class="top-arrow"></SvgIcon>
+        <SvgIcon name="chamfer" class="bottom-arrow"></SvgIcon>
+      </div>
       <div
         v-for="item in menuList"
         :key="item.path"
@@ -81,7 +84,7 @@ function handleChange(path: string) {
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      color: #10451d;
+      color: var(--menuTextColor);
       border-top-left-radius: 8px;
       border-bottom-left-radius: 8px;
       cursor: pointer;
@@ -91,11 +94,10 @@ function handleChange(path: string) {
       transition: all 0.2s;
 
       &.active {
-        //background: #fff;
-        //color: #fff;
+        color: var(--menuActiveColor);
 
         .item-icon {
-          color: #24af47
+          color: var(--menuActiveColor);
         }
       }
 
@@ -103,14 +105,14 @@ function handleChange(path: string) {
         width: 16px;
         height: 22px;
         margin-right: 10px;
-        color: #10451d;
+        color: var(--menuActiveColor);
       }
     }
 
     .active-bg {
       width: 100%;
       height: 42px;
-      background: #fff;
+      background: var(--contentBgColor);
       position: absolute;
       top: 0;
       left: 0;
@@ -118,35 +120,23 @@ function handleChange(path: string) {
       border-bottom-left-radius: 8px;
       transition: all 0.2s;
 
-      &:after {
-        content: '';
-        //content: url("@/assets/icon/arrow-top.png");
+      .top-arrow {
+        position: absolute;
         width: 16px;
         height: 16px;
-        //background: red;
-        //border: 1px solid red;
-        position: absolute;
         top: -16px;
         right: 0;
-        display: block;
-        background-image: url("@/assets/icon/arrow-top.png");
-        background-size: 100% 100%;
+        color: var(--contentBgColor);
       }
 
-      &:before {
-        content: '';
-        //content: url("@/assets/icon/arrow-top.png");
+      .bottom-arrow {
+        position: absolute;
         width: 16px;
         height: 16px;
-        //background: red;
-        //border: 1px solid red;
-        position: absolute;
         bottom: -16px;
         right: 0;
-        display: block;
-        background-image: url("@/assets/icon/arrow-top.png");
-        background-size: 100% 100%;
         transform: rotate(270deg);
+        color: var(--contentBgColor);
       }
     }
   }

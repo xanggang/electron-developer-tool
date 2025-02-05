@@ -10,7 +10,11 @@
       <!--      </div>-->
 
       <div class="header-button">
-        <SvgIcon name="cog-8-tooth" />
+        <SvgIcon
+          name="cog-8-tooth"
+          :style="{color: isDark ? 'red': 'yellow'}"
+          @click="changeDark"
+        />
       </div>
 
       <div class="header-divider" />
@@ -32,6 +36,9 @@
 
 <script lang="ts" setup>
 import SvgIcon from '@render/components/SvgIcon.vue'
+import { useTheme } from '@render/theme'
+
+const { isDark, changeDark } = useTheme()
 </script>
 
 <style scoped lang="less">
@@ -70,6 +77,7 @@ import SvgIcon from '@render/components/SvgIcon.vue'
     height: 20px;
     opacity: 0.8;
     cursor: pointer;
+    color: var(--sysIconColor);
 
     &:hover {
       opacity: 1;
