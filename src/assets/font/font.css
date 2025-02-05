@@ -1,0 +1,18 @@
+@font-face {
+    font-family: "PingFang-Medium";
+    src: url("./PingFang Medium.ttf");
+}
+@font-face {
+    font-family: "PingFang-Light";
+    src: url("./PingFang Light.ttf");
+}
+
+@font-face {
+    font-family: "PingFang-Regular";
+    src: url("./PingFang Regular.ttf");
+}
+
+@font-face {
+    font-family: "DingTalk_JinBuTi_Regular";
+    src: url("./DingTalk_JinBuTi_Regular.ttf");
+}

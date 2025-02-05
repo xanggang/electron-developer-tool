@@ -22,16 +22,17 @@ import Center from './Center.vue'
   height: 100vh;
   display: flex;
   justify-content: flex-start;
-  align-items: center;
-  background: #f2f4fa;
+  align-items: flex-start;
+  background: #ebf4fd;
 
   .main-layout-content-menu {
-    width: 160px;
-    height: 60%;
-    background: #f8f9fd;
+    width: 136px;
+    height: 100%;
+    background: #ebf4fd;
     flex-shrink: 0;
-    margin-left: 20px;
-    border-radius: 20px;
+    padding-top: 26px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
   }
 
   .main-layout-content {
@@ -42,13 +43,12 @@ import Center from './Center.vue'
     justify-content: flex-start;
     flex-direction: column;
     align-items: center;
-    margin-left: 20px;
-    pointer-events: none;
+    //margin-left: 20px;
 
     .main-layout-header {
       width: 100%;
       height: 56px;
-      flex-shrink: 1;
+      flex-shrink: 0;
       -webkit-app-region: drag; // 支持窗口拖动
       //border-bottom: 1px solid #e3e7eb;
     }
@@ -59,8 +59,14 @@ import Center from './Center.vue'
       margin-right: 20px;
       margin-bottom: 20px;
       border-radius: 20px;
-      background: #f9fafd;
-      overflow: auto;
+      background: #fff;
+      padding: 20px;
+      overflow-x: hidden;
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+        display: none; /* 针对 Chrome、Safari 和 Opera */
+      }
     }
 
   }

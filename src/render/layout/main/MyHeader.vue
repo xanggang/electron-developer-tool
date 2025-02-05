@@ -41,6 +41,7 @@ import SvgIcon from '@render/components/SvgIcon.vue'
   justify-content: flex-end;
   align-items: center;
 }
+
 .right-part {
   height: 100%;
   width: 150px;

@@ -19,6 +19,7 @@ module.exports = {
   },
   rules: {
     'no-underscore-dangle': 'off',
+    'vue/multi-word-component-names': 'off',
     // // 'no-unused-vars': 'error',
     // // indent: ['error', 2],
     // 'arrow-body-style': 'off',

@@ -21,6 +21,17 @@ export const router = createRouter({
       ],
     },
     {
+      path: '/project',
+      redirect: '/project/index',
+      component: MainLayout,
+      children: [
+        {
+          path: '/project/index',
+          component: () => import('@/render/views/project/index.vue'),
+        },
+      ],
+    },
+    {
       path: '/',
       redirect: '/home',
     },

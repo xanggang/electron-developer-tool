@@ -6,6 +6,7 @@ import 'uno.css'
 // eslint-disable-next-line import/no-unresolved
 import 'virtual:svg-icons-register'
 import 'ant-design-vue/dist/reset.css'
+import '@/assets/font/font.css'
 import { setupRouter } from './router'
 
 message.config({

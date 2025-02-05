@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full bg-pink-50">
+  <div class="w-full h-[1920px]">
     index
   </div>
 </template>
