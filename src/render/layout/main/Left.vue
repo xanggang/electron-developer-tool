@@ -97,7 +97,7 @@ function handleChange(path: string) {
         width: 16px;
         height: 22px;
         margin-right: 10px;
-        color: var(--color-text-primary);
+        color: var(--color-text-main);
       }
 
       &.active {

@@ -9,13 +9,13 @@ export async function initLogger() {
   logger.transports.file.level = 'debug'
   logger.transports.file.maxSize = 30 * 1024 * 1024 // 最大不超过10M
   logger.transports.file.format = '[{y}-{m}-{d} {h}:{i}:{s}.{ms}] [{level}]{scope} {text}' // 设置文件内容格式
-  
+
   const date = dayjs().format('YYYY-MM-DD') // 格式化日期为 yyyy-mm-dd
-  
+
   logger.transports.file.fileName = `${date}.log` // 创建文件名格式为 '时间.log' (2023-02-01.log)
-  
+
   const logsPath = path.resolve(app.getPath('userData'), 'log')
-  
+
   try {
     const res = await fs.stat(logsPath)
     if (!res.isDirectory()) {
@@ -27,12 +27,12 @@ export async function initLogger() {
       recursive: true,
     })
   }
-  
+
   const resolvePathFn = path.resolve(logsPath, `${date}.log`)
-  
+
   // eslint-disable-next-line no-console
   console.log('logsPath-------------****-----------', resolvePathFn) // 获取到安装目录的文件夹名称
-  
+
   // 指定日志文件夹位置
   logger.transports.file.resolvePathFn = () => resolvePathFn
 }

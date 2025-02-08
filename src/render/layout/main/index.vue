@@ -42,7 +42,7 @@ import Center from './Center.vue'
     justify-content: flex-start;
     flex-direction: column;
     align-items: center;
-    //margin-left: 20px;
+    background: var(--color-bg-primary);
 
     .main-layout-header {
       width: 100%;
@@ -60,7 +60,7 @@ import Center from './Center.vue'
       margin-bottom: 20px;
       //border-radius: 20px;
       background: var(--color-bg-primary);
-      padding: 20px;
+      padding:0 20px 20px 20px;
       overflow-x: hidden;
       overflow-y: auto;
 

@@ -58,15 +58,10 @@ export const theme = {
   statusColors,
 }
 
-export default function useTheme() {
-  const isDark = useDark()
+const isDark = useDark()
 
-  function changeDark() {
-    isDark.value = !isDark.value
-  }
+export { isDark }
 
-  return {
-    isDark,
-    changeDark,
-  }
+export function changeDark() {
+  isDark.value = !isDark.value
 }

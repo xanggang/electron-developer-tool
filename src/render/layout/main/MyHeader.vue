@@ -12,7 +12,13 @@
       <div class="header-button">
         <span
           @click="changeDark"
+          v-if="isDark"
           class="iconfont icon-yejianmoshi"
+        />
+        <span
+          v-else
+          @click="changeDark"
+          class="iconfont icon-taiyang"
         />
       </div>
 
@@ -41,9 +47,7 @@
 
 <script lang="ts" setup>
 import SvgIcon from '@render/components/SvgIcon.vue'
-import useTheme from '@render/theme/index'
-
-const { isDark, changeDark } = useTheme()
+import { isDark, changeDark } from '@render/theme'
 </script>
 
 <style scoped lang="less">
@@ -83,6 +87,10 @@ const { isDark, changeDark } = useTheme()
     opacity: 0.8;
     cursor: pointer;
     color: var(--color-text-secondary);
+
+    .iconfont {
+      font-size: 18px;
+    }
 
     &:hover {
       opacity: 1;

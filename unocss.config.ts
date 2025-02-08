@@ -34,11 +34,16 @@ export default defineConfig({
   ],
   safelist: 'prose prose-sm m-auto text-left'.split(' '),
   theme: {
-
+    // colors: {
+    //   primary: {
+    //
+    //   }
+    // }
   },
   rules: [
     ['flex-center', { display: 'flex', 'justify-content': 'center', 'align-items': 'center' }],
     ['text-primary', { color: 'var(--color-text-primary)' }],
+    ['text-main', { color: 'var(--color-text-main)' }],
     ['text-secondary', { color: 'var(--color-text-secondary)' }],
     ['text-tertiary', { color: 'var(--color-text-tertiary)' }],
     ['text-muted', { color: 'var(--color-text-muted)' }],
