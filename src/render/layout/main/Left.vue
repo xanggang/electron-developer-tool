@@ -84,7 +84,7 @@ function handleChange(path: string) {
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      color: var(--menuTextColor);
+      color: var(--color-text-secondary);
       border-top-left-radius: 8px;
       border-bottom-left-radius: 8px;
       cursor: pointer;
@@ -93,26 +93,29 @@ function handleChange(path: string) {
       position: relative;
       transition: all 0.2s;
 
-      &.active {
-        color: var(--menuActiveColor);
-
-        .item-icon {
-          color: var(--menuActiveColor);
-        }
-      }
-
       .item-icon {
         width: 16px;
         height: 22px;
         margin-right: 10px;
-        color: var(--menuActiveColor);
+        color: var(--color-text-primary);
       }
+
+      &.active {
+        color: var(--color-success);
+        font-family: PingFang-Medium;
+        //font-weight: bolder;
+
+        .item-icon {
+          color: var(--color-success);
+        }
+      }
+
     }
 
     .active-bg {
       width: 100%;
       height: 42px;
-      background: var(--contentBgColor);
+      background: var(--color-bg-primary);
       position: absolute;
       top: 0;
       left: 0;
@@ -126,7 +129,7 @@ function handleChange(path: string) {
         height: 16px;
         top: -16px;
         right: 0;
-        color: var(--contentBgColor);
+        color: var(--color-bg-primary);
       }
 
       .bottom-arrow {
@@ -136,7 +139,7 @@ function handleChange(path: string) {
         bottom: -16px;
         right: 0;
         transform: rotate(270deg);
-        color: var(--contentBgColor);
+        color: var(--color-bg-primary);
       }
     }
   }

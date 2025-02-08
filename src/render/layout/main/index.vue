@@ -23,16 +23,16 @@ import Center from './Center.vue'
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  background: var(--bg);
+  background: var(--color-bg-secondary);
 
   .main-layout-content-menu {
     width: 136px;
     height: 100%;
-    background: var(--bg);
+    background: var(--color-bg-secondary);
     flex-shrink: 0;
     padding-top: 26px;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
+    //border-top-right-radius: 20px;
+    //border-bottom-right-radius: 20px;
   }
 
   .main-layout-content {
@@ -49,6 +49,7 @@ import Center from './Center.vue'
       height: 56px;
       flex-shrink: 0;
       -webkit-app-region: drag; // 支持窗口拖动
+      background: var(--color-bg-primary);
       //border-bottom: 1px solid #e3e7eb;
     }
 
@@ -57,8 +58,8 @@ import Center from './Center.vue'
       height: calc(100% - 20px);
       margin-right: 20px;
       margin-bottom: 20px;
-      border-radius: 20px;
-      background: var(--contentBgColor);
+      //border-radius: 20px;
+      background: var(--color-bg-primary);
       padding: 20px;
       overflow-x: hidden;
       overflow-y: auto;

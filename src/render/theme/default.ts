@@ -1,9 +1,10 @@
 
 // 系统主题色
-const primaryColor = '#24af47'
+const primaryColor = '#0188ff'
 
 // 页面主题背景颜色
-const bg = '#ebf4fd'
+const bg = '#f5f6fa'
+
 // 中间内容区域的背景颜色
 const contentBgColor = '#fff'
 
@@ -11,13 +12,13 @@ const contentBgColor = '#fff'
 const sysIconColor = '#10451d'
 
 // 菜单默认文本颜色
-const menuTextColor = '#10451d'
+const menuTextColor = '#333333'
 
 // 菜单激活颜色
-const menuActiveColor = '#24af47'
+const menuActiveColor = primaryColor
 
 // 菜单激活背景颜色
-const menuActiveBg = '#ffffff'
+const menuActiveBg = bg
 
 export default {
   bg,

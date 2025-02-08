@@ -7,6 +7,7 @@ import 'uno.css'
 import 'virtual:svg-icons-register'
 import 'ant-design-vue/dist/reset.css'
 import '@/assets/font/font.css'
+import '@/render/theme/theme.less'
 import { setupRouter } from './router'
 
 message.config({

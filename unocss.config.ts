@@ -38,5 +38,10 @@ export default defineConfig({
   },
   rules: [
     ['flex-center', { display: 'flex', 'justify-content': 'center', 'align-items': 'center' }],
+    ['text-primary', { color: 'var(--color-text-primary)' }],
+    ['text-secondary', { color: 'var(--color-text-secondary)' }],
+    ['text-tertiary', { color: 'var(--color-text-tertiary)' }],
+    ['text-muted', { color: 'var(--color-text-muted)' }],
+    ['text-inverted', { color: 'var(--color-text-inverted)' }],
   ],
 })
